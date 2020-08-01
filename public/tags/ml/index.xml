@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ML on COMPENDIUM by Jeff</title>
+    <link>/tags/ml/</link>
+    <description>Recent content in ML on COMPENDIUM by Jeff</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ml/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hiking Trail Analysis</title>
+      <link>/projects/hiking-trail-analysis/</link>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/hiking-trail-analysis/</guid>
+      <description>Setup trails=read.csv(&amp;quot;AllTrailsdata_nationalpark.csv&amp;quot;,header=T) attach(trails) dim(trails) ## [1] 3313 18 This data set gives information on trails in the National Parks Service. The data is publically available on Kaggle.com.
+Each row is a different trail. The columns describing each trail are:
+ trail_id name area_name city_name state_name country_name _geoloc (coordinates) popularity (scaled value) length (km) elevation_gain difficulty_rating (1:5) route_type (out and back, loop, point to point) visitor_usage (1:4) avg_rating (1:5) num_reviews features (dogs-no, forest, views, lake, wild-flowers, etc…) activities (birding, hiking, nature-trips, etc…) units (i,m)  Average rating was chosen as the dependent variable.</description>
+    </item>
+    
+  </channel>
+</rss>

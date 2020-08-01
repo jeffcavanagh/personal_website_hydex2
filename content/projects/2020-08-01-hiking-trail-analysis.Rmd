@@ -1,0 +1,490 @@
+---
+title: Hiking Trail Analysis
+author: Jeff Cavanagh
+date: '2019-12-12'
+slug: hiking-trail-analysis
+categories:
+  - R
+tags:
+  - ML
+lastmod: '2020-08-01T09:50:05-04:00'
+layout: post
+type: post
+highlight: no
+---
+
+```{r install, eval = FALSE,echo=F}
+
+## This code will not be evaluated automatically.
+## (Notice the eval = FALSE declaration in the options section of the
+## code chunk)
+
+my_packages <- c("tidyverse", "broom", "coefplot", "cowplot",
+                 "gapminder", "GGally", "ggrepel", "ggridges", "gridExtra",
+                 "here", "interplot", "margins", "maps", "mapproj",
+                 "mapdata", "MASS", "quantreg", "rlang", "scales",
+                 "survey", "srvyr", "viridis", "viridisLite", "devtools")
+
+install.packages(my_packages, repos = "http://cran.rstudio.com")
+
+```
+# Setup
+```{r}
+trails=read.csv("AllTrailsdata_nationalpark.csv",header=T)
+attach(trails)
+dim(trails)
+```
+
+This data set gives information on trails in the National Parks Service. The data is publically available on Kaggle.com.
+
+Each row is a different trail. The columns describing each trail are:
+
+- trail_id
+- name
+- area_name
+- city_name
+- state_name
+- country_name
+- _geoloc (coordinates)
+- popularity (scaled value)
+- length (km)
+- elevation_gain
+- difficulty_rating (1:5)
+- route_type (out and back, loop, point to point)
+- visitor_usage (1:4)
+- avg_rating (1:5)
+- num_reviews
+- features (dogs-no, forest, views, lake, wild-flowers, etc...)
+- activities (birding, hiking, nature-trips, etc...)
+- units (i,m)
+
+Average rating was chosen as the dependent variable. The quantitative variables of popularity, length, elevation gain, difficulty rating, and number of reviews were then used as predictors in the classification problem of creating a model to accurately predict the average rating a trail will receive. 
+
+```{r}
+mean(avg_rating)
+avg_rating_ideal=(avg_rating>4.5)*1
+avg_rating_ideal=as.factor(avg_rating_ideal)
+
+```
+
+The mean value of average trail ratings was 4.17. To predict the highest tier of terms, the response variable average rating was turned into a classification variable with levels: avg_rating>4.5, and avg_rating$\leq$4.5.
+
+# Partitioning the Data
+```{r}
+set.seed(1)
+train=sample(3313,0.7*3313)
+trails_reg=cbind(popularity,length,elevation_gain,difficulty_rating,num_reviews,avg_rating_ideal)
+trails_reg=data.frame(trails_reg)
+training=trails_reg[train,]
+testing=trails_reg[-train,]
+
+```
+
+# Interaction of Predictor Variables
+```{r,echo=F,warning=F}
+library(GGally)
+ggpairs(trails_reg,upper=list(combo='box'), lower = list(continuous = wrap("smooth", method = "loess"), combo='facetdensity') )
+```
+
+# Model Building
+## Linear Regression
+```{r}
+lm.fit=lm(avg_rating_ideal~.,data=training)
+lm.pred=predict(lm.fit,testing)
+mean(abs(lm.pred-testing$avg_rating_ideal))
+```
+
+## LDA
+```{r}
+library(mgcv)
+library(MASS)
+lda.fit=lda(avg_rating_ideal~.,data=training)
+lda.pred=predict(lda.fit,testing)
+table(testing$avg_rating_ideal,lda.pred$class)
+mean(lda.pred$class!=testing$avg_rating_ideal)
+```
+
+## QDA
+```{r}
+qda.fit=qda(avg_rating_ideal~.,data=training)
+qda.pred=predict(qda.fit,testing)
+table(testing$avg_rating_ideal,qda.pred$class)
+mean(qda.pred$class!=testing$avg_rating_ideal)
+```
+
+## Logistic Regression
+```{r}
+set.seed(1)
+glm.fit=glm(as.factor(avg_rating_ideal)~.,data=training,family=binomial)
+glm.probs=predict(glm.fit,testing,type='response')
+glm.pred=rep("n",994)
+glm.pred[glm.probs>0.5]="y"
+set.seed(1)
+table(testing$avg_rating_ideal,glm.pred)
+1-(832+19)/994
+```
+## KNN
+## k=3
+```{r}
+set.seed(1)
+library(class)
+train.X=cbind(popularity,length,elevation_gain,difficulty_rating,num_reviews)[train,]
+test.X=cbind(popularity,length,elevation_gain,difficulty_rating,num_reviews)[-train,]
+train.avg_rating_ideal=avg_rating_ideal[train]
+knn3.pred=knn(train.X,test.X,train.avg_rating_ideal,k=3)
+table(knn3.pred,testing$avg_rating_ideal)
+1-(773+23)/994
+```
+## k=4
+```{r}
+set.seed(1)
+knn4.pred=knn(train.X,test.X,train.avg_rating_ideal,k=4)
+table(knn4.pred,testing$avg_rating_ideal)
+1-(770+27)/994
+```
+
+## k=5
+```{r}
+set.seed(1)
+knn5.pred=knn(train.X,test.X,train.avg_rating_ideal,k=5)
+table(knn5.pred,testing$avg_rating_ideal)
+1-(799+17)/994
+```
+
+## k=6
+```{r}
+set.seed(1)
+knn6.pred=knn(train.X,test.X,train.avg_rating_ideal,k=6)
+table(knn6.pred,testing$avg_rating_ideal)
+1-(799+21)/994
+```
+
+## Cross Validation
+```{r}
+trails_reg=data.frame(trails_reg)
+MAE=c()
+
+# LM
+mae=c()
+for (i in 1:10){
+     train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+     lm.fit=lm(avg_rating_ideal~.,data=train_data)
+     lm.pred=predict(lm.fit,test_data)
+     
+     mae=c(mae, mean(abs(lm.pred-test_data$avg_rating_ideal)))
+}
+
+
+
+MAE=c(MAE, mean(mae))
+
+#LDA
+
+mae=c()
+for (i in 1:10){
+     train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+     lda.fit=lda(avg_rating_ideal~.,data=train_data)
+     lda.pred=predict(lda.fit,test_data)
+     
+     mae=c(mae, mean(lda.pred$class!=test_data$avg_rating_ideal))
+}
+
+
+
+MAE=c(MAE, mean(mae))
+
+#QDA
+mae=c()  
+
+for (i in 1:10){
+    train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+     qda.fit=qda(avg_rating_ideal~.,data=train_data)
+     qda.pred=predict(qda.fit,test_data)
+     mae=c(mae, mean(qda.pred$class!=test_data$avg_rating_ideal))
+   
+}
+
+
+MAE=c(MAE, mean(mae))
+
+
+#Logistic Regression
+
+mae=c()  
+
+for (i in 1:10){
+     train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+     glm.fit=glm(as.factor(avg_rating_ideal)~.,data=train_data,family=binomial)
+     glm.probs=predict(glm.fit,test_data,type="response")
+     glm.pred=rep("n",231)
+     glm.pred[glm.probs>.5]="y"
+     set.seed(1)
+     table(test_data$avg_rating_ideal,glm.pred)
+     mae=c(mae, 1-(203+2)/231)
+}
+
+
+MAE=c(MAE, mean(mae))
+
+
+#knn 3
+
+
+mae=c() 
+
+for (i in 1:10){
+    train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+     
+     train.X=cbind(train_data$popularity,train_data$length,train_data$elevation_gain,train_data$difficulty_rating,train_data$num_reviews)
+     test.X=cbind(test_data$popularity,test_data$length,test_data$elevation_gain,test_data$difficulty_rating,test_data$num_review)
+     train.avg_rating_ideal=train_data$avg_rating_ideal
+     knn3.pred=knn(train.X,test.X,train.avg_rating_ideal,k=3)
+     mae=c(mae,mean(knn3.pred!=test_data$avg_rating_ideal))
+    
+}
+
+
+MAE=c(MAE, mean(mae))
+
+
+#knn 4
+
+
+mae=c() 
+
+for (i in 1:10){
+      train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+    
+      train.X=cbind(train_data$popularity,train_data$length,train_data$elevation_gain,train_data$difficulty_rating,train_data$num_reviews)
+     test.X=cbind(test_data$popularity,test_data$length,test_data$elevation_gain,test_data$difficulty_rating,test_data$num_review)
+     train.avg_rating_ideal=train_data$avg_rating_ideal
+     knn4.pred=knn(train.X,test.X,train.avg_rating_ideal,k=4)
+     mae=c(mae,mean(knn4.pred!=test_data$avg_rating_ideal))
+}
+
+
+MAE=c(MAE, mean(mae))
+
+#knn 5
+
+
+mae=c() 
+
+for (i in 1:10){
+      train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+    
+      train.X=cbind(train_data$popularity,train_data$length,train_data$elevation_gain,train_data$difficulty_rating,train_data$num_reviews)
+     test.X=cbind(test_data$popularity,test_data$length,test_data$elevation_gain,test_data$difficulty_rating,test_data$num_review)
+     train.avg_rating_ideal=train_data$avg_rating_ideal
+     knn5.pred=knn(train.X,test.X,train.avg_rating_ideal,k=5)
+     mae=c(mae,mean(knn5.pred!=test_data$avg_rating_ideal))
+}
+
+MAE=c(MAE, mean(mae))
+
+#knn 6
+
+
+mae=c() 
+
+for (i in 1:10){
+      train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+    
+      train.X=cbind(train_data$popularity,train_data$length,train_data$elevation_gain,train_data$difficulty_rating,train_data$num_reviews)
+     test.X=cbind(test_data$popularity,test_data$length,test_data$elevation_gain,test_data$difficulty_rating,test_data$num_review)
+     train.avg_rating_ideal=train_data$avg_rating_ideal
+     knn6.pred=knn(train.X,test.X,train.avg_rating_ideal,k=6)
+     mae=c(mae,mean(knn6.pred!=test_data$avg_rating_ideal))
+}
+
+
+MAE=c(MAE, mean(mae))
+
+
+MAE
+```
+
+## Graphical Comparison of Classification Error
+```{r}
+par(mfrow=c(1,2))
+
+plot(MAE,xlim=c(0,9), col='blue', type='p', pch=19, main='Cross Validation for Trails Data', ylab='mean absolute error')
+
+text(1:8, MAE, c('lm','lda', 'qda', 'logistic', 'knn3', 'knn4', 'knn5', 'knn6', ''), pos=2,  cex=0.5, col="red")
+
+
+plot(MAE, xlim=c(0,9),ylim=c(0,1) , col='blue', type='p', pch=19, main='Cross Validation for Trails Data', ylab='mean absolute error')
+
+text(1:8, MAE, c('lm','lda', 'qda', 'logistic', 'knn3', 'knn4', 'knn5', 'knn6'), pos=3,  cex=0.5, col="red")
+```
+# Bagging
+```{r}
+library(randomForest)
+
+bagged_rating <- randomForest(as.factor(avg_rating_ideal)~.,data=training, mtry=5, importance =TRUE)
+
+bagged_rating
+
+```
+```{r}
+pre_bag = predict(bagged_rating, newdata = testing)
+mean(pre_bag!=testing$avg_rating_ideal)
+
+```
+
+```{r}
+bagged_rating <- randomForest(as.factor(avg_rating_ideal)~.,data=training, mtry=5, importance =TRUE, ntree=5000)
+pre_bag = predict(bagged_rating, newdata = testing)
+mean(pre_bag!=testing$avg_rating_ideal)
+```
+
+```{r}
+library(caret)
+importance(bagged_rating)
+ratingimp=varImp(bagged_rating,scale=F)
+plot(ratingimp,top=5)
+varImpPlot(bagged_rating)
+
+```
+
+```{r}
+library(caret)
+
+ctrl <- trainControl(method = "cv",  number = 10) 
+
+bagged_caret <- train(
+  as.factor(avg_rating_ideal)~.,
+  data = training,
+  method = "treebag",
+  trControl = ctrl,
+  importance = TRUE
+  )
+bagged_caret
+```
+
+```{r}
+pre_rating=predict(bagged_caret, newdata=testing)
+mean(pre_rating!=testing$avg_rating_ideal)
+
+```
+
+Variable importance by caret. 
+```{r}
+ratingImp <- varImp(bagged_caret, scale = FALSE)
+ratingImp
+plot(ratingImp,top=5)
+```
+```{r}
+bagged_rating <- randomForest(as.factor(avg_rating_ideal)~.,data=training, mtry=5, importance =TRUE)
+
+
+ylm=max(bagged_rating$err.rate)
+
+plot(bagged_rating$err.rate[,1], col='black', type = "l", ylim=c(0, ylm))
+points(1:length(bagged_rating$err.rate[,2]), bagged_rating$err.rate[,2], type = "l", 
+       col = "blue")
+points(1:length(bagged_rating$err.rate[,3]), bagged_rating$err.rate[,3], type = "l", 
+       col = "red")
+
+plot(bagged_rating)
+
+```
+
+```{r}
+pre_bag = predict(bagged_rating, newdata = testing)
+
+err_bagg=mean(pre_bag!=testing$avg_rating_ideal)
+err_bagg
+
+MAE=c(MAE,err_bagg)
+```
+
+# GBM Classification
+
+```{r}
+library(caret)
+
+fitControl <- trainControl(
+                           method = "repeatedcv", 
+                           number = 10,
+                           repeats = 10 
+                           )
+
+
+```
+
+```{r}
+gbmFit1 <- train(as.factor(avg_rating_ideal) ~ ., data = training, 
+                 method = "gbm", 
+                 trControl = fitControl,
+                 verbose = FALSE)
+gbmFit1
+(gbmFit1$finalModel)$tuneValue
+```
+
+```{r}
+
+
+gbmGrid <-  expand.grid(interaction.depth = c(1, 5, 9), 
+                        n.trees = (1:10)*50, 
+                        shrinkage = c(0.001,0.01,0.1),
+                        n.minobsinnode = c(5,10,20))
+                        
+nrow(gbmGrid)
+
+gbmFit2 <- train(as.factor(avg_rating_ideal) ~ ., data = training, 
+                 method = "gbm", 
+                 trControl = fitControl, 
+                 verbose = FALSE, 
+                 tuneGrid = gbmGrid)
+gbmFit2
+(gbmFit2$finalModel)$tuneValue
+```
+
+```{r}
+library(GGally)
+plot(gbmFit1) 
+plot(gbmFit2) 
+
+```
+## Predict
+```{r}
+set.seed(1)
+pred=predict(gbmFit1, testing)
+
+table(pred, testing$avg_rating_ideal)
+
+err_gbm1=1-(824+25)/994        #error rate
+err_gbm1
+
+MAE=c(MAE,err_gbm1)
+
+pred=predict(gbmFit2, testing)
+
+table(pred, testing$avg_rating_ideal)
+err_gbm2=1-(830+26)/994        #error rate
+err_gbm2
+
+MAE=c(MAE,err_gbm1)
+```
+
+```{r}
+par(mfrow=c(1,2))
+
+plot(MAE,xlim=c(0,12), col='blue', type='p', pch=19, main='Error Comparison for Trails Data', ylab='mean absolute error')
+
+text(1:11, MAE, c('lm','lda', 'qda', 'logistic', 'knn3', 'knn4', 'knn5', 'knn6', 'bagg','gbm1','gbm2'), pos=2,  cex=0.5, col="red")
+
+
+plot(MAE, xlim=c(0,12),ylim=c(0,1) , col='blue', type='p', pch=19, main='Error Comparison for Trails Data', ylab='mean absolute error')
+
+text(1:11, MAE, c('lm','lda', 'qda', 'logistic', 'knn3', 'knn4', 'knn5', 'knn6', 'bagg','gbm1','gbm2'), pos=3,  cex=0.5, col="red")
+```

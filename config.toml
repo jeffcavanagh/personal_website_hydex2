@@ -2,9 +2,10 @@
 baseurl = "/"
 languageCode = "en"
 
-title = "Title"
+title = "COMPENDIUM by Jeff"
 theme = "hyde-hyde"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+
 ## Hugo Built-in Features
 # disqusShortname = "your-disqus-shortname"
 # googleAnalytics = "your-google-analytics-id"
@@ -15,12 +16,16 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 #paginate = 5
 
 ## Site Settings
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
+    
 [params]
-    author = "Author"
-    title = "Title"
+    author = "Jeff Cavanagh"
+    title = "Jeff Things"
     # description = "..."
-    authorimage = "/img/hugo.png"
+    authorimage = "/img/coffeeandme_camping.JPG"
     dateformat = "Jan 2, 2006"
+    favicon = "favicon.ico"
 
     # sidebar, copyright & license
     copyright = "htr3n"
@@ -44,31 +49,48 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 ## Social Accounts
 [params.social]
-    github = "<username>"
-    instagram = "<username>"
-    xing = "<username>"
-    linkedin = "<username>"
-    twitter = "<username>"
-    facebook = "<username>"
-    stackoverflow = "<username>"
-    telegram = "<username>"
-    # orcid = "<xxxx-xxxx-xxxx-xxxx>"
-    email = "your-email@example.com"
-    # gravatar = "your-email@example.com"
+    github = "jeffcavanagh"
+    linkedin = "jeffcavanagh1/"
+    email = "jmcavanagh15@gmail.com"
 
 ## Main Menu
 [[menu.main]]
     name = "Posts"
-    weight = 100
+    weight = 700
     identifier = "posts"
     url = "/posts/"
-[[menu.main]]
-    name = "Portfolio"
-    identifier = "portfolio"
-    weight = 200
-    url = "/portfolio/"
+#[[menu.main]]
+    #name = "Portfolio"
+    #identifier = "portfolio"
+    #weight = 800
+    #url = "/portfolio/"
 [[menu.main]]
     name = "About"
     identifier = "about"
-    weight = 300
+    weight = 100
     url = "/about/"
+[[menu.main]]
+    name = "Projects"
+    identifier = "projects"
+    weight = 200
+    url = "/projects/"
+[[menu.main]]
+    name = "Analytics"
+    identifier = "analytics"
+    weight = 300
+    url = "/analytics/"
+[[menu.main]]
+    name = "Fitness"
+    identifier = "fitness"
+    weight = 400
+    url = "/fitness/"
+[[menu.main]]
+    name = "Recipes"
+    identifier = "recipes"
+    weight = 500
+    url = "/recipes/"
+[[menu.main]]
+    name = "Quotes"
+    identifier = "quotes"
+    weight = 600
+    url = "/quotes/"

@@ -1,5 +1,5 @@
 <head>
-    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <link rel="icon" type="image/png" href="{{ "img/coffeecup.png" | relURL }}">
     {{ partial "header/meta.html" . }}
     {{ partial "header/styles.html" . }}
     {{ `<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -8,8 +8,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->` | safeHTML }}
     {{ "<!-- Icons -->" | safeHTML }}
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
-    <link rel="shortcut icon" href="/favicon.png">
+
     {{ partial "header/feeds.html" . }}
     {{ partial "header/custom.html" }}
 </head>

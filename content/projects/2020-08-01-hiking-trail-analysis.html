@@ -1,0 +1,853 @@
+---
+title: Hiking Trail Analysis
+author: Jeff Cavanagh
+date: '2019-12-12'
+slug: hiking-trail-analysis
+categories:
+  - R
+tags:
+  - ML
+lastmod: '2020-08-01T09:50:05-04:00'
+layout: post
+type: post
+highlight: no
+---
+
+
+
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<pre class="r"><code>trails=read.csv(&quot;AllTrailsdata_nationalpark.csv&quot;,header=T)
+attach(trails)
+dim(trails)</code></pre>
+<pre><code>## [1] 3313   18</code></pre>
+<p>This data set gives information on trails in the National Parks Service. The data is publically available on Kaggle.com.</p>
+<p>Each row is a different trail. The columns describing each trail are:</p>
+<ul>
+<li>trail_id</li>
+<li>name</li>
+<li>area_name</li>
+<li>city_name</li>
+<li>state_name</li>
+<li>country_name</li>
+<li>_geoloc (coordinates)</li>
+<li>popularity (scaled value)</li>
+<li>length (km)</li>
+<li>elevation_gain</li>
+<li>difficulty_rating (1:5)</li>
+<li>route_type (out and back, loop, point to point)</li>
+<li>visitor_usage (1:4)</li>
+<li>avg_rating (1:5)</li>
+<li>num_reviews</li>
+<li>features (dogs-no, forest, views, lake, wild-flowers, etc…)</li>
+<li>activities (birding, hiking, nature-trips, etc…)</li>
+<li>units (i,m)</li>
+</ul>
+<p>Average rating was chosen as the dependent variable. The quantitative variables of popularity, length, elevation gain, difficulty rating, and number of reviews were then used as predictors in the classification problem of creating a model to accurately predict the average rating a trail will receive.</p>
+<pre class="r"><code>mean(avg_rating)</code></pre>
+<pre><code>## [1] 4.173106</code></pre>
+<pre class="r"><code>avg_rating_ideal=(avg_rating&gt;4.5)*1
+avg_rating_ideal=as.factor(avg_rating_ideal)</code></pre>
+<p>The mean value of average trail ratings was 4.17. To predict the highest tier of terms, the response variable average rating was turned into a classification variable with levels: avg_rating&gt;4.5, and avg_rating$$4.5.</p>
+</div>
+<div id="partitioning-the-data" class="section level1">
+<h1>Partitioning the Data</h1>
+<pre class="r"><code>set.seed(1)
+train=sample(3313,0.7*3313)
+trails_reg=cbind(popularity,length,elevation_gain,difficulty_rating,num_reviews,avg_rating_ideal)
+trails_reg=data.frame(trails_reg)
+training=trails_reg[train,]
+testing=trails_reg[-train,]</code></pre>
+</div>
+<div id="interaction-of-predictor-variables" class="section level1">
+<h1>Interaction of Predictor Variables</h1>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
+##   method from   
+##   +.gg   ggplot2</code></pre>
+<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="model-building" class="section level1">
+<h1>Model Building</h1>
+<div id="linear-regression" class="section level2">
+<h2>Linear Regression</h2>
+<pre class="r"><code>lm.fit=lm(avg_rating_ideal~.,data=training)
+lm.pred=predict(lm.fit,testing)
+mean(abs(lm.pred-testing$avg_rating_ideal))</code></pre>
+<pre><code>## [1] 0.2379923</code></pre>
+</div>
+<div id="lda" class="section level2">
+<h2>LDA</h2>
+<pre class="r"><code>library(mgcv)</code></pre>
+<pre><code>## Loading required package: nlme</code></pre>
+<pre><code>## Warning: package &#39;nlme&#39; was built under R version 3.6.2</code></pre>
+<pre><code>## This is mgcv 1.8-31. For overview type &#39;help(&quot;mgcv-package&quot;)&#39;.</code></pre>
+<pre class="r"><code>library(MASS)</code></pre>
+<pre><code>## Warning: package &#39;MASS&#39; was built under R version 3.6.2</code></pre>
+<pre class="r"><code>lda.fit=lda(avg_rating_ideal~.,data=training)
+lda.pred=predict(lda.fit,testing)
+table(testing$avg_rating_ideal,lda.pred$class)</code></pre>
+<pre><code>##    
+##       1   2
+##   1 823  21
+##   2 124  26</code></pre>
+<pre class="r"><code>mean(lda.pred$class!=testing$avg_rating_ideal)</code></pre>
+<pre><code>## [1] 0.1458753</code></pre>
+</div>
+<div id="qda" class="section level2">
+<h2>QDA</h2>
+<pre class="r"><code>qda.fit=qda(avg_rating_ideal~.,data=training)
+qda.pred=predict(qda.fit,testing)
+table(testing$avg_rating_ideal,qda.pred$class)</code></pre>
+<pre><code>##    
+##       1   2
+##   1 814  30
+##   2 117  33</code></pre>
+<pre class="r"><code>mean(qda.pred$class!=testing$avg_rating_ideal)</code></pre>
+<pre><code>## [1] 0.1478873</code></pre>
+</div>
+<div id="logistic-regression" class="section level2">
+<h2>Logistic Regression</h2>
+<pre class="r"><code>set.seed(1)
+glm.fit=glm(as.factor(avg_rating_ideal)~.,data=training,family=binomial)
+glm.probs=predict(glm.fit,testing,type=&#39;response&#39;)
+glm.pred=rep(&quot;n&quot;,994)
+glm.pred[glm.probs&gt;0.5]=&quot;y&quot;
+set.seed(1)
+table(testing$avg_rating_ideal,glm.pred)</code></pre>
+<pre><code>##    glm.pred
+##       n   y
+##   1 832  12
+##   2 131  19</code></pre>
+<pre class="r"><code>1-(832+19)/994</code></pre>
+<pre><code>## [1] 0.1438632</code></pre>
+</div>
+<div id="knn" class="section level2">
+<h2>KNN</h2>
+</div>
+<div id="k3" class="section level2">
+<h2>k=3</h2>
+<pre class="r"><code>set.seed(1)
+library(class)</code></pre>
+<pre><code>## Warning: package &#39;class&#39; was built under R version 3.6.2</code></pre>
+<pre class="r"><code>train.X=cbind(popularity,length,elevation_gain,difficulty_rating,num_reviews)[train,]
+test.X=cbind(popularity,length,elevation_gain,difficulty_rating,num_reviews)[-train,]
+train.avg_rating_ideal=avg_rating_ideal[train]
+knn3.pred=knn(train.X,test.X,train.avg_rating_ideal,k=3)
+table(knn3.pred,testing$avg_rating_ideal)</code></pre>
+<pre><code>##          
+## knn3.pred   1   2
+##         0 773 127
+##         1  71  23</code></pre>
+<pre class="r"><code>1-(773+23)/994</code></pre>
+<pre><code>## [1] 0.1991952</code></pre>
+</div>
+<div id="k4" class="section level2">
+<h2>k=4</h2>
+<pre class="r"><code>set.seed(1)
+knn4.pred=knn(train.X,test.X,train.avg_rating_ideal,k=4)
+table(knn4.pred,testing$avg_rating_ideal)</code></pre>
+<pre><code>##          
+## knn4.pred   1   2
+##         0 770 123
+##         1  74  27</code></pre>
+<pre class="r"><code>1-(770+27)/994</code></pre>
+<pre><code>## [1] 0.1981891</code></pre>
+</div>
+<div id="k5" class="section level2">
+<h2>k=5</h2>
+<pre class="r"><code>set.seed(1)
+knn5.pred=knn(train.X,test.X,train.avg_rating_ideal,k=5)
+table(knn5.pred,testing$avg_rating_ideal)</code></pre>
+<pre><code>##          
+## knn5.pred   1   2
+##         0 799 133
+##         1  45  17</code></pre>
+<pre class="r"><code>1-(799+17)/994</code></pre>
+<pre><code>## [1] 0.1790744</code></pre>
+</div>
+<div id="k6" class="section level2">
+<h2>k=6</h2>
+<pre class="r"><code>set.seed(1)
+knn6.pred=knn(train.X,test.X,train.avg_rating_ideal,k=6)
+table(knn6.pred,testing$avg_rating_ideal)</code></pre>
+<pre><code>##          
+## knn6.pred   1   2
+##         0 799 129
+##         1  45  21</code></pre>
+<pre class="r"><code>1-(799+21)/994</code></pre>
+<pre><code>## [1] 0.1750503</code></pre>
+</div>
+<div id="cross-validation" class="section level2">
+<h2>Cross Validation</h2>
+<pre class="r"><code>trails_reg=data.frame(trails_reg)
+MAE=c()
+
+# LM
+mae=c()
+for (i in 1:10){
+     train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+     lm.fit=lm(avg_rating_ideal~.,data=train_data)
+     lm.pred=predict(lm.fit,test_data)
+     
+     mae=c(mae, mean(abs(lm.pred-test_data$avg_rating_ideal)))
+}
+
+
+
+MAE=c(MAE, mean(mae))
+
+#LDA
+
+mae=c()
+for (i in 1:10){
+     train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+     lda.fit=lda(avg_rating_ideal~.,data=train_data)
+     lda.pred=predict(lda.fit,test_data)
+     
+     mae=c(mae, mean(lda.pred$class!=test_data$avg_rating_ideal))
+}
+
+
+
+MAE=c(MAE, mean(mae))
+
+#QDA
+mae=c()  
+
+for (i in 1:10){
+    train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+     qda.fit=qda(avg_rating_ideal~.,data=train_data)
+     qda.pred=predict(qda.fit,test_data)
+     mae=c(mae, mean(qda.pred$class!=test_data$avg_rating_ideal))
+   
+}
+
+
+MAE=c(MAE, mean(mae))
+
+
+#Logistic Regression
+
+mae=c()  
+
+for (i in 1:10){
+     train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+     glm.fit=glm(as.factor(avg_rating_ideal)~.,data=train_data,family=binomial)
+     glm.probs=predict(glm.fit,test_data,type=&quot;response&quot;)
+     glm.pred=rep(&quot;n&quot;,231)
+     glm.pred[glm.probs&gt;.5]=&quot;y&quot;
+     set.seed(1)
+     table(test_data$avg_rating_ideal,glm.pred)
+     mae=c(mae, 1-(203+2)/231)
+}
+
+
+MAE=c(MAE, mean(mae))
+
+
+#knn 3
+
+
+mae=c() 
+
+for (i in 1:10){
+    train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+     
+     train.X=cbind(train_data$popularity,train_data$length,train_data$elevation_gain,train_data$difficulty_rating,train_data$num_reviews)
+     test.X=cbind(test_data$popularity,test_data$length,test_data$elevation_gain,test_data$difficulty_rating,test_data$num_review)
+     train.avg_rating_ideal=train_data$avg_rating_ideal
+     knn3.pred=knn(train.X,test.X,train.avg_rating_ideal,k=3)
+     mae=c(mae,mean(knn3.pred!=test_data$avg_rating_ideal))
+    
+}
+
+
+MAE=c(MAE, mean(mae))
+
+
+#knn 4
+
+
+mae=c() 
+
+for (i in 1:10){
+      train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+    
+      train.X=cbind(train_data$popularity,train_data$length,train_data$elevation_gain,train_data$difficulty_rating,train_data$num_reviews)
+     test.X=cbind(test_data$popularity,test_data$length,test_data$elevation_gain,test_data$difficulty_rating,test_data$num_review)
+     train.avg_rating_ideal=train_data$avg_rating_ideal
+     knn4.pred=knn(train.X,test.X,train.avg_rating_ideal,k=4)
+     mae=c(mae,mean(knn4.pred!=test_data$avg_rating_ideal))
+}
+
+
+MAE=c(MAE, mean(mae))
+
+#knn 5
+
+
+mae=c() 
+
+for (i in 1:10){
+      train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+    
+      train.X=cbind(train_data$popularity,train_data$length,train_data$elevation_gain,train_data$difficulty_rating,train_data$num_reviews)
+     test.X=cbind(test_data$popularity,test_data$length,test_data$elevation_gain,test_data$difficulty_rating,test_data$num_review)
+     train.avg_rating_ideal=train_data$avg_rating_ideal
+     knn5.pred=knn(train.X,test.X,train.avg_rating_ideal,k=5)
+     mae=c(mae,mean(knn5.pred!=test_data$avg_rating_ideal))
+}
+
+MAE=c(MAE, mean(mae))
+
+#knn 6
+
+
+mae=c() 
+
+for (i in 1:10){
+      train_data=trails_reg[-((i*231-230):(i*231)), ]
+     test_data=trails_reg[((i*231-230):(i*231)), ]
+    
+      train.X=cbind(train_data$popularity,train_data$length,train_data$elevation_gain,train_data$difficulty_rating,train_data$num_reviews)
+     test.X=cbind(test_data$popularity,test_data$length,test_data$elevation_gain,test_data$difficulty_rating,test_data$num_review)
+     train.avg_rating_ideal=train_data$avg_rating_ideal
+     knn6.pred=knn(train.X,test.X,train.avg_rating_ideal,k=6)
+     mae=c(mae,mean(knn6.pred!=test_data$avg_rating_ideal))
+}
+
+
+MAE=c(MAE, mean(mae))
+
+
+MAE</code></pre>
+<pre><code>## [1] 0.2382376 0.1614719 0.1670996 0.1125541 0.2000000 0.2038961 0.1870130
+## [8] 0.1935065</code></pre>
+</div>
+<div id="graphical-comparison-of-classification-error" class="section level2">
+<h2>Graphical Comparison of Classification Error</h2>
+<pre class="r"><code>par(mfrow=c(1,2))
+
+plot(MAE,xlim=c(0,9), col=&#39;blue&#39;, type=&#39;p&#39;, pch=19, main=&#39;Cross Validation for Trails Data&#39;, ylab=&#39;mean absolute error&#39;)
+
+text(1:8, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, &#39;knn3&#39;, &#39;knn4&#39;, &#39;knn5&#39;, &#39;knn6&#39;, &#39;&#39;), pos=2,  cex=0.5, col=&quot;red&quot;)
+
+
+plot(MAE, xlim=c(0,9),ylim=c(0,1) , col=&#39;blue&#39;, type=&#39;p&#39;, pch=19, main=&#39;Cross Validation for Trails Data&#39;, ylab=&#39;mean absolute error&#39;)
+
+text(1:8, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, &#39;knn3&#39;, &#39;knn4&#39;, &#39;knn5&#39;, &#39;knn6&#39;), pos=3,  cex=0.5, col=&quot;red&quot;)</code></pre>
+<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+# Bagging</p>
+<pre class="r"><code>library(randomForest)</code></pre>
+<pre><code>## randomForest 4.6-14</code></pre>
+<pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;randomForest&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     margin</code></pre>
+<pre class="r"><code>bagged_rating &lt;- randomForest(as.factor(avg_rating_ideal)~.,data=training, mtry=5, importance =TRUE)
+
+bagged_rating</code></pre>
+<pre><code>## 
+## Call:
+##  randomForest(formula = as.factor(avg_rating_ideal) ~ ., data = training,      mtry = 5, importance = TRUE) 
+##                Type of random forest: classification
+##                      Number of trees: 500
+## No. of variables tried at each split: 5
+## 
+##         OOB estimate of  error rate: 17.21%
+## Confusion matrix:
+##      1   2 class.error
+## 1 1817 113  0.05854922
+## 2  286 103  0.73521851</code></pre>
+<pre class="r"><code>pre_bag = predict(bagged_rating, newdata = testing)
+mean(pre_bag!=testing$avg_rating_ideal)</code></pre>
+<pre><code>## [1] 0.1690141</code></pre>
+<pre class="r"><code>bagged_rating &lt;- randomForest(as.factor(avg_rating_ideal)~.,data=training, mtry=5, importance =TRUE, ntree=5000)
+pre_bag = predict(bagged_rating, newdata = testing)
+mean(pre_bag!=testing$avg_rating_ideal)</code></pre>
+<pre><code>## [1] 0.168008</code></pre>
+<pre class="r"><code>library(caret)</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## Warning: package &#39;lattice&#39; was built under R version 3.6.2</code></pre>
+<pre class="r"><code>importance(bagged_rating)</code></pre>
+<pre><code>##                           1         2 MeanDecreaseAccuracy MeanDecreaseGini
+## popularity        127.28469 -34.72089            125.23833        164.02029
+## length             89.75285 -35.39984             83.27170        126.33938
+## elevation_gain    120.37308  47.41964            140.92571        203.28269
+## difficulty_rating  39.86969  11.12599             43.16618         29.83876
+## num_reviews       108.70584  37.49131            131.28412        122.92445</code></pre>
+<pre class="r"><code>ratingimp=varImp(bagged_rating,scale=F)
+plot(ratingimp,top=5)</code></pre>
+<pre><code>## Warning in plot.window(...): &quot;top&quot; is not a graphical parameter</code></pre>
+<pre><code>## Warning in plot.xy(xy, type, ...): &quot;top&quot; is not a graphical parameter</code></pre>
+<pre><code>## Warning in axis(side = side, at = at, labels = labels, ...): &quot;top&quot; is not a
+## graphical parameter
+
+## Warning in axis(side = side, at = at, labels = labels, ...): &quot;top&quot; is not a
+## graphical parameter</code></pre>
+<pre><code>## Warning in box(...): &quot;top&quot; is not a graphical parameter</code></pre>
+<pre><code>## Warning in title(...): &quot;top&quot; is not a graphical parameter</code></pre>
+<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<pre class="r"><code>varImpPlot(bagged_rating)</code></pre>
+<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<pre class="r"><code>library(caret)
+
+ctrl &lt;- trainControl(method = &quot;cv&quot;,  number = 10) 
+
+bagged_caret &lt;- train(
+  as.factor(avg_rating_ideal)~.,
+  data = training,
+  method = &quot;treebag&quot;,
+  trControl = ctrl,
+  importance = TRUE
+  )
+bagged_caret</code></pre>
+<pre><code>## Bagged CART 
+## 
+## 2319 samples
+##    5 predictor
+##    2 classes: &#39;1&#39;, &#39;2&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 2087, 2087, 2087, 2087, 2087, 2087, ... 
+## Resampling results:
+## 
+##   Accuracy   Kappa    
+##   0.8188797  0.2205566</code></pre>
+<pre class="r"><code>pre_rating=predict(bagged_caret, newdata=testing)
+mean(pre_rating!=testing$avg_rating_ideal)</code></pre>
+<pre><code>## [1] 0.1720322</code></pre>
+<p>Variable importance by caret.</p>
+<pre class="r"><code>ratingImp &lt;- varImp(bagged_caret, scale = FALSE)
+ratingImp</code></pre>
+<pre><code>## treebag variable importance
+## 
+##                   Overall
+## elevation_gain      433.5
+## popularity          406.7
+## length              389.0
+## num_reviews         347.2
+## difficulty_rating   208.1</code></pre>
+<pre class="r"><code>plot(ratingImp,top=5)</code></pre>
+<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<pre class="r"><code>bagged_rating &lt;- randomForest(as.factor(avg_rating_ideal)~.,data=training, mtry=5, importance =TRUE)
+
+
+ylm=max(bagged_rating$err.rate)
+
+plot(bagged_rating$err.rate[,1], col=&#39;black&#39;, type = &quot;l&quot;, ylim=c(0, ylm))
+points(1:length(bagged_rating$err.rate[,2]), bagged_rating$err.rate[,2], type = &quot;l&quot;, 
+       col = &quot;blue&quot;)
+points(1:length(bagged_rating$err.rate[,3]), bagged_rating$err.rate[,3], type = &quot;l&quot;, 
+       col = &quot;red&quot;)</code></pre>
+<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code>plot(bagged_rating)</code></pre>
+<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+<pre class="r"><code>pre_bag = predict(bagged_rating, newdata = testing)
+
+err_bagg=mean(pre_bag!=testing$avg_rating_ideal)
+err_bagg</code></pre>
+<pre><code>## [1] 0.1690141</code></pre>
+<pre class="r"><code>MAE=c(MAE,err_bagg)</code></pre>
+</div>
+</div>
+<div id="gbm-classification" class="section level1">
+<h1>GBM Classification</h1>
+<pre class="r"><code>library(caret)
+
+fitControl &lt;- trainControl(
+                           method = &quot;repeatedcv&quot;, 
+                           number = 10,
+                           repeats = 10 
+                           )</code></pre>
+<pre class="r"><code>gbmFit1 &lt;- train(as.factor(avg_rating_ideal) ~ ., data = training, 
+                 method = &quot;gbm&quot;, 
+                 trControl = fitControl,
+                 verbose = FALSE)
+gbmFit1</code></pre>
+<pre><code>## Stochastic Gradient Boosting 
+## 
+## 2319 samples
+##    5 predictor
+##    2 classes: &#39;1&#39;, &#39;2&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold, repeated 10 times) 
+## Summary of sample sizes: 2087, 2087, 2087, 2087, 2087, 2088, ... 
+## Resampling results across tuning parameters:
+## 
+##   interaction.depth  n.trees  Accuracy   Kappa     
+##   1                   50      0.8363536  0.06403761
+##   1                  100      0.8360934  0.15778631
+##   1                  150      0.8355745  0.17615411
+##   2                   50      0.8363524  0.16090586
+##   2                  100      0.8363959  0.20120854
+##   2                  150      0.8348852  0.20915378
+##   3                   50      0.8383365  0.19182116
+##   3                  100      0.8339793  0.20291908
+##   3                  150      0.8336362  0.21789302
+## 
+## Tuning parameter &#39;shrinkage&#39; was held constant at a value of 0.1
+## 
+## Tuning parameter &#39;n.minobsinnode&#39; was held constant at a value of 10
+## Accuracy was used to select the optimal model using the largest value.
+## The final values used for the model were n.trees = 50, interaction.depth =
+##  3, shrinkage = 0.1 and n.minobsinnode = 10.</code></pre>
+<pre class="r"><code>(gbmFit1$finalModel)$tuneValue</code></pre>
+<pre><code>##   n.trees interaction.depth shrinkage n.minobsinnode
+## 7      50                 3       0.1             10</code></pre>
+<pre class="r"><code>gbmGrid &lt;-  expand.grid(interaction.depth = c(1, 5, 9), 
+                        n.trees = (1:10)*50, 
+                        shrinkage = c(0.001,0.01,0.1),
+                        n.minobsinnode = c(5,10,20))
+                        
+nrow(gbmGrid)</code></pre>
+<pre><code>## [1] 270</code></pre>
+<pre class="r"><code>gbmFit2 &lt;- train(as.factor(avg_rating_ideal) ~ ., data = training, 
+                 method = &quot;gbm&quot;, 
+                 trControl = fitControl, 
+                 verbose = FALSE, 
+                 tuneGrid = gbmGrid)
+gbmFit2</code></pre>
+<pre><code>## Stochastic Gradient Boosting 
+## 
+## 2319 samples
+##    5 predictor
+##    2 classes: &#39;1&#39;, &#39;2&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold, repeated 10 times) 
+## Summary of sample sizes: 2087, 2087, 2087, 2087, 2088, 2087, ... 
+## Resampling results across tuning parameters:
+## 
+##   shrinkage  interaction.depth  n.minobsinnode  n.trees  Accuracy   Kappa      
+##   0.001      1                   5               50      0.8322567  0.000000000
+##   0.001      1                   5              100      0.8322567  0.000000000
+##   0.001      1                   5              150      0.8322567  0.000000000
+##   0.001      1                   5              200      0.8322567  0.000000000
+##   0.001      1                   5              250      0.8322567  0.000000000
+##   0.001      1                   5              300      0.8322567  0.000000000
+##   0.001      1                   5              350      0.8322567  0.000000000
+##   0.001      1                   5              400      0.8322567  0.000000000
+##   0.001      1                   5              450      0.8322567  0.000000000
+##   0.001      1                   5              500      0.8322567  0.000000000
+##   0.001      1                  10               50      0.8322567  0.000000000
+##   0.001      1                  10              100      0.8322567  0.000000000
+##   0.001      1                  10              150      0.8322567  0.000000000
+##   0.001      1                  10              200      0.8322567  0.000000000
+##   0.001      1                  10              250      0.8322567  0.000000000
+##   0.001      1                  10              300      0.8322567  0.000000000
+##   0.001      1                  10              350      0.8322567  0.000000000
+##   0.001      1                  10              400      0.8322567  0.000000000
+##   0.001      1                  10              450      0.8322567  0.000000000
+##   0.001      1                  10              500      0.8322567  0.000000000
+##   0.001      1                  20               50      0.8322567  0.000000000
+##   0.001      1                  20              100      0.8322567  0.000000000
+##   0.001      1                  20              150      0.8322567  0.000000000
+##   0.001      1                  20              200      0.8322567  0.000000000
+##   0.001      1                  20              250      0.8322567  0.000000000
+##   0.001      1                  20              300      0.8322567  0.000000000
+##   0.001      1                  20              350      0.8322567  0.000000000
+##   0.001      1                  20              400      0.8322567  0.000000000
+##   0.001      1                  20              450      0.8322567  0.000000000
+##   0.001      1                  20              500      0.8322567  0.000000000
+##   0.001      5                   5               50      0.8322567  0.000000000
+##   0.001      5                   5              100      0.8322567  0.000000000
+##   0.001      5                   5              150      0.8322567  0.000000000
+##   0.001      5                   5              200      0.8322567  0.000000000
+##   0.001      5                   5              250      0.8322567  0.000000000
+##   0.001      5                   5              300      0.8322567  0.000000000
+##   0.001      5                   5              350      0.8322567  0.000000000
+##   0.001      5                   5              400      0.8322567  0.000000000
+##   0.001      5                   5              450      0.8322567  0.000000000
+##   0.001      5                   5              500      0.8322567  0.000000000
+##   0.001      5                  10               50      0.8322567  0.000000000
+##   0.001      5                  10              100      0.8322567  0.000000000
+##   0.001      5                  10              150      0.8322567  0.000000000
+##   0.001      5                  10              200      0.8322567  0.000000000
+##   0.001      5                  10              250      0.8322567  0.000000000
+##   0.001      5                  10              300      0.8322567  0.000000000
+##   0.001      5                  10              350      0.8322567  0.000000000
+##   0.001      5                  10              400      0.8322567  0.000000000
+##   0.001      5                  10              450      0.8322567  0.000000000
+##   0.001      5                  10              500      0.8322567  0.000000000
+##   0.001      5                  20               50      0.8322567  0.000000000
+##   0.001      5                  20              100      0.8322567  0.000000000
+##   0.001      5                  20              150      0.8322567  0.000000000
+##   0.001      5                  20              200      0.8322567  0.000000000
+##   0.001      5                  20              250      0.8322567  0.000000000
+##   0.001      5                  20              300      0.8322567  0.000000000
+##   0.001      5                  20              350      0.8322567  0.000000000
+##   0.001      5                  20              400      0.8322567  0.000000000
+##   0.001      5                  20              450      0.8322567  0.000000000
+##   0.001      5                  20              500      0.8322567  0.000000000
+##   0.001      9                   5               50      0.8322567  0.000000000
+##   0.001      9                   5              100      0.8322567  0.000000000
+##   0.001      9                   5              150      0.8322567  0.000000000
+##   0.001      9                   5              200      0.8322567  0.000000000
+##   0.001      9                   5              250      0.8322567  0.000000000
+##   0.001      9                   5              300      0.8322567  0.000000000
+##   0.001      9                   5              350      0.8322567  0.000000000
+##   0.001      9                   5              400      0.8322567  0.000000000
+##   0.001      9                   5              450      0.8322567  0.000000000
+##   0.001      9                   5              500      0.8322567  0.000000000
+##   0.001      9                  10               50      0.8322567  0.000000000
+##   0.001      9                  10              100      0.8322567  0.000000000
+##   0.001      9                  10              150      0.8322567  0.000000000
+##   0.001      9                  10              200      0.8322567  0.000000000
+##   0.001      9                  10              250      0.8322567  0.000000000
+##   0.001      9                  10              300      0.8322567  0.000000000
+##   0.001      9                  10              350      0.8322567  0.000000000
+##   0.001      9                  10              400      0.8322567  0.000000000
+##   0.001      9                  10              450      0.8322567  0.000000000
+##   0.001      9                  10              500      0.8322567  0.000000000
+##   0.001      9                  20               50      0.8322567  0.000000000
+##   0.001      9                  20              100      0.8322567  0.000000000
+##   0.001      9                  20              150      0.8322567  0.000000000
+##   0.001      9                  20              200      0.8322567  0.000000000
+##   0.001      9                  20              250      0.8322567  0.000000000
+##   0.001      9                  20              300      0.8322567  0.000000000
+##   0.001      9                  20              350      0.8322567  0.000000000
+##   0.001      9                  20              400      0.8322567  0.000000000
+##   0.001      9                  20              450      0.8322567  0.000000000
+##   0.001      9                  20              500      0.8322567  0.000000000
+##   0.010      1                   5               50      0.8322567  0.000000000
+##   0.010      1                   5              100      0.8322567  0.000000000
+##   0.010      1                   5              150      0.8322567  0.000000000
+##   0.010      1                   5              200      0.8338093  0.015437257
+##   0.010      1                   5              250      0.8344563  0.022868466
+##   0.010      1                   5              300      0.8351034  0.030039288
+##   0.010      1                   5              350      0.8356210  0.035550373
+##   0.010      1                   5              400      0.8359664  0.039709659
+##   0.010      1                   5              450      0.8362250  0.043698865
+##   0.010      1                   5              500      0.8358354  0.048239830
+##   0.010      1                  10               50      0.8322567  0.000000000
+##   0.010      1                  10              100      0.8322567  0.000000000
+##   0.010      1                  10              150      0.8322567  0.000000000
+##   0.010      1                  10              200      0.8329471  0.008086211
+##   0.010      1                  10              250      0.8335940  0.016322621
+##   0.010      1                  10              300      0.8342406  0.022507853
+##   0.010      1                  10              350      0.8353620  0.033480892
+##   0.010      1                  10              400      0.8358800  0.038708358
+##   0.010      1                  10              450      0.8359227  0.041894622
+##   0.010      1                  10              500      0.8357492  0.047395158
+##   0.010      1                  20               50      0.8322567  0.000000000
+##   0.010      1                  20              100      0.8322567  0.000000000
+##   0.010      1                  20              150      0.8322567  0.000000000
+##   0.010      1                  20              200      0.8322998  0.000419474
+##   0.010      1                  20              250      0.8328601  0.008864584
+##   0.010      1                  20              300      0.8337662  0.020616212
+##   0.010      1                  20              350      0.8342402  0.026733616
+##   0.010      1                  20              400      0.8348005  0.033656212
+##   0.010      1                  20              450      0.8349726  0.038737966
+##   0.010      1                  20              500      0.8350584  0.047337110
+##   0.010      5                   5               50      0.8322567  0.000000000
+##   0.010      5                   5              100      0.8351459  0.038148089
+##   0.010      5                   5              150      0.8366112  0.069320069
+##   0.010      5                   5              200      0.8376454  0.102218537
+##   0.010      5                   5              250      0.8380329  0.135423091
+##   0.010      5                   5              300      0.8372561  0.155630086
+##   0.010      5                   5              350      0.8379889  0.176245126
+##   0.010      5                   5              400      0.8372569  0.183328029
+##   0.010      5                   5              450      0.8372128  0.190650453
+##   0.010      5                   5              500      0.8365219  0.192575426
+##   0.010      5                  10               50      0.8322567  0.000000000
+##   0.010      5                  10              100      0.8346281  0.035433808
+##   0.010      5                  10              150      0.8360074  0.066893484
+##   0.010      5                  10              200      0.8369555  0.103069399
+##   0.010      5                  10              250      0.8379032  0.142103970
+##   0.010      5                  10              300      0.8378596  0.165640861
+##   0.010      5                  10              350      0.8376442  0.180646036
+##   0.010      5                  10              400      0.8371263  0.188477981
+##   0.010      5                  10              450      0.8361332  0.193026018
+##   0.010      5                  10              500      0.8360464  0.199801558
+##   0.010      5                  20               50      0.8322567  0.000000000
+##   0.010      5                  20              100      0.8337228  0.024284873
+##   0.010      5                  20              150      0.8357051  0.065915296
+##   0.010      5                  20              200      0.8366529  0.106284019
+##   0.010      5                  20              250      0.8371699  0.148663745
+##   0.010      5                  20              300      0.8360479  0.167799682
+##   0.010      5                  20              350      0.8357020  0.179703775
+##   0.010      5                  20              400      0.8351413  0.188307329
+##   0.010      5                  20              450      0.8346235  0.194914462
+##   0.010      5                  20              500      0.8344072  0.199723071
+##   0.010      9                   5               50      0.8322567  0.000000000
+##   0.010      9                   5              100      0.8357921  0.047937276
+##   0.010      9                   5              150      0.8372580  0.096233416
+##   0.010      9                   5              200      0.8378594  0.140821042
+##   0.010      9                   5              250      0.8380753  0.170551987
+##   0.010      9                   5              300      0.8366083  0.180933564
+##   0.010      9                   5              350      0.8360905  0.191257872
+##   0.010      9                   5              400      0.8355727  0.200499207
+##   0.010      9                   5              450      0.8359600  0.205997360
+##   0.010      9                   5              500      0.8367361  0.217154929
+##   0.010      9                  10               50      0.8322567  0.000000000
+##   0.010      9                  10              100      0.8351452  0.045617446
+##   0.010      9                  10              150      0.8369115  0.101952520
+##   0.010      9                  10              200      0.8366948  0.145964883
+##   0.010      9                  10              250      0.8363920  0.174494806
+##   0.010      9                  10              300      0.8353991  0.185908195
+##   0.010      9                  10              350      0.8345363  0.195190415
+##   0.010      9                  10              400      0.8343643  0.202127702
+##   0.010      9                  10              450      0.8347951  0.209625967
+##   0.010      9                  10              500      0.8340187  0.213542455
+##   0.010      9                  20               50      0.8322567  0.000000000
+##   0.010      9                  20              100      0.8346276  0.035152247
+##   0.010      9                  20              150      0.8367831  0.101470289
+##   0.010      9                  20              200      0.8361783  0.145147227
+##   0.010      9                  20              250      0.8352276  0.172109183
+##   0.010      9                  20              300      0.8339342  0.185980538
+##   0.010      9                  20              350      0.8333731  0.197036546
+##   0.010      9                  20              400      0.8336742  0.207998312
+##   0.010      9                  20              450      0.8340189  0.217368392
+##   0.010      9                  20              500      0.8332871  0.220783392
+##   0.100      1                   5               50      0.8366988  0.057025404
+##   0.100      1                   5              100      0.8362653  0.158013936
+##   0.100      1                   5              150      0.8371277  0.187479409
+##   0.100      1                   5              200      0.8378157  0.202404622
+##   0.100      1                   5              250      0.8375578  0.207195286
+##   0.100      1                   5              300      0.8381619  0.214438353
+##   0.100      1                   5              350      0.8378157  0.217310078
+##   0.100      1                   5              400      0.8375140  0.219899716
+##   0.100      1                   5              450      0.8375575  0.224327468
+##   0.100      1                   5              500      0.8379027  0.225736916
+##   0.100      1                  10               50      0.8360951  0.058748338
+##   0.100      1                  10              100      0.8361360  0.158952830
+##   0.100      1                  10              150      0.8357469  0.181681394
+##   0.100      1                  10              200      0.8366517  0.197723520
+##   0.100      1                  10              250      0.8363929  0.202736449
+##   0.100      1                  10              300      0.8366521  0.209913566
+##   0.100      1                  10              350      0.8368247  0.214571861
+##   0.100      1                  10              400      0.8375153  0.218934901
+##   0.100      1                  10              450      0.8378152  0.224566227
+##   0.100      1                  10              500      0.8367378  0.219938299
+##   0.100      1                  20               50      0.8351024  0.057072132
+##   0.100      1                  20              100      0.8338950  0.151397103
+##   0.100      1                  20              150      0.8341516  0.177352845
+##   0.100      1                  20              200      0.8348836  0.191951688
+##   0.100      1                  20              250      0.8342794  0.194270034
+##   0.100      1                  20              300      0.8348838  0.202386999
+##   0.100      1                  20              350      0.8350552  0.207232454
+##   0.100      1                  20              400      0.8347531  0.208347298
+##   0.100      1                  20              450      0.8344956  0.210837266
+##   0.100      1                  20              500      0.8353577  0.216095590
+##   0.100      5                   5               50      0.8350116  0.201220594
+##   0.100      5                   5              100      0.8341042  0.226951774
+##   0.100      5                   5              150      0.8316471  0.230886046
+##   0.100      5                   5              200      0.8313444  0.242253845
+##   0.100      5                   5              250      0.8317322  0.250766155
+##   0.100      5                   5              300      0.8294035  0.246354735
+##   0.100      5                   5              350      0.8298343  0.253678628
+##   0.100      5                   5              400      0.8288000  0.257300139
+##   0.100      5                   5              450      0.8273345  0.253834182
+##   0.100      5                   5              500      0.8263860  0.255286496
+##   0.100      5                  10               50      0.8352256  0.206271403
+##   0.100      5                  10              100      0.8347946  0.233588511
+##   0.100      5                  10              150      0.8345326  0.244543898
+##   0.100      5                  10              200      0.8326803  0.251328034
+##   0.100      5                  10              250      0.8315163  0.255046128
+##   0.100      5                  10              300      0.8303092  0.254638031
+##   0.100      5                  10              350      0.8297483  0.260107703
+##   0.100      5                  10              400      0.8277226  0.256613653
+##   0.100      5                  10              450      0.8262983  0.254805192
+##   0.100      5                  10              500      0.8259111  0.258341886
+##   0.100      5                  20               50      0.8337623  0.205433979
+##   0.100      5                  20              100      0.8324649  0.228851612
+##   0.100      5                  20              150      0.8307824  0.235176872
+##   0.100      5                  20              200      0.8291452  0.235693135
+##   0.100      5                  20              250      0.8296626  0.245719923
+##   0.100      5                  20              300      0.8279816  0.247866392
+##   0.100      5                  20              350      0.8278077  0.251880309
+##   0.100      5                  20              400      0.8270761  0.249754687
+##   0.100      5                  20              450      0.8259106  0.251801335
+##   0.100      5                  20              500      0.8241021  0.245994413
+##   0.100      9                   5               50      0.8328986  0.216640678
+##   0.100      9                   5              100      0.8314325  0.236534875
+##   0.100      9                   5              150      0.8300519  0.249645453
+##   0.100      9                   5              200      0.8276812  0.254733115
+##   0.100      9                   5              250      0.8263008  0.254938177
+##   0.100      9                   5              300      0.8248351  0.255551807
+##   0.100      9                   5              350      0.8225067  0.252992311
+##   0.100      9                   5              400      0.8227663  0.255985023
+##   0.100      9                   5              450      0.8225071  0.257761917
+##   0.100      9                   5              500      0.8205230  0.253314073
+##   0.100      9                  10               50      0.8337627  0.228120068
+##   0.100      9                  10              100      0.8317327  0.250503638
+##   0.100      9                  10              150      0.8283277  0.249202158
+##   0.100      9                  10              200      0.8275504  0.257992184
+##   0.100      9                  10              250      0.8261278  0.257730081
+##   0.100      9                  10              300      0.8246598  0.259540260
+##   0.100      9                  10              350      0.8247046  0.266094753
+##   0.100      9                  10              400      0.8226349  0.261810289
+##   0.100      9                  10              450      0.8217743  0.261961777
+##   0.100      9                  10              500      0.8203510  0.256703902
+##   0.100      9                  20               50      0.8326853  0.226389323
+##   0.100      9                  20              100      0.8305730  0.244726918
+##   0.100      9                  20              150      0.8283302  0.249398800
+##   0.100      9                  20              200      0.8281137  0.253980383
+##   0.100      9                  20              250      0.8258703  0.252145936
+##   0.100      9                  20              300      0.8251804  0.256418998
+##   0.100      9                  20              350      0.8234985  0.255289169
+##   0.100      9                  20              400      0.8209565  0.251577913
+##   0.100      9                  20              450      0.8189282  0.246015726
+##   0.100      9                  20              500      0.8185832  0.246590954
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final values used for the model were n.trees = 300, interaction.depth =
+##  1, shrinkage = 0.1 and n.minobsinnode = 5.</code></pre>
+<pre class="r"><code>(gbmFit2$finalModel)$tuneValue</code></pre>
+<pre><code>##     n.trees interaction.depth shrinkage n.minobsinnode
+## 186     300                 1       0.1              5</code></pre>
+<pre class="r"><code>library(GGally)
+plot(gbmFit1) </code></pre>
+<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<pre class="r"><code>plot(gbmFit2) </code></pre>
+<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-2.png" width="672" />
+## Predict</p>
+<pre class="r"><code>set.seed(1)
+pred=predict(gbmFit1, testing)
+
+table(pred, testing$avg_rating_ideal)</code></pre>
+<pre><code>##     
+## pred   1   2
+##    1 824 125
+##    2  20  25</code></pre>
+<pre class="r"><code>err_gbm1=1-(824+25)/994        #error rate
+err_gbm1</code></pre>
+<pre><code>## [1] 0.1458753</code></pre>
+<pre class="r"><code>MAE=c(MAE,err_gbm1)
+
+pred=predict(gbmFit2, testing)
+
+table(pred, testing$avg_rating_ideal)</code></pre>
+<pre><code>##     
+## pred   1   2
+##    1 816 122
+##    2  28  28</code></pre>
+<pre class="r"><code>err_gbm2=1-(830+26)/994        #error rate
+err_gbm2</code></pre>
+<pre><code>## [1] 0.138833</code></pre>
+<pre class="r"><code>MAE=c(MAE,err_gbm1)</code></pre>
+<pre class="r"><code>par(mfrow=c(1,2))
+
+plot(MAE,xlim=c(0,12), col=&#39;blue&#39;, type=&#39;p&#39;, pch=19, main=&#39;Error Comparison for Trails Data&#39;, ylab=&#39;mean absolute error&#39;)
+
+text(1:11, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, &#39;knn3&#39;, &#39;knn4&#39;, &#39;knn5&#39;, &#39;knn6&#39;, &#39;bagg&#39;,&#39;gbm1&#39;,&#39;gbm2&#39;), pos=2,  cex=0.5, col=&quot;red&quot;)
+
+
+plot(MAE, xlim=c(0,12),ylim=c(0,1) , col=&#39;blue&#39;, type=&#39;p&#39;, pch=19, main=&#39;Error Comparison for Trails Data&#39;, ylab=&#39;mean absolute error&#39;)
+
+text(1:11, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, &#39;knn3&#39;, &#39;knn4&#39;, &#39;knn5&#39;, &#39;knn6&#39;, &#39;bagg&#39;,&#39;gbm1&#39;,&#39;gbm2&#39;), pos=3,  cex=0.5, col=&quot;red&quot;)</code></pre>
+<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>

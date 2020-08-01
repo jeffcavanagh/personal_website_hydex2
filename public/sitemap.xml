@@ -13,17 +13,62 @@
   </url>
   
   <url>
+    <loc>/</loc>
+    <lastmod>2020-08-01T12:40:19-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/</loc>
+    <lastmod>2020-08-01T09:10:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/test2/</loc>
+    <lastmod>2020-08-01T09:10:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-08-01T09:50:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/projects/hiking-trail-analysis/</loc>
+    <lastmod>2020-08-01T09:50:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ml/</loc>
+    <lastmod>2020-08-01T09:50:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/projects/</loc>
+    <lastmod>2020-08-01T12:40:19-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-08-01T09:50:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-08-01T09:50:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/projects/nfl-team-wins-regression-analysis/</loc>
+    <lastmod>2020-08-01T12:40:19-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/portfolio/dera/</loc>
     <lastmod>2018-06-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/portfolio/</loc>
-    <lastmod>2018-06-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/</loc>
     <lastmod>2018-06-21T00:00:00+00:00</lastmod>
   </url>
   
@@ -35,46 +80,6 @@
   <url>
     <loc>/portfolio/laramod/</loc>
     <lastmod>2018-01-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/2015-07-23-r-rmarkdown/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/plot/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r-markdown/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/regression/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
@@ -103,7 +108,7 @@
   </url>
   
   <url>
-    <loc>/posts/</loc>
+    <loc>/posts/2020-08-01-test-post/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
@@ -165,6 +170,22 @@
   <url>
     <loc>/tags/migration/</loc>
     <lastmod>2014-03-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/analytics/</loc>
+  </url>
+  
+  <url>
+    <loc>/fitness/</loc>
+  </url>
+  
+  <url>
+    <loc>/quotes/</loc>
+  </url>
+  
+  <url>
+    <loc>/recipes/</loc>
   </url>
   
 </urlset>
