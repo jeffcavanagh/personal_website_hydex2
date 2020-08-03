@@ -1,0 +1,31 @@
+---
+title: "Quotes"
+author: "Jeff Cavanagh"
+date: '2020-08-02'
+output: pdf_document
+lastmod: '2020-08-02T19:26:43-04:00'
+layout: post
+highlight: no
+slug: quotes
+tags: []
+categories: []
+type: post
+---
+
+**Movies**
+
+### Good Will Hunting
+
+> Real loss is only possible when you love something more than you love yourself.  
+- *Sean*
+
+### The Replacements
+
+> I look at you and see two men: the man you are, and the man you ought to be. Someday those two will meet. Should make for a hell of a football player.  
+- *Jimmy McGinty*
+
+> I wish I could say something classy and inspirational, but that just wouldn't be our style.  
+Pain heals, chicks dig scars, **glory**...lasts forever.   
+- *Shane Falco*
+
+
