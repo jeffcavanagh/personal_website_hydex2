@@ -15,3 +15,555 @@ highlight: no
 
 <p><strong>For my graduate project I created an optimization that analyses the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable option for the future.</strong></p>
 <p>The writeup of the project can be found <a href="/projects/Minimizing%20World%20Electrical%20Cost.pdf">here</a></p>
+<pre class="python"><code># Health cost
+death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.4e-11,3.5e-11,1.9e-11]
+    #deaths/kwh
+life_cost = 3.4e6 # approximate average cost per human life
+death_cost = [life_cost*i for i in death_source]
+
+#Environmental impact costs
+water_source = [1.7, 0.7, 1.4, 2.7, 4.5, 0, 0]
+    # water consumption by source l/kwh
+water_value = 2.94e-3 # $/l
+water_cost = [water_value*i for i in water_source]
+
+ghg_cost_coal = 0.1236
+    # minumum $/kwh for all fosil fuels to be
+    # worse value than renewable installation
+greenhouse_gas_cost = [ghg_cost_coal, ghg_cost_coal*0.91, ghg_cost_coal*1.4,0,0,0,0]
+    #approximate environmental cost of greenhouse gases</code></pre>
+<pre class="python"><code># Cost coefficient ($/kwh)
+#c1: coal
+c1p = .03586 + death_cost[0] + water_cost[0] + greenhouse_gas_cost[0]
+c1i = 0.04444 + c1p
+c1e = -0.04444
+c1c = 0
+
+#c2: natural gas
+c2p = 0.03243 + death_cost[1] + water_cost[1] + greenhouse_gas_cost[1]
+c2i = 0.01194 + c2p
+c2e = -0.01194
+c2c = 0
+
+#c3: crude oil (WTI)
+c3p = .03586 + death_cost[2] + water_cost[2] + greenhouse_gas_cost[2]
+c3i = 0.03871 + c3p
+c3e = -0.03871
+c3c = 0
+
+#c4: nuclear
+c4p = 0.02386 + death_cost[3] + water_cost[3] + greenhouse_gas_cost[3]
+c4i = c4p + 0.7211 # operation cost + installation cost
+c4e = 0
+c4c = 0
+
+#c5: hydro
+c5p = 0.01065 + death_cost[4] + water_cost[4] + greenhouse_gas_cost[4]
+c5i = c5p + 0.3142 # operation cost + installation cost
+c5e = 0
+c5c = 0
+
+#c6: wind
+c6p = 0.00508 + death_cost[5] + water_cost[5] + greenhouse_gas_cost[5]
+c6i = c6p + 0.1506 # operation cost + installation cost
+c6e = 0
+c6c = 0
+
+#c7: solar
+c7p = 0.00508 + death_cost[6] + water_cost[6] + greenhouse_gas_cost[6]
+c7i = c7p + 0.1519 # operation cost + installation cost
+c7e = 0
+c7c = 0
+cost = [c1p,c1i,c1e,c1c,c2p,c2i,c2e,c2c,c3p,c3i,c3e,c3c,
+c4p,c4i,c4e,c4c,c5p,c5i,c5e,c5c,c6p,c6i,c6e,c6c,c7p,c7i,c7e,c7c]
+n = len(cost)</code></pre>
+<pre class="python"><code>import cvxpy as cp
+import numpy as np</code></pre>
+<pre class="python"><code>supply_world_source = [4.4e4, 3.6e4, 5.2e4, 2.7e3, 4.2e3, 1.3e3, 585]
+     # total world  supplyof each fuel source in 2018</code></pre>
+<pre class="python"><code># Defining each nation
+class Country:
+    def __init__(self, name, demand, coal_ability, naturalgas_ability, oil_ability, reactor_count, renewable_ability, windsolar_ability):
+        self.name = name
+        self.demand = demand
+        self.coal_ability = coal_ability
+        self.naturalgas_ability = naturalgas_ability
+        self.oil_ability = oil_ability
+        self.reactor_count = reactor_count
+        self.renewable_ability = renewable_ability
+        self.windsolar_ability = windsolar_ability
+        self._variables = cp.Variable(n)
+
+    def production_variables(self):
+        # Every 4th element of the _variables list
+        # starting from index 0.
+        return [ self._variables[i] for i in range(n)[::4] ]
+
+    def import_install_variables(self):
+        # Every 4th element of the _variables list
+        # starting from index 1.
+        return [ self._variables[i] for i in range(n)[1::4] ]
+
+    def export_variables(self):
+        # Every 4th element of the _variables list
+        # starting from index 2.
+        return [ self._variables[i] for i in range(n)[2::4] ]
+
+    def consumption_variables(self):
+        # Every 4th element of the _variables list
+        # starting from index 3.
+        return [ self._variables[i] for i in range(n)[3::4] ]
+
+    def objective_function(self):
+        # The portion of the objective function coming from this
+        # country, i.e. the sum of cost[i]*variable[i]*weight.
+        # The &quot;weight&quot; keeps the numbers small enough for the
+        # solver to handle.
+        weight = 1e9
+        return weight*(cost@self._variables)
+
+    def nonnegativity_constraint(self):
+        # All of the variables for this country should be nonnegative.
+        return ( self._variables &gt;= 0 )
+
+    def demand_constraint(self):
+        # Consumption must meet our country&#39;s given demand
+        # for energy
+        return ( sum(self.consumption_variables()) == self.demand )
+
+    def consumption_constraint(self):
+        # We can&#39;t consume more than we produce and import and lose from exports.
+        pic_triples = zip(self.production_variables(),
+                          self.import_install_variables(),
+                          self.consumption_variables(),
+                          self.export_variables())
+        return [ (c == p + i - e) for (p,i,c,e) in pic_triples ]
+
+    def import_constraint(self):
+        # We can&#39;t import more than the global supply (minus
+        # what we ourselves have produced.)
+        fossil_fuel_imports = self.import_install_variables()[:3]
+        fossil_fuel_production = self.production_variables()[:3]
+        sip_triples = zip(supply_world_source,
+                          fossil_fuel_imports,
+                          fossil_fuel_production)
+        return [ (b &lt;= a-c) for (a,b,c) in sip_triples ]
+
+    def exports_less_than_production_constraint(self):
+        return [ (e &lt;= p) for (e,p) in zip(self.export_variables(),
+                                           self.production_variables()) ]
+
+    def fossil_fuel_production_constraint(self):
+        fossil_fuel_production = self.production_variables()[:3]
+        fossil_fuel_ability = [self.coal_ability*supply_world_source[0],
+                                self.naturalgas_ability*supply_world_source[1],
+                                self.oil_ability*supply_world_source[2]]
+        return [ (c &lt;= f) for (c,f) in zip(fossil_fuel_production, fossil_fuel_ability)]
+
+    def nuclear_production_constraint(self):
+        return ( self.production_variables()[3]&lt;=7.5*self.reactor_count )
+
+    def renewable_production_constraint(self):
+        return ( sum(self.production_variables()[4:7])
+                 &lt;=
+                 self.renewable_ability * sum(self.consumption_variables()) )
+
+    def windsolar_production_constraint(self):
+        return ( sum(self.production_variables()[5:7])
+                 &lt;=
+                 self.windsolar_ability*sum(self.consumption_variables()) )
+
+    def windsolar_installation_constraint(self):
+        return ( self.import_install_variables()[5] == self.import_install_variables()[6])</code></pre>
+<pre class="python"><code>us = Country(&quot;United States&quot;,
+             4.0e3,  # demand
+             0.089,   # coal ability
+             0.217,   # natural gas ability
+             0.151,   # oil ability
+             97,     # reactor count
+             0.1748, # renewable ability
+             0.0893) # wind-solar ability
+
+cn = Country(&quot;China&quot;,
+             6.2e3,  # demand
+             0.452,   # coal ability
+             0.040,   # natural gas ability
+             0.043,   # oil ability
+             45,     # reactor count
+             0.2625, # renewable ability
+             0.0775) # wind-solar ability
+
+ind = Country(&quot;India&quot;,
+             1.2e3,  # demand
+             0.099,   # coal ability
+             0.008,   # natural gas ability
+             0.009,   # oil ability
+             22,     # reactor count
+             0.1851, # renewable ability
+             0.064) # wind-solar ability
+
+ru = Country(&quot;Russia&quot;,
+             9.3e2,  # demand
+             0.054,   # coal ability
+             0.186,   # natural gas ability
+             0.124,   # oil ability
+             36,     # reactor count
+             0.1718, # renewable ability
+             0.0012) # wind-solar ability
+
+jp = Country(&quot;Japan&quot;,
+             1.0e3,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.0,   # oil ability
+             37,     # reactor count
+             0.1750, # renewable ability
+             0.0959) # wind-solar ability
+
+kp = Country(&quot;South Korea&quot;,
+             5.6e2,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.0,   # oil ability
+             24,     # reactor count
+             0.042, # renewable ability
+             0.0218) # wind-solar ability
+
+de = Country(&quot;Germany&quot;,
+             5.3e2,  # demand
+             0.022,   # coal ability
+             0.002,   # natural gas ability
+             0.001,   # oil ability
+             7,     # reactor count
+             0.36, # renewable ability
+             0.2503) # wind-solar ability
+
+ca = Country(&quot;Canada&quot;,
+             5.3e2,  # demand
+             0.007,   # coal ability
+             0.047,   # natural gas ability
+             0.058,   # oil ability
+             19,     # reactor count
+             0.6586, # renewable ability
+             0.053) # wind-solar ability
+
+br = Country(&quot;Brazil&quot;,
+             5.2e2,  # demand
+             0.001,   # coal ability
+             0.006,   # natural gas ability
+             0.030,   # oil ability
+             2,     # reactor count
+             0.8246, # renewable ability
+             0.0875) # wind-solar ability
+
+ir = Country(&quot;Iran&quot;,
+             2.6e2,  # demand
+             0.00,   # coal ability
+             0.058,   # natural gas ability
+             0.048,   # oil ability
+             1,     # reactor count
+             0.0532, # renewable ability
+             0.0017) # wind-solar ability
+
+id = Country(&quot;Indonesia&quot;,
+             2.4e2,  # demand
+             0.062,   # coal ability
+             0.012,   # natural gas ability
+             0.009,   # oil ability
+             0,     # reactor count
+             0.1246, # renewable ability
+             0.0521) # wind-solar ability
+fr = Country(&quot;France&quot;,
+             4.4e2,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.0,   # oil ability
+             58,     # reactor count
+             0.1994, # renewable ability
+             0.0684) # wind-solar ability
+
+sa = Country(&quot;Saudi Arabia&quot;,
+             3.0e2,  # demand
+             0.0,   # coal ability
+             0.025,   # natural gas ability
+             0.130,   # oil ability
+             0,     # reactor count
+             0.0, # renewable ability
+             0.0) # wind-solar ability
+
+uk = Country(&quot;United Kingdom&quot;,
+             3.0e2,  # demand
+             0.0,   # coal ability
+             0.010,   # natural gas ability
+             0.011,   # oil ability
+             15,     # reactor count
+             0.3398, # renewable ability
+             0.2102) # wind-solar ability
+
+it = Country(&quot;Italy&quot;,
+             3.0e2,  # demand
+             0.0,   # coal ability
+             0.001,   # natural gas ability
+             0.001,   # oil ability
+             0,     # reactor count
+             0.3987, # renewable ability
+             0.1634) # wind-solar ability
+
+mx = Country(&quot;Mexico&quot;,
+             2.8e2,  # demand
+             0.002,   # coal ability
+             0.007,   # natural gas ability
+             0.023,   # oil ability
+             2,     # reactor count
+             0.1674, # renewable ability
+             0.0698) # wind-solar ability
+
+tr = Country(&quot;Turkey&quot;,
+             2.5e2,  # demand
+             0.011,   # coal ability
+             0.0,   # natural gas ability
+             0.0,   # oil ability
+             0,     # reactor count
+             0.3238, # renewable ability
+             0.1203) # wind-solar ability
+
+tw = Country(&quot;Taiwan&quot;,
+             2.5e2,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.0,   # oil ability
+             0,     # reactor count
+             0.0521, # renewable ability
+             0.0162) # wind-solar ability
+
+es = Country(&quot;Spain&quot;,
+             2.4e2,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.0,   # oil ability
+             7,     # reactor count
+             0.3862, # renewable ability
+             0.2326) # wind-solar ability
+
+au = Country(&quot;Australia&quot;,
+             2.3e2,  # demand
+             0.065,   # coal ability
+             0.031,   # natural gas ability
+             0.004,   # oil ability
+             0,     # reactor count
+             0.1960, # renewable ability
+             0.1015) # wind-solar ability
+
+za = Country(&quot;South Africa&quot;,
+             2.1e2,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.001,   # oil ability
+             2,     # reactor count
+             0.0529, # renewable ability
+             0.0319) # wind-solar ability
+
+th = Country(&quot;Thailand&quot;,
+             2.0e2,  # demand
+             0.002,   # coal ability
+             0.007,   # natural gas ability
+             0.004,   # oil ability
+             0,     # reactor count
+             0.2020, # renewable ability
+             0.0337) # wind-solar ability
+
+eg = Country(&quot;Egypt&quot;,
+             1.8e2,  # demand
+             0.0,   # coal ability
+             0.013,   # natural gas ability
+             0.007,   # oil ability
+             0,     # reactor count
+             0.0821, # renewable ability
+             0.0163) # wind-solar ability
+
+my = Country(&quot;Malaysia&quot;,
+             1.5e2,  # demand
+             0.0,   # coal ability
+             0.017,   # natural gas ability
+             0.008,   # oil ability
+             0,     # reactor count
+             0.1446, # renewable ability
+             0.0026) # wind-solar ability
+
+pl = Country(&quot;Poland&quot;,
+             1.5e2,  # demand
+             0.016,   # coal ability
+             0.001,   # natural gas ability
+             0.0,   # oil ability
+             0,     # reactor count
+             0.1298, # renewable ability
+             0.0773) # wind-solar ability
+
+se = Country(&quot;Sweden&quot;,
+             1.3e2,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.0,   # oil ability
+             8,     # reactor count
+             0.5527, # renewable ability
+             0.1039) # wind-solar ability
+
+ar = Country(&quot;Argentina&quot;,
+             1.3e2,  # demand
+             0.0,   # coal ability
+             0.011,   # natural gas ability
+             0.006,   # oil ability
+             3,     # reactor count
+             0.3074, # renewable ability
+             0.0096) # wind-solar ability
+
+no = Country(&quot;Norway&quot;,
+             1.3e2,  # demand
+             0.0,   # coal ability
+             0.032,   # natural gas ability
+             0.019,   # oil ability
+             0,     # reactor count
+             0.9788, # renewable ability
+             0.0263) # wind-solar ability
+
+ua = Country(&quot;Ukraine&quot;,
+             1.2e2,  # demand
+             0.003,   # coal ability
+             0.005,   # natural gas ability
+             0.001,   # oil ability
+             15,     # reactor count
+             0.0881, # renewable ability
+             0.0123) # wind-solar ability
+
+ae = Country(&quot;United Arab Emirates&quot;,
+             1.2e2,  # demand
+             0.0,   # coal ability
+             0.016,   # natural gas ability
+             0.040,   # oil ability
+             0,     # reactor count
+             0.0044, # renewable ability
+             0.0044) # wind-solar ability
+
+nl = Country(&quot;Netherlands&quot;,
+             1.2e2,  # demand
+             0.0,   # coal ability
+             0.008,   # natural gas ability
+             0.0,   # oil ability
+             1,     # reactor count
+             0.1572, # renewable ability
+             0.1172) # wind-solar ability
+
+be = Country(&quot;Belgium&quot;,
+             84,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.0,   # oil ability
+             7,     # reactor count
+             0.2330, # renewable ability
+             0.1475) # wind-solar ability
+
+kz = Country(&quot;Kazakhstan&quot;,
+             81,  # demand
+             0.015,   # coal ability
+             0.011,   # natural gas ability
+             0.020,   # oil ability
+             0,     # reactor count
+             0.1780, # renewable ability
+             0.0050) # wind-solar ability
+
+cl = Country(&quot;Chile&quot;,
+             72,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.0,   # oil ability
+             0,     # reactor count
+             0.4684, # renewable ability
+             0.1107) # wind-solar ability
+
+co = Country(&quot;Columbia&quot;,
+             69,  # demand
+             0.011,   # coal ability
+             0.003,   # natural gas ability
+             0.010,   # oil ability
+             0,     # reactor count
+             0.7573, # renewable ability
+             0.0005) # wind-solar ability
+dz = Country(&quot;Algeria&quot;,
+             66,  # demand
+             0.0,   # coal ability
+             0.024,   # natural gas ability
+             0.015,   # oil ability
+             0,     # reactor count
+             0.0065, # renewable ability
+             0.0045) # wind-solar ability
+ve = Country(&quot;Venezuela&quot;,
+             63,  # demand
+             0.0,   # coal ability
+             0.005,   # natural gas ability
+             0.018,   # oil ability
+             0,     # reactor count
+             0.7077, # renewable ability
+             0.0) # wind-solar ability
+cz = Country(&quot;Czech Republic&quot;,
+             59,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.006,   # oil ability
+             6,     # reactor count
+             0.1190, # renewable ability
+             0.0346) # wind-solar ability
+kw = Country(&quot;Kuwait&quot;,
+             59,  # demand
+             0.0,   # coal ability
+             0.005,   # natural gas ability
+             0.033,   # oil ability
+             0,     # reactor count
+             0.0, # renewable ability
+             0.0) # wind-solar ability
+uz = Country(&quot;Uzbekistan&quot;,
+             54,  # demand
+             0.0,   # coal ability
+             0.015,   # natural gas ability
+             0.0,   # oil ability
+             0,     # reactor count
+             0.1913, # renewable ability
+             0.0) # wind-solar ability
+ro = Country(&quot;Romania&quot;,
+             50,  # demand
+             0.003,   # coal ability
+             0.003,   # natural gas ability
+             0.001,   # oil ability
+             2,     # reactor count
+             0.4127, # renewable ability
+             0.1252) # wind-solar ability
+pt = Country(&quot;Portugal&quot;,
+             49,  # demand
+             0.0,   # coal ability
+             0.0,   # natural gas ability
+             0.0,   # oil ability
+             0,     # reactor count
+             0.5218, # renewable ability
+             0.2337) # wind-solar ability
+nz = Country(&quot;New Zealand&quot;,
+             39,  # demand
+             0.0,   # coal ability
+             0.001,   # natural gas ability
+             0.0,   # oil ability
+             0,     # reactor count
+             0.8307, # renewable ability
+             0.2194) # wind-solar ability
+ng = Country(&quot;Nigeria&quot;,
+             28,  # demand
+             0.0,   # coal ability
+             0.011,   # natural gas ability
+             0.023,   # oil ability
+             0,     # reactor count
+             0.1672, # renewable ability
+             0.0) # wind-solar ability
+
+countries = [us, cn, ind, ru, jp, kp, de, ca, br, ir,
+            id, fr, sa, uk, it, mx, tr, tw, es, au,
+            za, th, eg, my, pl, se, ar, no, ua, ae,
+            nl, be, kz, cl, co, dz, ve, cz, kw, uz,
+            ro, pt, nz, ng]</code></pre>
+<pre class="python"><code>objective = cp.Minimize(sum(c.objective_function() for c in countries))</code></pre>
