@@ -8,8 +8,93 @@
   </url>
   
   <url>
+    <loc>/analytics/</loc>
+    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/</loc>
-    <lastmod>2020-08-04T19:52:58-04:00</lastmod>
+    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2020/08/05/dashboard-creation/</loc>
+    <lastmod>2020-08-05T16:00:12-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/good_thoughts/</loc>
+    <lastmod>2020-08-05T15:55:04-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/analytics/machine-learning-basic/</loc>
+    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ml/</loc>
+    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/analytics/natural-language-processing/</loc>
+    <lastmod>2020-08-05T15:49:17-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/nlp/</loc>
+    <lastmod>2020-08-05T15:49:17-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/good_thoughts/poetry/</loc>
+    <lastmod>2020-08-05T15:52:14-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-08-05T16:00:12-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rselenium/</loc>
+    <lastmod>2020-08-05T15:58:56-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/rshiny/</loc>
+    <lastmod>2020-08-05T16:00:12-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rvest/</loc>
+    <lastmod>2020-08-05T15:58:56-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/good_thoughts/text-excerpts/</loc>
+    <lastmod>2020-08-05T15:55:04-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/analytics/web-scrape/</loc>
+    <lastmod>2020-08-05T15:58:56-04:00</lastmod>
   </url>
   
   <url>
@@ -20,11 +105,6 @@
   <url>
     <loc>/posts/test-homepage/</loc>
     <lastmod>2020-08-04T19:52:58-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/good_thoughts/</loc>
-    <lastmod>2020-08-02T20:12:16-04:00</lastmod>
   </url>
   
   <url>
@@ -48,27 +128,7 @@
   </url>
   
   <url>
-    <loc>/categories/</loc>
-    <lastmod>2020-08-01T09:50:05-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/projects/hiking-trail-analysis/</loc>
-    <lastmod>2020-08-01T09:50:05-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/ml/</loc>
-    <lastmod>2020-08-01T09:50:05-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2020-08-01T09:50:05-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-08-01T09:50:05-04:00</lastmod>
   </url>
   
@@ -120,10 +180,6 @@
   <url>
     <loc>/about/</loc>
     <lastmod>2014-04-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/analytics/</loc>
   </url>
   
   <url>
