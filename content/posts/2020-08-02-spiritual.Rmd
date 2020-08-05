@@ -1,0 +1,28 @@
+---
+title: "Spiritual"
+linktitle: "Spiritual"
+author: "Jeff Cavanagh"
+date: '2020-08-02'
+output: pdf_document
+lastmod: '2020-08-02T20:12:16-04:00'
+layout: post
+highlight: no
+slug: spiritual
+tags: []
+categories: []
+---
+
+> Nothing is more practical than finding God,  
+than falling in Love ina quite absolute, final way.  
+What you are in love with,  
+what seizes your imagination, will affect everything.  
+It will decide  
+what will get you out of bed in the morning,  
+what you do with your evenings,  
+how you spend your weekends,  
+what you read, whom you know,  
+what breaks your heart,  
+and what amazes you with joy and gratitude.  
+Fall in love, stay in love,  
+and it will decide everything.  
+- *Pedro Arrupe, S.J.*

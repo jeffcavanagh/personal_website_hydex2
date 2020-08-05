@@ -21,7 +21,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     
 [params]
     author = "Jeff Cavanagh"
-    title = "Jeff Things"
+    title = "The Woods of Jeff"
     # description = "..."
     authorimage = "/img/coffeeandme_camping.JPG"
     dateformat = "Jan 2, 2006"
@@ -30,9 +30,9 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     # sidebar, copyright & license
     copyright = "htr3n"
     since = 2019
-    license = "CC BY-SA 4.0"
+    #license = "CC BY-SA 4.0"
     licenseURL = "https://creativecommons.org/licenses/by-sa/4.0"
-    showBuiltWith = true
+    showBuiltWith = false
 
     # https://highlightjs.org
     highlightjs = true
@@ -54,16 +54,13 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     email = "jmcavanagh15@gmail.com"
 
 ## Main Menu
-[[menu.main]]
-    name = "Posts"
-    weight = 700
-    identifier = "posts"
-    url = "/posts/"
+
 #[[menu.main]]
     #name = "Portfolio"
     #identifier = "portfolio"
     #weight = 800
     #url = "/portfolio/"
+    
 [[menu.main]]
     name = "About"
     identifier = "about"
@@ -90,7 +87,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     weight = 500
     url = "/recipes/"
 [[menu.main]]
-    name = "Quotes"
-    identifier = "quotes"
+    name = "Good Thoughts"
+    identifier = "good thoughts"
     weight = 600
-    url = "/quotes/"
+    url = "/good_thoughts/"

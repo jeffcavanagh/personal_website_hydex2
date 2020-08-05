@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Good Thoughts on The Woods of Jeff</title>
+    <link>/good_thoughts/</link>
+    <description>Recent content in Good Thoughts on The Woods of Jeff</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 02 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/good_thoughts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Quotes from Media</title>
+      <link>/good_thoughts/quotes/</link>
+      <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/good_thoughts/quotes/</guid>
+      <description>Movies
+Good Will Hunting  Real loss is only possible when you love something more than you love yourself.
+- Sean
+  Rocky Balboa  The world ain’t all sunshine and rainbows. It’s a very mean and nasty place, and I don’t care how tough you are, it will beat you to your knees and keep you there permanently if you let it. You, me, or nobody is gonna hit as hard as life.</description>
+    </item>
+    
+    <item>
+      <title>Spiritual</title>
+      <link>/good_thoughts/spiritual/</link>
+      <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/good_thoughts/spiritual/</guid>
+      <description>Nothing is more practical than finding God,
+than falling in Love ina quite absolute, final way.
+What you are in love with,
+what seizes your imagination, will affect everything.
+It will decide
+what will get you out of bed in the morning,
+what you do with your evenings,
+how you spend your weekends,
+what you read, whom you know,
+what breaks your heart,
+and what amazes you with joy and gratitude.</description>
+    </item>
+    
+  </channel>
+</rss>
