@@ -6,24 +6,15 @@
     <description>Recent content in Categories on COMPENDIUM by Jeff</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 01 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Development</title>
       <link>/categories/development/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 01 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/categories/development/</guid>
       <description></description>
@@ -32,9 +23,18 @@
     <item>
       <title>hugo</title>
       <link>/categories/hugo/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 01 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/categories/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/categories/r/</link>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/r/</guid>
       <description></description>
     </item>
     

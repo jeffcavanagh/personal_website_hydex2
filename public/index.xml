@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>COMPENDIUM by Jeff</title>
+    <title>Content on COMPENDIUM by Jeff</title>
     <link>/</link>
-    <description>Recent content on COMPENDIUM by Jeff</description>
+    <description>Recent content in Content on COMPENDIUM by Jeff</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 02 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Minimzing World Electrical Cost (Graduate Project)</title>
+      <link>/projects/minimzing-world-electrical-cost-graduate-project/</link>
+      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/minimzing-world-electrical-cost-graduate-project/</guid>
+      <description>For my graduate project I created an optimization that analyses the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable option for the future.
+The writeup of the project can be found here
+# Health cost death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.4e-11,3.5e-11,1.9e-11] #deaths/kwh life_cost = 3.</description>
+    </item>
     
     <item>
       <title>Creating a New Theme</title>
@@ -30,6 +41,15 @@ We&amp;rsquo;ll start with creating a new site with a very basic template.</desc
       <description>Move static content to static Jekyll has a rule that any directory not starting with _ will be copied as-is to the _site output. Hugo keeps all static content under static. You should therefore move it all there. With Jekyll, something that looked like
 ▾ &amp;lt;root&amp;gt;/ ▾ images/ logo.png  should become
 ▾ &amp;lt;root&amp;gt;/ ▾ static/ ▾ images/ logo.png  Additionally, you&amp;rsquo;ll want any files that should reside at the root (such as CNAME) to be moved to static.</description>
+    </item>
+    
+    <item>
+      <title>test_homepage</title>
+      <link>/posts/test-homepage/</link>
+      <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/test-homepage/</guid>
+      <description>This is a test</description>
     </item>
     
     <item>
@@ -75,17 +95,6 @@ Heading 2 Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum 
     </item>
     
     <item>
-      <title>Minimzing World Electrical Cost (Graduate Project)</title>
-      <link>/projects/minimzing-world-electrical-cost-graduate-project/</link>
-      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/projects/minimzing-world-electrical-cost-graduate-project/</guid>
-      <description>For my graduate project I created an optimization that analyses the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable option for the future.
-The writeup of the project can be found here
-# Health cost death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.4e-11,3.5e-11,1.9e-11] #deaths/kwh life_cost = 3.</description>
-    </item>
-    
-    <item>
       <title>Hiking Trail Analysis</title>
       <link>/projects/hiking-trail-analysis/</link>
       <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
@@ -94,6 +103,16 @@ The writeup of the project can be found here
       <description>Setup trails=read.csv(&amp;quot;AllTrailsdata_nationalpark.csv&amp;quot;,header=T) attach(trails) dim(trails) ## [1] 3313 18 This data set gives information on trails in the National Parks Service. The data is publically available on Kaggle.com.
 Each row is a different trail. The columns describing each trail are:
  trail_id name area_name city_name state_name country_name _geoloc (coordinates) popularity (scaled value) length (km) elevation_gain difficulty_rating (1:5) route_type (out and back, loop, point to point) visitor_usage (1:4) avg_rating (1:5) num_reviews features (dogs-no, forest, views, lake, wild-flowers, etc…) activities (birding, hiking, nature-trips, etc…) units (i,m)  Average rating was chosen as the dependent variable.</description>
+    </item>
+    
+    <item>
+      <title>NFL Team Wins Regression Analysis</title>
+      <link>/posts/nfl-team-wins-regression-analysis/</link>
+      <pubDate>Tue, 04 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/nfl-team-wins-regression-analysis/</guid>
+      <description>This was a final project I completed for my Regression and Time Series Analysis Course. I took data from the 2017 NFL season and used it to see what metrics were significant in predicting the number of wins a team would achieve.
+Here is the write up of the project</description>
     </item>
     
     <item>

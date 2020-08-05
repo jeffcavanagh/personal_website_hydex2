@@ -1,5 +1,6 @@
 ---
 title: Minimzing World Electrical Cost (Graduate Project)
+linktitle: Minimization project
 author: Jeff Cavanagh
 date: '2020-05-11'
 slug: minimzing-world-electrical-cost-graduate-project
@@ -7,8 +8,8 @@ categories: []
 tags: []
 lastmod: '2020-08-03T12:35:28-04:00'
 layout: post
-type: post
 highlight: no
+weight: 1
 ---
 
 
@@ -567,3 +568,88 @@ countries = [us, cn, ind, ru, jp, kp, de, ca, br, ir,
             nl, be, kz, cl, co, dz, ve, cz, kw, uz,
             ro, pt, nz, ng]</code></pre>
 <pre class="python"><code>objective = cp.Minimize(sum(c.objective_function() for c in countries))</code></pre>
+<pre class="python"><code># Constraints
+
+# Nonnegativity
+nonnegativity = [c.nonnegativity_constraint() for c in countries ]
+
+# Demand
+demand_countries = [ c.demand_constraint() for c in countries ]
+
+# Production
+production_countries =   [sum(z) for z in zip( *(c.production_variables() for c in countries) )]
+production_world = [a&lt;=b for (a,b) in zip(production_countries, supply_world_source)]
+
+
+# Consumption
+cr_countries =  sum((c.consumption_constraint() for c in countries),[])
+consumption_total = [sum(z) for z in zip( *(c.consumption_variables() for c in countries) )]
+
+# Imports
+ilse_countries = sum((c.import_constraint() for c in countries),[])
+
+imports_install_total = [sum(z) for z in zip( *(c.import_install_variables() for c in countries) )]
+imports_ff_world = [a&lt;=b for (a,b) in zip(imports_install_total[:3], production_countries[:3])]
+
+#Exports
+exports_ff = [sum(z) for z in zip( *(c.export_variables()[:3] for c in countries) )]
+supply_demand_world = [b==a for (a,b) in zip(imports_install_total[:3], exports_ff)]
+
+elp_countries = sum((c.exports_less_than_production_constraint() for c in countries),[])
+
+
+# Fossil Fuel Considerations
+ff_countries = sum( (c.fossil_fuel_production_constraint() for c in countries),[])
+
+# Nuclear Considerations
+nu_countries = [ c.nuclear_production_constraint() for c in countries ]
+
+# Renewable Considerations
+# Total
+rc_countries = [ c.renewable_production_constraint() for c in countries ]
+
+#Wind and Solar
+ws_countries = [ c.windsolar_production_constraint() for c in countries ]
+
+ws_install = [c.windsolar_installation_constraint() for c in countries ]
+
+constraints = (
+nonnegativity
++ demand_countries
++ production_world
++ cr_countries
++ ilse_countries
++ imports_ff_world
++ supply_demand_world
++ elp_countries
++ ff_countries
++ nu_countries
++ rc_countries
++ ws_countries
++ ws_install
+)</code></pre>
+<pre class="python"><code>prob = cp.Problem(objective, constraints)
+
+OptimalVal=np.format_float_scientific(prob.solve(),precision=4)
+
+print(&quot;World Electrical Energy Cost&quot;, OptimalVal)</code></pre>
+<pre><code>## World Electrical Energy Cost 2.232e+12</code></pre>
+<pre class="python"><code>production_world = []
+production_world += [ x.value for x in production_countries ]
+
+print(&quot;Electrical Energy Production by Source (no new installation)&quot;, production_world)</code></pre>
+<pre><code>## Electrical Energy Production by Source (no new installation) [-0.039345675380148104, -0.020043286659003002, -0.04727087431708196, 2700.0010592358917, 3520.136447244051, 1044.1667460255412, 585.0000004144705]</code></pre>
+<pre class="python"><code>imports_install_world = []
+imports_install_world += [x.value for x in imports_install_total ]
+print(&quot;Electricity Produced from Newly Installed Renewable and Nuclear&quot;, imports_install_world[3:7])</code></pre>
+<pre><code>## Electricity Produced from Newly Installed Renewable and Nuclear [-0.20395252415407988, -0.07783728962636867, 6562.086731504632, 6562.086495973723]</code></pre>
+<pre class="python"><code>print(&quot;Electricity Produced from Fossil Fuel Imports&quot;, imports_install_world[:3])</code></pre>
+<pre><code>## Electricity Produced from Fossil Fuel Imports [-0.03966733926610559, -0.026436138866003, -0.04745410267391861]</code></pre>
+<pre class="python"><code>exports_world = []
+exports_world += [x.value for x in exports_ff]
+print(&quot;Fossil Fuel Exports&quot;, exports_world)</code></pre>
+<pre><code>## Fossil Fuel Exports [-0.03950262820669754, -0.026523836634257884, -0.04725630538920479]</code></pre>
+<pre class="python"><code>consumption_world = []
+consumption_world += [x.value for x in consumption_total]
+print(&quot;Electrical Energy Consumption by Source&quot;, consumption_world)</code></pre>
+<pre><code>## Electrical Energy Consumption by Source [0.0095550297195948, 0.020485777752135663, 0.00557588729948612, 2699.930141462614, 3520.0871817169623, 7606.033016823535, 7146.866035676711]</code></pre>
