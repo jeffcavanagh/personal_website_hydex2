@@ -8,13 +8,14 @@ categories: []
 tags: []
 lastmod: '2020-08-03T12:35:28-04:00'
 layout: post
+type: post
 highlight: no
 weight: 1
 ---
 
 **For my graduate project I created an optimization that analyses the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable option for the future.**
 
-The writeup of the project can be found [here](/projects/Minimizing World Electrical Cost.pdf)
+The writeup of the project can be found [here](/projects/Minimizing World Electrical Cost.pdf){target = "blank"}
 
 ```{r setup, include = FALSE}
 library(reticulate)

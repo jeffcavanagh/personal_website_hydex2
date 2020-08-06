@@ -10,17 +10,34 @@ tags:
 lastmod: '2020-08-05T15:49:17-04:00'
 layout: post
 type: post
-highlight: no
+highlight: yes
 ---
 
-**Insert Lead paragraph here.**
+**Data is only numerical or categorial right?? **
 
-A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis. 
+Wrong. Not all data these days is numerical and easy to work with established mathetimatical techniques. Quite a bit of potential data is unstructured and textual in nature, which does not operate by the same rules as numerical data. However, even though it is formatted differently, there are still underlying patterns and ways to work to draw insight from this subset of data. In this article we will focus on some routine methods of Natural Language Processing (NLP) and how it can be utilized to process and draw value from text data. 
 
-## Heading 2
+## Setup
 
-Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum vestibulum porta mauris lorem, ullamcorper class fermentum sem hendrerit ante augue penatibus scelerisque felis leo proin,ad nascetur venenatis sodales dignissim viverra suspendisse turpis convallis condimentum sapien.
+### `stringr`
 
-### Heading 3
+In R, the best way I have found to carry out any sort of NLP is using the `stringr` package. This package can be loaded on its own, or as part of `tidyverse`.
 
-At quisque litora ullamcorper maecenas ultricies ut dignissim luctus curabitur, cras congue eget primis aliquam fringilla nulla dictum posuere, vestibulum sit magnis nisl praesent eros ipsum nunc. Ligula lacus ipsum orci aenean integer pharetra habitasse interdum, porttitor etiam hac feugiat placerat morbi posuere turpis leo, quam at amet gravida commodo fringilla erat.
+The functions contained with in all process character strings in various ways. Luckily for us, R has a [cheatsheet](/rcheatsheets/strings.pdf){target="blank"} for the `stringr` package for not only the functions, but also the formatting of search patterns.
+
+It should be noted that there is also the `stringi` package which contains more robust functions for handling strings. For simplicity, we will only be concentrating on `stringr` so let's load that now.
+
+```{r}
+library(stringr)
+```
+
+### The data
+
+To illustrate the use of NLP, we will be analyzing a pdf of Mary Shelley's, *Frankenstein* (downloaded from [planetbook.com](https://www.planetebook.com/free-ebooks/frankenstein.pdf){target="blank"}). We will use the `pdftools` package to extract the text from the pdf file.
+
+```{r}
+library(pdftools)
+book <- pdf_text("frankenstein.pdf")
+```
+
+`pdf_tools`
