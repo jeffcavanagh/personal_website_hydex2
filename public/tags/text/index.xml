@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>NLP on The Woods of Jeff</title>
-    <link>/tags/nlp/</link>
-    <description>Recent content in NLP on The Woods of Jeff</description>
+    <title>text on Jeff&#39;s Overlook</title>
+    <link>/tags/text/</link>
+    <description>Recent content in text on Jeff&#39;s Overlook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 05 Aug 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/text/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Natural Language Processing</title>
-      <link>/analytics/natural-language-processing/</link>
+      <title>Processing Text Data</title>
+      <link>/analytics/processing-text-data/</link>
       <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/analytics/natural-language-processing/</guid>
+      <guid>/analytics/processing-text-data/</guid>
       <description>Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data insight from it??
-Yes! and the method is Natural Language Processing (NLP).
+Of course! All it takes is an adapted approach and a little more work upfront.
 Quite a bit of potential data is unstructured and textual in nature, and does not operate by the same rules as numerical or categorical data. That does not mean there is not value to this format of data though.</description>
     </item>
     

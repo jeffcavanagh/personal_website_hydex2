@@ -43,16 +43,6 @@
   </url>
   
   <url>
-    <loc>/analytics/natural-language-processing/</loc>
-    <lastmod>2020-08-05T15:49:17-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/nlp/</loc>
-    <lastmod>2020-08-05T15:49:17-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/good_thoughts/poetry/</loc>
     <lastmod>2020-08-05T15:52:14-04:00</lastmod>
   </url>
@@ -60,6 +50,11 @@
   <url>
     <loc>/post/</loc>
     <lastmod>2020-08-05T16:00:12-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/analytics/processing-text-data/</loc>
+    <lastmod>2020-08-05T15:49:17-04:00</lastmod>
   </url>
   
   <url>
@@ -83,8 +78,18 @@
   </url>
   
   <url>
+    <loc>/tags/stringr/</loc>
+    <lastmod>2020-08-05T15:49:17-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/</loc>
     <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/text/</loc>
+    <lastmod>2020-08-05T15:49:17-04:00</lastmod>
   </url>
   
   <url>

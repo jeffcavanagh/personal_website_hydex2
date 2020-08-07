@@ -1,0 +1,187 @@
+---
+title: Processing Text Data
+author: Jeff Cavanagh
+date: '2020-08-05'
+slug: processing-text-data
+categories:
+  - R
+tags:
+  - text
+  - stringr
+lastmod: '2020-08-05T15:49:17-04:00'
+layout: post
+type: post
+highlight: yes
+---
+
+**Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data insight from it??**
+
+Of course! All it takes is an adapted approach and a little more work upfront.
+
+Quite a bit of potential data is unstructured and textual in nature, and does not operate by the same rules as numerical or categorical data. That does not mean there is not value to this format of data though. To extract that value, different techniques are required.
+
+In this post we will focus on some routine methods for text mining and text analysis in R and how they can be utilized to process and draw value from text data. 
+
+## Setup
+
+### `stringr` 
+
+In R, the best way I have found to carry out any sort of NLP is using the `stringr` package. This package can be loaded on its own, or as part of `tidyverse`.
+
+The functions contained with in all process character strings in various ways. Luckily for us, R has a [cheatsheet](/rcheatsheets/strings.pdf){target="blank"} for the `stringr` package for not only the functions, but also the formatting of search patterns.
+
+It should be noted that there is also the `stringi` package which contains more robust functions for handling strings. For simplicity, we will only be concentrating on `stringr` so let's load that now.
+
+```{r, warning = F, message = F}
+library(stringr)
+library(tidyverse)
+```
+
+### The Data
+
+To illustrate the use of NLP, we will be analyzing a pdf of Mary Shelley's, *Frankenstein* (downloaded from [planetbook.com](https://www.planetebook.com/free-ebooks/frankenstein.pdf){target="blank"}). We will use the `pdftools` package to extract the text from the pdf file. 
+
+```{r, warning = F, message = F}
+library(pdftools)
+book <- pdf_text("frankenstein.pdf")
+```
+
+`pdf_text` from the `pdf_tools` package converts the pdf file into a character string where each element is a page from the document.
+
+Now that we have the defined the book as a character string we will begin to mold it into a dataframe so it is easier to work with.
+
+```{r}
+book_df <- book  %>% 
+  as_tibble_col("content") %>%
+  rowid_to_column("page_number")
+
+book_df
+```
+We know have a data frame, where each row is an observation containing the page number and content held on that page. Now let's look for patterns. 
+
+* `str_detect` can be used to detect which observations match a pattern
+* `str_which` can be used to pick out the index's of the entries of all matches
+* `str_extract` can be used to pull out the first pattern match within each element
+  + Some functions in `stringr` also have a `_all` functionality, such as `str_extract_all`, which returns all matches within an observation
+  
+Here is a look at how these three function in practice. To illustrate the use of these functions, we will search for all pages that reference "Frankenstein".
+
+(`^` is used to search for matches at the start of a string, `.` is used to match any character that is not a new line, `[:upper:]` is used to match upper case words, and `*` is used to pull 0 or more matches).
+
+```{r}
+book_df$content %>%
+  str_detect("Frankenstein")
+
+book_df$content %>%
+  str_detect("Frankenstein") %>%
+  sum()
+
+book_df$content %>%
+  str_detect("Frankenstein") %>%
+  mean()
+
+```
+
+Adding on the `sum` and `mean` functions we are also able to see the number and percentage of pages which contain the "Frankenstein" text pattern.
+
+Next, `str_which` gives us the locations of the pages containing the pattern.
+```{r}
+ind_capitals <- book_df$content %>%
+  str_which("Frankenstein")
+
+ind_capitals
+```
+
+Lastly, `str_extract` pulls the pattern from each of the pages. However, `str_extract` will return a vector as the same length as the input. In order to filter to only entries that have the pattern match, we will combine it with `str_which`.
+
+```{r}
+book_df$content[ind_capitals] %>%
+  str_extract("Frankenstein")
+```
+
+### Cleaning the Data
+
+The text data in now in a dataframe, but is still far from orderly. Perusing through a few pages reveals that the footer at the bottom of each page is either the page number (which we already have) and the title of the book (Frankenstein), or the page number and the website home of the pdf. 
+
+Neither of these are useful to us. Let's use `str_remove` to remove these from the pages.
+
+```{r}
+book_df$content <- book_df$content %>%
+  str_remove("\\n(\\d+|\\030)\\s+Frankenstein\n$|\\nFree eBooks at Planet eBook.com\\s+(\\d+|\\\030)\\n$")
+```
+
+* `$` is used to search for the pattern at the end of each string
+* `\\n` is used to detect new lines
+* `\\d` is used to detect digits
+* `\\s` is used to detect and spaces
+* `\\\` is used to detect a back slash
+* `+` is used to detect 1 or more occurences of the character that comes immediately before
+* `|` is used as an or statement to detect multiple patterns
+
+### Breaking Down Text Data
+
+Now our strings contain only the most relevant information, but they are still dense and difficult to decipher insight from. 
+
+The next step is to use the `tidytext` package to further break up the data. Using the `unnest_token` function it is possible to breakdown character strings into lines, paragraphs, sentences, words, and n-grams. First we will update the data frame by breaking the strings down by line.
+
+```{r, warning = F}
+library(tidytext)
+
+book_df <- book_df %>%
+  unnest_tokens("lines", content, token = "lines", to_lower = F)
+
+book_df
+```
+
+Now that we have the text broken up into lines it is much easier to process. Next lets add more identifying variables where each line can be indentified by linenumber and the chapter.
+
+*Frankenstein* begins with several letters before it gets into the chapters. To identify which pages fall under letters or chapters, and what numbers within, we need to do a little preliminary work with the tools demonstrated so far.
+
+```{r, warning = F, message = F}
+ind_chapter <- book_df$lines %>%
+  str_which("^Chapter") %>%
+  append(nrow(book_df))
+
+chapters <- book_df$lines[ind_chapter[-length(ind_chapter)]] %>%
+  str_extract("^Chapter.*") %>%
+  unlist()
+
+ind_letter <- book_df$lines %>%
+  str_which("^Letter") %>%
+  append(ind_chapter[1])
+
+letters <- book_df$lines[ind_letter[-length(ind_letter)]] %>%
+  str_extract_all("^Letter.*") %>%
+  unlist()
+```
+* `^` searches the start of a string for a pattern
+* `.` matches any character that is not a new line
+* `*` matches zero or more of the character preceding it
+
+Now that we have our indexes and values we can create new columns to further classify each observation.
+
+```{r}
+
+book_df <- book_df %>%
+  mutate(
+    line_number = row_number(),
+    chapter = "fill in"
+  )
+book_df$chapter[c(1:(ind_letter[1] - 1))] <- "Preface"
+
+for (i in 1:(length(ind_letter) - 1)){
+  book_df$chapter[c(ind_letter[i]:(ind_letter[i + 1] -1))] <- letters[i]
+}
+
+for (i in 1:(length(ind_chapter) - 1)){
+  book_df$chapter[c(ind_chapter[i]:(ind_chapter[i + 1] -1))] <- chapters[i]
+}
+
+book_df <- book_df %>%
+  select(chapter, page_number, line_number, lines)
+```
+`mutate` was used to add the new columns to the data frame and then `for` loops were used to set the values of the *chapter* column using the indexes and values that were established.
+
+What was began as a pdf of unstructured text is now a structured data frame with clear variables and observations. Going forward this will be much easier to process and manipulate.
+
+### Word Analysis

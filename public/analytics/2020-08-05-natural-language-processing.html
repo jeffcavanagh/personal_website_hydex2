@@ -370,25 +370,225 @@ summary {
 </div>
 
 
-<p><strong>Data is only numerical or categorial right?? </strong></p>
-<p>Wrong. Not all data these days is numerical and easy to work with established mathetimatical techniques. Quite a bit of potential data is unstructured and textual in nature, which does not operate by the same rules as numerical data. However, even though it is formatted differently, there are still underlying patterns and ways to work to draw insight from this subset of data. In this article we will focus on some routine methods of Natural Language Processing (NLP) and how it can be utilized to process and draw value from text data.</p>
+<p><strong>Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data insight from it??</strong></p>
+<p>Yes! and the method is Natural Language Processing (NLP).</p>
+<p>Quite a bit of potential data is unstructured and textual in nature, and does not operate by the same rules as numerical or categorical data. That does not mean there is not value to this format of data though. To extract that value, a different approach is required.</p>
+<p>In this post we will focus on some routine methods of NLP in R and how they can be utilized to process and draw value from text data.</p>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
-<div id="stringr" class="section level3">
-<h3>stringr</h3>
-<p>In R, the best way I have found to carry out any sort of NLP is using the <strong>stringr</strong> package. This package can be loaded on its own, or as part of <strong>tidyverse</strong>.</p>
-<p>The functions contained with in all process character strings in various ways. Luckily for us, R has a <a href="/rcheatsheets/strings.pdf" target="blank">cheatsheet</a> for the <strong>stringr</strong> package for not only the functions, but also the formatting of search patterns.</p>
-<p>It should be noted that there is also the <strong>stringi</strong> package which contains more robust functions for handling strings. For simplicity, we will only be concentrating on <strong>stringr</strong> so let’s load that now.</p>
-<pre class="r"><code>library(stringr)</code></pre>
+<div id="stringr-stringr-stringr-stringr" class="section level3">
+<h3><code>stringr</code> <code>stringr</code> <code>stringr</code> [stringr]</h3>
+<p>In R, the best way I have found to carry out any sort of NLP is using the <code>stringr</code> package. This package can be loaded on its own, or as part of <code>tidyverse</code>.</p>
+<p>The functions contained with in all process character strings in various ways. Luckily for us, R has a <a href="/rcheatsheets/strings.pdf" target="blank">cheatsheet</a> for the <code>stringr</code> package for not only the functions, but also the formatting of search patterns.</p>
+<p>It should be noted that there is also the <code>stringi</code> package which contains more robust functions for handling strings. For simplicity, we will only be concentrating on <code>stringr</code> so let’s load that now.</p>
+<pre class="r"><code>library(stringr)
+library(tidyverse)</code></pre>
 </div>
 <div id="the-data" class="section level3">
-<h3>The data</h3>
-<p>To illustrate the use of NLP, we will be analyzing a pdf of Mary Shelley’s, <em>Frankenstein</em> (downloaded from <a href="https://www.planetebook.com/free-ebooks/frankenstein.pdf" target="blank">planetbook.com</a>). We will use the <strong>pdftools</strong> package to extract the text from the pdf file.</p>
-<pre class="r"><code>library(pdftools)</code></pre>
-<pre><code>## Warning: package 'pdftools' was built under R version 3.6.2</code></pre>
-<pre><code>## Using poppler version 0.73.0</code></pre>
-<pre class="r"><code>book &lt;- pdf_text(&quot;frankenstein.pdf&quot;)</code></pre>
-<p>highlight(pdf_tools)</p>
+<h3>The Data</h3>
+<p>To illustrate the use of NLP, we will be analyzing a pdf of Mary Shelley’s, <em>Frankenstein</em> (downloaded from <a href="https://www.planetebook.com/free-ebooks/frankenstein.pdf" target="blank">planetbook.com</a>). We will use the <code>pdftools</code> package to extract the text from the pdf file.</p>
+<pre class="r"><code>library(pdftools)
+book &lt;- pdf_text(&quot;frankenstein.pdf&quot;)</code></pre>
+<p><code>pdf_text</code> from the <code>pdf_tools</code> package converts the pdf file into a character string where each element is a page from the document.</p>
+<p>Now that we have the defined the book as a character string we will begin to mold it into a dataframe so it is easier to work with.</p>
+<pre class="r"><code>book_df &lt;- book  %&gt;% 
+  as_tibble_col(&quot;content&quot;) %&gt;%
+  rowid_to_column(&quot;page_number&quot;)
+
+book_df</code></pre>
+<pre><code>## # A tibble: 277 x 2
+##    page_number content                                                          
+##          &lt;int&gt; &lt;chr&gt;                                                            
+##  1           1 &quot;Frankenstein\nBy Mary Wollstonecraft Shelley\nDownload free eBo…
+##  2           2 &quot;Letter 1\nTo Mrs. Saville, England\n   St. Petersburgh, Dec. 11…
+##  3           3 &quot;and features may be without example, as the phenomena of\nthe h…
+##  4           4 &quot;North Pacific Ocean through the seas which surround the\npole. …
+##  5           5 &quot;practical advantage. Twice I actually hired myself as an un-\nd…
+##  6           6 &quot;easily be done by paying the insurance for the owner, and\nto e…
+##  7           7 &quot;Letter 2\nTo Mrs. Saville, England\n   Archangel, 28th March, 1…
+##  8           8 &quot;to me that I am self-educated: for the first fourteen years\nof…
+##  9           9 &quot;remarkable in the ship for his gentleness and the mildness of\n…
+## 10          10 &quot;himself bound in honour to my friend, who, when he found\nthe f…
+## # … with 267 more rows</code></pre>
+<p>We know have a data frame, where each row is an observation containing the page number and content held on that page. Now let’s look for patterns.</p>
+<ul>
+<li><code>str_detect</code> can be used to detect which observations match a pattern</li>
+<li><code>str_which</code> can be used to pick out the index’s of the entries of all matches</li>
+<li><code>str_extract</code> can be used to pull out the first pattern match within each element
+<ul>
+<li>Some functions in <code>stringr</code> also have a <code>_all</code> functionality, such as <code>str_extract_all</code>, which returns all matches within an observation</li>
+</ul></li>
+</ul>
+<p>Here is a look at how these three function in practice. To illustrate the use of these functions, we will search for all pages that reference “Frankenstein”.</p>
+<p>(<code>^</code> is used to search for matches at the start of a string, <code>.</code> is used to match any character that is not a new line, <code>[:upper:]</code> is used to match upper case words, and <code>*</code> is used to pull 0 or more matches).</p>
+<pre class="r"><code>book_df$content %&gt;%
+  str_detect(&quot;Frankenstein&quot;)</code></pre>
+<pre><code>##   [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [13] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [25] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [37] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [49] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [61]  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [73]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE
+##  [85] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [97] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [109] FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE
+## [121] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [133] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [145] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [157] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [169] FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [181] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [193] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [205] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [217] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [229] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [241] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [253] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [265]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
+## [277] FALSE</code></pre>
+<pre class="r"><code>book_df$content %&gt;%
+  str_detect(&quot;Frankenstein&quot;) %&gt;%
+  sum()</code></pre>
+<pre><code>## [1] 147</code></pre>
+<pre class="r"><code>book_df$content %&gt;%
+  str_detect(&quot;Frankenstein&quot;) %&gt;%
+  mean()</code></pre>
+<pre><code>## [1] 0.5306859</code></pre>
+<p>Adding on the <code>sum</code> and <code>mean</code> functions we are also able to see the number and percentage of pages which contain the “Frankenstein” text pattern.</p>
+<p>Next, <code>str_which</code> gives us the locations of the pages containing the pattern.</p>
+<pre class="r"><code>ind_capitals &lt;- book_df$content %&gt;%
+  str_which(&quot;Frankenstein&quot;)
+
+ind_capitals</code></pre>
+<pre><code>##   [1]   1   2   4   6   8  10  12  14  16  18  20  22  24  26  28  30  32  34
+##  [19]  36  38  40  42  44  46  48  50  52  54  56  58  60  61  62  64  66  68
+##  [37]  70  72  73  74  76  78  79  80  82  84  86  88  90  92  94  96  98 100
+##  [55] 102 104 106 108 110 112 114 115 116 118 120 122 124 126 128 130 132 134
+##  [73] 136 138 140 142 144 146 148 150 152 154 156 158 160 162 164 166 168 170
+##  [91] 171 172 174 176 178 180 182 184 186 188 190 192 194 196 198 200 202 204
+## [109] 206 208 210 212 214 216 218 220 222 224 226 228 230 232 234 236 238 240
+## [127] 242 244 246 248 250 252 254 256 258 260 262 264 265 266 268 270 271 272
+## [145] 273 274 276</code></pre>
+<p>Lastly, <code>str_extract</code> pulls the pattern from each of the pages. However, <code>str_extract</code> will return a vector as the same length as the input. In order to filter to only entries that have the pattern match, we will combine it with <code>str_which</code>.</p>
+<pre class="r"><code>book_df$content[ind_capitals] %&gt;%
+  str_extract(&quot;Frankenstein&quot;)</code></pre>
+<pre><code>##   [1] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##   [6] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [11] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [16] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [21] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [26] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [31] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [36] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [41] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [46] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [51] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [56] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [61] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [66] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [71] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [76] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [81] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [86] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [91] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+##  [96] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+## [101] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+## [106] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+## [111] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+## [116] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+## [121] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+## [126] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+## [131] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+## [136] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+## [141] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
+## [146] &quot;Frankenstein&quot; &quot;Frankenstein&quot;</code></pre>
+</div>
+<div id="cleaning-the-data" class="section level3">
+<h3>Cleaning the Data</h3>
+<p>The text data in now in a dataframe, but is still far from orderly. Perusing through a few pages reveals that the footer at the bottom of each page is either the page number (which we already have) and the title of the book (Frankenstein), or the page number and the website home of the pdf.</p>
+<p>Neither of these are useful to us. Let’s use <code>str_remove</code> to remove these from the pages.</p>
+<pre class="r"><code>book_df$content &lt;- book_df$content %&gt;%
+  str_remove(&quot;\\n(\\d+|\\030)\\s+Frankenstein\n$|\\nFree eBooks at Planet eBook.com\\s+(\\d+|\\\030)\\n$&quot;)</code></pre>
+<ul>
+<li><code>$</code> is used to search for the pattern at the end of each string</li>
+<li><code>\\n</code> is used to detect new lines</li>
+<li><code>\\d</code> is used to detect digits</li>
+<li><code>\\s</code> is used to detect and spaces</li>
+<li><code>\\\</code> is used to detect a back slash</li>
+<li><code>+</code> is used to detect 1 or more occurences of the character that comes immediately before</li>
+<li><code>|</code> is used as an or statement to detect multiple patterns</li>
+</ul>
+</div>
+<div id="breaking-down-text-data" class="section level3">
+<h3>Breaking Down Text Data</h3>
+<p>Now our strings contain only the most relevant information, but they are still dense and difficult to decipher insight from.</p>
+<p>The next step is to use the <code>tidytext</code> package to further break up the data. Using the <code>unnest_token</code> function it is possible to breakdown character strings into lines, paragraphs, sentences, words, and n-grams. First we will update the data frame by breaking the strings down by line.</p>
+<pre class="r"><code>library(tidytext)
+
+book_df &lt;- book_df %&gt;%
+  unnest_tokens(&quot;lines&quot;, content, token = &quot;lines&quot;, to_lower = F)
+
+book_df</code></pre>
+<pre><code>## # A tibble: 7,585 x 2
+##    page_number lines                                                         
+##          &lt;int&gt; &lt;chr&gt;                                                         
+##  1           1 &quot;Frankenstein&quot;                                                
+##  2           1 &quot;By Mary Wollstonecraft Shelley&quot;                              
+##  3           1 &quot;Download free eBooks of classic literature, books and&quot;       
+##  4           1 &quot;novels at Planet eBook. Subscribe to our free eBooks blog&quot;   
+##  5           1 &quot;and email newsletter.&quot;                                       
+##  6           2 &quot;Letter 1&quot;                                                    
+##  7           2 &quot;To Mrs. Saville, England&quot;                                    
+##  8           2 &quot;   St. Petersburgh, Dec. 11th, 17—&quot;                          
+##  9           2 &quot;   You will rejoice to hear that no disaster has accompanied&quot;
+## 10           2 &quot;the commencement of an enterprise which you have regard-&quot;    
+## # … with 7,575 more rows</code></pre>
+<p>Now that we have the text broken up into lines it is much easier to process. Next lets add more identifying variables where each line can be indentified by linenumber and the chapter.</p>
+<p><em>Frankenstein</em> begins with several letters before it gets into the chapters. To identify which pages fall under letters or chapters, and what numbers within, we need to do a little preliminary work with the tools demonstrated so far.</p>
+<pre class="r"><code>ind_chapter &lt;- book_df$lines %&gt;%
+  str_which(&quot;^Chapter&quot;) %&gt;%
+  append(nrow(book_df))
+
+chapters &lt;- book_df$lines[ind_chapter[-length(ind_chapter)]] %&gt;%
+  str_extract(&quot;^Chapter.*&quot;) %&gt;%
+  unlist()
+
+ind_letter &lt;- book_df$lines %&gt;%
+  str_which(&quot;^Letter&quot;) %&gt;%
+  append(ind_chapter[1])
+
+letters &lt;- book_df$lines[ind_letter[-length(ind_letter)]] %&gt;%
+  str_extract_all(&quot;^Letter.*&quot;) %&gt;%
+  unlist()</code></pre>
+<ul>
+<li><code>^</code> searches the start of a string for a pattern</li>
+<li><code>.</code> matches any character that is not a new line</li>
+<li><code>*</code> matches zero or more of the character preceding it</li>
+</ul>
+<p>Now that we have our indexes and values we can create new columns to further classify each observation.</p>
+<pre class="r"><code>book_df &lt;- book_df %&gt;%
+  mutate(
+    line_number = row_number(),
+    chapter = &quot;fill in&quot;
+  )
+book_df$chapter[c(1:(ind_letter[1] - 1))] &lt;- &quot;Preface&quot;
+
+for (i in 1:(length(ind_letter) - 1)){
+  book_df$chapter[c(ind_letter[i]:(ind_letter[i + 1] -1))] &lt;- letters[i]
+}
+
+for (i in 1:(length(ind_chapter) - 1)){
+  book_df$chapter[c(ind_chapter[i]:(ind_chapter[i + 1] -1))] &lt;- chapters[i]
+}
+
+book_df &lt;- book_df %&gt;%
+  select(chapter, page_number, line_number, lines)</code></pre>
+<p><code>mutate</code> was used to add the new columns to the data frame and then <code>for</code> loops were used to set the values of the <em>chapter</em> column using the indexes and values that were established.</p>
+<p>What was began as a pdf of unstructured text is now a structured data frame with clear variables and observations. Going forward this will be much easier to process and manipulate.</p>
+</div>
+<div id="word-analysis" class="section level3">
+<h3>Word Analysis</h3>
 </div>
 </div>
 
