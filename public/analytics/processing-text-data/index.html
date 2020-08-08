@@ -229,7 +229,7 @@ Quite a bit of potential data is unstructured and textual in nature, and does no
     
     
     <br/>
-    <i class="fas fa-clock"></i> 10 min read
+    <i class="fas fa-clock"></i> 11 min read
 </div>
 
 
@@ -459,6 +459,54 @@ book_df &lt;- book_df %&gt;%
 </div>
 <div id="word-analysis" class="section level3">
 <h3>Word Analysis</h3>
+<p>Now that we have a structured data frame, lets look for the most common words that appear within the text.</p>
+<pre class="r"><code>book_words &lt;- book_df %&gt;%
+  unnest_tokens(word, lines, token = &quot;words&quot;) 
+
+book_words %&gt;%
+  count(word, sort = T)</code></pre>
+<pre><code>## # A tibble: 7,903 x 2
+##    word      n
+##    &lt;chr&gt; &lt;int&gt;
+##  1 the    4192
+##  2 and    2977
+##  3 i      2851
+##  4 of     2649
+##  5 to     2108
+##  6 my     1780
+##  7 a      1392
+##  8 in     1155
+##  9 was    1021
+## 10 that   1017
+## # … with 7,893 more rows</code></pre>
+<p>The most common words are unsuprisingly the filler words used found in any text. To sort these words out we will use the <code>stop_words</code> dataframe, which is a list of these common words.</p>
+<pre class="r"><code>book_words &lt;- book_words %&gt;%
+  anti_join(stop_words) </code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<pre class="r"><code>book_words %&gt;%
+  count(word, sort = T)</code></pre>
+<pre><code>## # A tibble: 7,404 x 2
+##    word          n
+##    &lt;chr&gt;     &lt;int&gt;
+##  1 life        116
+##  2 father      111
+##  3 eyes        104
+##  4 time         99
+##  5 night        92
+##  6 found        87
+##  7 mind         84
+##  8 day          82
+##  9 elizabeth    82
+## 10 heart        81
+## # … with 7,394 more rows</code></pre>
+<p>Now that we have this count, it would be nice to have a visualization of the most common words. Let’s do that now using <code>ggplot</code>.</p>
+<pre class="r"><code>book_words %&gt;%
+  count(word, sort = T) %&gt;%
+  filter(n &gt; 60) %&gt;%
+  mutate(word = reorder(word, n)) %&gt;%
+  ggplot() +
+  geom_col(aes(n, word))</code></pre>
+<p><img src="/analytics/2020-08-05-processing-text-data_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 </div>
 

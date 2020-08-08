@@ -6,7 +6,7 @@
     <description>Recent content in Content on Jeff&#39;s Overlook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 07 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -20,6 +20,18 @@
       <description>For my graduate project I created an optimization that analyses the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable option for the future.
 The writeup of the project can be found here{target = “blank”}
 # Health cost death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.</description>
+    </item>
+    
+    <item>
+      <title>Breakfast</title>
+      <link>/recipes/breakfast/</link>
+      <pubDate>Fri, 07 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/recipes/breakfast/</guid>
+      <description>Berry Oatmeal Bake
+Fried Rice
+Lemon-Blueberry-Banana Pancakes
+Quinoa Breakfast Bowl</description>
     </item>
     
     <item>

@@ -185,3 +185,34 @@ book_df <- book_df %>%
 What was began as a pdf of unstructured text is now a structured data frame with clear variables and observations. Going forward this will be much easier to process and manipulate.
 
 ### Word Analysis
+
+Now that we have a structured data frame, lets look for the most common words that appear within the text.
+
+```{r, warning = F}
+book_words <- book_df %>%
+  unnest_tokens(word, lines, token = "words") 
+
+book_words %>%
+  count(word, sort = T)
+```
+
+The most common words are unsuprisingly the filler words used found in any text. To sort these words out we will use the `stop_words` dataframe, which is a list of these common words.
+
+```{r, warnng = F}
+book_words <- book_words %>%
+  anti_join(stop_words) 
+
+book_words %>%
+  count(word, sort = T)
+```
+
+Now that we have this count, it would be nice to have a visualization of the most common words. Let's do that now using `ggplot`.
+
+```{r}
+book_words %>%
+  count(word, sort = T) %>%
+  filter(n > 60) %>%
+  mutate(word = reorder(word, n)) %>%
+  ggplot() +
+  geom_col(aes(n, word))
+```
