@@ -11,14 +11,12 @@ type: post
 highlight: no
 ---
 
-**Insert Lead paragraph here.**
+### Just Mercy
 
-A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis. 
+> We are all broken by something. We have all hurt someone and have been hurt. We all share the condition of brokenness even if our brokenness is not equivalent...  
+...Thomas Merton said: We are bodies of broken bones. I guess I'd always known but never fully considered that being broken is what makes us human. We all have our reasons. Sometimes we're fractured by the choices we make; sometimes we're shattered by things we would never have chosen. But our brokenness is also the source of our common humanity, the basis of our shared search for comfort, meaning, and healing. Our shared vulnerability and imperfection nurtures and sustains our capacity for compassion.  
+We have a choice. We can embrace our humanness, which means embracing our broken natures and the compassion that remains our best hope for healing. Or we can deny our brokenness, forswear compassion, and, as a result, deny our humanity.  
+- *Bryan Stevenson*, p 289
 
-## Heading 2
-
-Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum vestibulum porta mauris lorem, ullamcorper class fermentum sem hendrerit ante augue penatibus scelerisque felis leo proin,ad nascetur venenatis sodales dignissim viverra suspendisse turpis convallis condimentum sapien.
-
-### Heading 3
-
-At quisque litora ullamcorper maecenas ultricies ut dignissim luctus curabitur, cras congue eget primis aliquam fringilla nulla dictum posuere, vestibulum sit magnis nisl praesent eros ipsum nunc. Ligula lacus ipsum orci aenean integer pharetra habitasse interdum, porttitor etiam hac feugiat placerat morbi posuere turpis leo, quam at amet gravida commodo fringilla erat.
+> ...mercy is just when it is rooted in hopefulness and freely given. Mercy is most empowering, liberating, and transformative when it is directed at the undeserving. The people who haven't earned it, who haven't even sought it, are the most meaningful recipients of our compassion.  
+- *Bryan Stevenson*, p 314

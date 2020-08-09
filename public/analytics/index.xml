@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Analytics on Jeff&#39;s Overlook</title>
+    <title>Analytics on Math, Health, and Other Stuff</title>
     <link>/analytics/</link>
-    <description>Recent content in Analytics on Jeff&#39;s Overlook</description>
+    <description>Recent content in Analytics on Math, Health, and Other Stuff</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 05 Aug 2020 00:00:00 +0000</lastBuildDate>
@@ -39,9 +39,8 @@ Quite a bit of potential data is unstructured and textual in nature, and does no
       <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/analytics/web-scrape/</guid>
-      <description>Insert Lead paragraph here.
-A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis.
-Heading 2 Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum vestibulum porta mauris lorem, ullamcorper class fermentum sem hendrerit ante augue penatibus scelerisque felis leo proin,ad nascetur venenatis sodales dignissim viverra suspendisse turpis convallis condimentum sapien.</description>
+      <description>Unfortunately, not all data is contained within neat dataframes. Much of the freely accessible data out there is posted on webpages. This post will serve as an introduction on how to extract that data using two packages: rvest and rselenium.
+Setup CSS Tool Webpages are not written in R code. They are written in HTML and CSS. A working knowledge of at least CSS is required to use the webscapring packages R provides.</description>
     </item>
     
   </channel>

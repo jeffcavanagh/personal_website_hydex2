@@ -2,7 +2,7 @@
 baseurl = "/"
 languageCode = "en"
 
-title = "Jeff's Overlook"
+title = "Math, Health, and Other Stuff"
 theme = "hyde-hyde"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 

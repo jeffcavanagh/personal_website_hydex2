@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Good Thoughts on Jeff&#39;s Overlook</title>
+    <title>Good Thoughts on Math, Health, and Other Stuff</title>
     <link>/good_thoughts/</link>
-    <description>Recent content in Good Thoughts on Jeff&#39;s Overlook</description>
+    <description>Recent content in Good Thoughts on Math, Health, and Other Stuff</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/good_thoughts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Personalities</title>
+      <link>/good_thoughts/personalities/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/good_thoughts/personalities/</guid>
+      <description>Strength does not come from winning. Your struggles develop your strengths. When you go through hardships and decide not to surrender, that is strength.
+- Arnold Schwarzenegger
+  For me life is about continuously being hungry. The meaning of life is not simply to exist, to survive, but to move ahead, to group, to achieve, to conquer.
+- Arnold Schwarzenegger
+  Impossible is just a big word thrown around by small men who find it easier to live in the world they’ve been given than to explore the power they have to change it.</description>
+    </item>
     
     <item>
       <title>Poetry</title>
@@ -36,21 +49,21 @@ And sorry I could not travel both,</description>
       <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/good_thoughts/text-excerpts/</guid>
-      <description>Insert Lead paragraph here.
-A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis.
-Heading 2 Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum vestibulum porta mauris lorem, ullamcorper class fermentum sem hendrerit ante augue penatibus scelerisque felis leo proin,ad nascetur venenatis sodales dignissim viverra suspendisse turpis convallis condimentum sapien.</description>
+      <description>Just Mercy  We are all broken by something. We have all hurt someone and have been hurt. We all share the condition of brokenness even if our brokenness is not equivalent…
+…Thomas Merton said: We are bodies of broken bones. I guess I’d always known but never fully considered that being broken is what makes us human. We all have our reasons. Sometimes we’re fractured by the choices we make; sometimes we’re shattered by things we would never have chosen.</description>
     </item>
     
     <item>
-      <title>Quotes from Media</title>
+      <title>Movies</title>
       <link>/good_thoughts/quotes/</link>
       <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/good_thoughts/quotes/</guid>
       <description>Movies
 Good Will Hunting  Real loss is only possible when you love something more than you love yourself.
-- Sean
-  Rocky Balboa  The world ain’t all sunshine and rainbows. It’s a very mean and nasty place, and I don’t care how tough you are, it will beat you to your knees and keep you there permanently if you let it. You, me, or nobody is gonna hit as hard as life.</description>
+- Sean Maguire
+  You’ll have bad times, but it’ll always wake you up to the good stuff you weren’t paying attention to. - Sean Maguire
+  Hitch  Never lie, steal, cheat, or drink. But if you must lie, lie in the arms of the one you love.</description>
     </item>
     
     <item>
@@ -60,7 +73,7 @@ Good Will Hunting  Real loss is only possible when you love something more than 
       
       <guid>/good_thoughts/spiritual/</guid>
       <description>Nothing is more practical than finding God,
-than falling in Love ina quite absolute, final way.
+than falling in Love in a quite absolute, final way.
 What you are in love with,
 what seizes your imagination, will affect everything.
 It will decide
