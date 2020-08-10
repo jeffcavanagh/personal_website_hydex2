@@ -11,7 +11,7 @@ tags:
 lastmod: '2020-08-05T15:58:56-04:00'
 layout: post
 type: post
-highlight: no
+highlight: yes
 ---
 
 **Unfortunately, not all data is contained within neat dataframes. Much of the freely accessible data out there is posted on webpages. This post will serve as an introduction on how to extract that data using two packages: `rvest` and `rselenium`.**
@@ -62,69 +62,118 @@ ranking<- movies %>%
   html_text() %>%
   as.numeric()
 head(ranking)
-
 rating <- movies %>%
   html_nodes(".certificate") %>%
   html_text()
 head(rating)
-
 IMDb_rating <- movies %>%
   html_nodes(".ratings-imdb-rating strong") %>%
   html_text() %>%
   as.numeric()
 head(IMDb_rating)
-
 runtime <- movies %>%
   html_nodes(".runtime") %>%
   html_text() %>% # translating from a character string to numeric vector
   str_sub(1,-5) %>%
   as.integer()
 head(runtime)
-
 genre <- movies %>%
   html_nodes(".genre") %>%
   html_text() %>% # cleaning character string
   str_remove("^\\n") %>%
   str_squish()
 head(genre)
-
 plot <- movies %>%
   html_nodes(".ratings-bar+ p") %>%
   html_text() %>% # cleaning up character strings
   str_remove("^\\n\\s+")
 head(plot)
-
 gross_domestic <- movies %>%
   html_nodes(".ghost~ .text-muted+ span") %>%
   html_text() %>% # translating from a character string into a numeric vector
   str_remove_all("^\\$|M$") %>% # all of our entries are in millions so easy to convert
   as.numeric() * 1e6
 head(gross_domestic)
-
 directors1 <- movies %>%
   html_nodes(".text-small a:nth-child(1)") %>%
   html_text()
 head(directors1)
 length(directors1)
-
 directors2 <- movies %>%
   html_nodes(".text-small a:nth-child(1) , .text-small a:nth-child(2)") %>%
   html_text()
 head(directors2)
 length(directors2)
-
 actors1 <- movies %>%
   html_nodes(".text-small .ghost+ a") %>%
   html_text()
 head(actors1)
 length(actors1)
-
 actors2 <- movies %>%
   html_nodes(".text-small .ghost~ a") %>%
   html_text()
 head(actors2)
 length(actors2)
 ```
+
+For the most part we cleaned each vector we compiled as we extracted the data. Take note of the actor and director variables though. `director1` and `actor1` each have a length of 50 (matching the rest of the data). `director2` and `actor2` have more entries though, because all the movies on the list have more than one actor, and some have multiple directors.
+
+To rectify this we will combine concatentate these strings with `str_c` using `for` loops. To do this, we will index the directors by appearance in the `directors1` and by taking groupings of four actors (as four actors are listed for each movie).
+
+```{r}
+ind <- which(directors2 %in% directors1) %>% append(length(directors2)+1)
+directors <- c()
+for (i in 1:(length(ind)-1)){
+  directors[i] <- str_c(directors2[c(ind[i]:(ind[i+1]-1))], collapse = ", ")
+}
+head(directors)
+actors <- c()
+for(i in 1:length(actors1)){
+  actors[i] <- str_c(actors2[c(((i-1) * 4 + 1):(4 * i))], collapse = ", ")
+}
+head(actors)
+```
+
+We now have most of the primary data we were searching for. Now lets combine it into a functioning data frame.
+
+```{r}
+superhero_movies <- tibble(
+  titles,
+  popularity_rank = ranking,
+  IMDb_rating,
+  rating,
+  runtime,
+  genre,
+  gross_domestic,
+  plot,
+  directors,
+  actors
+)
+str(superhero_movies)
+```
+
+There is one more feauture of `rvest` I would like to illustrate before we close out this tutorial, and that is how to extract links.
+
+We will add one more column to our new data frame that gives the link to each movie's page using `html_attr`. All we need to do is add one more input, "href", which tells the function we want the link, not the text of the CSS tag element.
+
+```{r}
+pages <- movies %>%
+  html_nodes(".lister-item-header a") %>%
+  html_attr("href")
+head(pages)
+```
+
+This now gives us the addres's within the main website, to get the full urls all we have to do is add the main site address to the start of each string.
+
+```{r}
+pages <- str_c("https://www.imdb.com", pages)
+superhero_movies <- cbind(superhero_movies, pages)
+superhero_movies %>% head()
+```
+And viola! We have taken the contents of a webpage and turned it into a useful dataframe tracking superhero movies and all of their attached statistics.
+
+### `rselenium`
+
 
 For the most part we cleaned each vector we compiled as we extracted the data. Take note of the actor and director variables though. `director1` and `actor1` each have a length of 50 (matching the rest of the data). `director2` and `actor2` have more entries though, because all the movies on the list have more than one actor, and some have multiple directors.
 
