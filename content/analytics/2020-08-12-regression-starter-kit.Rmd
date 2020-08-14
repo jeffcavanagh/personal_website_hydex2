@@ -1,0 +1,76 @@
+---
+title: Regression Starter Kit
+author: Jeff Cavanagh
+date: '2020-08-12'
+slug: regression-starter-kit
+categories:
+  - R
+tags: []
+lastmod: '2020-08-13T05:25:19-04:00'
+layout: post
+type: post
+highlight: yes
+---
+
+**This post will cover some of the primary methods of regression analysis available in R. It will also serve as a warmup for the posts that explore Machine Learning and its applications.**
+
+```{r, include = F, warning = F, echo = F}
+library(tidyverse)
+```
+### Setup
+
+For our regression data we will look at statistics concerning the history of my favorite sports team, The Detroit Lions. The data comes from [Pro Football Reference](https://www.pro-football-reference.com/teams/det/){target="_blank}.
+
+```{r, warning = F}
+lions <- read.csv("sportsref_download - sportsref_download.csv")
+
+str(lions)
+```
+
+Before we continue with this data we should clean it up. Luckily all columns are either numeric, integer, or factor in format. This will make them easier to run the regression analysis on. 
+
+Some categories are missing section headers that needed to be taken out to read the data easily. Without context, some columns have the same names. We will go in add to these names so they are easier to understand.
+
+Also, this analysis will only consider the Detroit Lions (even though the team was originally names the Portsmouth Spartans). Therefore we will remove the columns of the team's name and league.
+
+```{r}
+names(lions)[c(4, 5, 6, 17, 18, 19, 20, 21, 22, 23, 24)] <- c(
+  "wins", "loss", "ties", "off.pts.rnk", "off.yds.rnk", "def.pts.rnk", 
+  "def.yds.rnk", "tak.giv.rnk", "pts.df.rnk", "yds.df.rnk", "num.teams"
+)
+
+names(lions) <- names(lions) %>% str_to_lower()
+
+lions <- lions[, -c(2,3)]
+```
+
+Now we have a clean data frame consisting of 27 variables and 90 rows (representing 90 years of play). We are able to now carry out our analysis.
+
+#### Simple Linear Regression
+
+First this data will be put through a simple linear regression model (regression with one predictor variable).
+
+`lm` is a built-in function of R that fits linear models. Applying it to the `lions` data set let 'wins' the response variable (the one we are attempting to predict) and `mov` (Margin og Victory) as the predictor variable (the one we will base the prediction on).
+
+```{r}
+slr_model <- lm(wins ~ mov, data = lions)
+
+summary(slr_model)
+
+confint(slr_model)
+```
+
+The `summary` function gives an overview of the model (coefficients, residuals, levels of significance, etc.) and the `confint` function gives the confidence interval for each coefficent estimate (default is 95%).
+
+The output gives a simple linear regression model with the formula to predict the wins the Lions will have:
+
+$\text{wins } = 6.44107 + 0.32411 * \text{ mov }$
+
+This is a very simple model. While I showed that margin of victory is the most significant predictor for the number of wins a team will have in my [2017 NFL Regression Project](/projects/nfl-team-wins-regression-analysis/index.html){target="_blank"}, there are many more variables in this dataset at our disposal to improve the model. 
+
+We will add in the other variables now using a multiple linear regression model.
+
+#### Multiple Linear Regression
+
+I first learned the techniques showcased in this post from *An Introduction to Statistical Learning: with Applications in R*. 
+
