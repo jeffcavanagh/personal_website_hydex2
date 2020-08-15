@@ -9,7 +9,7 @@ tags: []
 lastmod: '2020-08-03T12:35:28-04:00'
 layout: post
 type: post
-highlight: no
+highlight: yes
 weight: 1
 ---
 
@@ -631,9 +631,10 @@ nonnegativity
 )</code></pre>
 <pre class="python"><code>prob = cp.Problem(objective, constraints)
 
-OptimalVal=np.format_float_scientific(prob.solve(),precision=4)
-
-print(&quot;World Electrical Energy Cost&quot;, OptimalVal)</code></pre>
+OptimalVal=np.format_float_scientific(prob.solve(),precision=4)</code></pre>
+<pre><code>## /Users/jmcavanagh/.virtualenvs/grad-proj/lib/python3.7/site-packages/cvxpy/problems/problem.py:1055: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+##   &quot;Solution may be inaccurate. Try another solver, &quot;</code></pre>
+<pre class="python"><code>print(&quot;World Electrical Energy Cost&quot;, OptimalVal)</code></pre>
 <pre><code>## World Electrical Energy Cost 2.232e+12</code></pre>
 <pre class="python"><code>production_world = []
 production_world += [ x.value for x in production_countries ]

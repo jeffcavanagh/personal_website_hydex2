@@ -39,6 +39,9 @@ The writeup of the project can be found here{target = “blank”}
     
 
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+
 
 
 
@@ -830,9 +833,10 @@ nonnegativity
 )</code></pre>
 <pre class="python"><code>prob = cp.Problem(objective, constraints)
 
-OptimalVal=np.format_float_scientific(prob.solve(),precision=4)
-
-print(&quot;World Electrical Energy Cost&quot;, OptimalVal)</code></pre>
+OptimalVal=np.format_float_scientific(prob.solve(),precision=4)</code></pre>
+<pre><code>## /Users/jmcavanagh/.virtualenvs/grad-proj/lib/python3.7/site-packages/cvxpy/problems/problem.py:1055: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+##   &quot;Solution may be inaccurate. Try another solver, &quot;</code></pre>
+<pre class="python"><code>print(&quot;World Electrical Energy Cost&quot;, OptimalVal)</code></pre>
 <pre><code>## World Electrical Energy Cost 2.232e+12</code></pre>
 <pre class="python"><code>production_world = []
 production_world += [ x.value for x in production_countries ]
@@ -905,6 +909,15 @@ print(&quot;Electrical Energy Consumption by Source&quot;, consumption_world)</c
 
 <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
 
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
 
 
 
