@@ -62,6 +62,8 @@ confint(slr_model)
 
 The `summary` function gives an overview of the model (coefficients, residuals, levels of significance, etc.) and the `confint` function gives the confidence interval for each coefficent estimate (default is 95%).
 
+To measure how significant each predictor variable is we will rely primarily on each individual p-value. To measure the accuracy of the model we will consider the $R^2$ and adjusted $R^2$ values, which will take on a value between 0 and 1 (the closer, the better the model), and the p-value of the entire model.
+
 The output gives a simple linear regression model with the formula to predict the wins the Lions will have:
 
 $\text{wins } = 6.44107 + 0.32411 * \text{ mov }$
@@ -88,42 +90,94 @@ summary(mlr_model)
 
 The $R^2$ value of the model went from 0.65 in the simple model to 0.79 in the multiple model, meaning noticeable improvement. 
 
-It is worth noting though that some coefficient p-values are very high. Let's quickly take out `off.pts.rnk`, `yds.df.rnk`, and `srs` to see if it improves the model further.
+It is worth noting though that many p-values of the predictor variables are high, and therefore probably not significant. Next we will chip away at the model until it only considers predictor variables whose p-values are less than 0.05.
 
 ```{r}
-mlr_model <- lm(wins ~ . - year - loss - ties - pd - div..finish - playoffs - coaches - av - passer - rusher - receiver - srs - off.pts.rnk - yds.df.rnk, data = lions)
+mlr_model <- lm(wins ~ pf + pa + tak.giv.rnk + num.teams, data = lions)
 
 summary(mlr_model)
 ```
 
-The model did not change much. Further tinkering with which variables too include would most likely eventually show improvement. We are also able to put in interactive terms and apply various evolutions to the predictor variables (logarithms, polynomial form, etc.). However, we will move on to include some of the qualitative variables.
+At the end of tinkering with which variables are significant predictors, we are left with `pf` (points for), `pa` (points against), `tak.giv.rank` (the ranking of a teams takeaway to giveaway ratio), and `num.teams (number of teams in the league that season). All of these variables have a p-value are well under 0.05, and while the $R^2$ value went down slightly, the adjusted $R^2$ value increased, telling us the model has improved.
+
+
+We are also able to put in interactive terms and apply various evolutions to the predictor variables (logarithms, polynomial form, etc.). However, we will move on with the latest model and now include some of the qualitative predictor variables.
 
 Some variables, (`div..finish` and `playoffs` mainly), are determined strongly by the amount of wins, and as such we will continue to exclude them from the model. 
 
 Instead we will focus on the components of the team: the coach, and leading player (`av`), `passer`, `rusher`, and `reciever`. These factors have many different levels (new players and coaches are constantly introduced over the 90 year history of the team). Therefore we wills start by adding a single variable `av`. 
 
 ```{r}
-mlr_model2 <- lm(wins ~ . - year - loss - ties - pd - div..finish - playoffs - coaches - passer - rusher - receiver - srs - off.pts.rnk - yds.df.rnk, data = lions)
+mlr_model2 <- update(mlr_model, ~ . + av)
 
 summary(mlr_model2)
 ```
 Similar to the jump from simple to multiple regression, adding in the `av` (most valuable team player) categorical variable improved the model, even if not all predictors are significant.
 
-Looking at the estimated coefficent values for each level of the `av` predictor variable, we can see that some players have a much higher influence on the number of wins when they are the team's mvp. 
-
-Barry Sanders for instance, Hall of Fame running back, has a large positive coefficient estimate (2.78) with a comparatively low p-value. This suggests that when he was the most valuable player on the team, the Lions could expect more wins. This is corroborated by the fact that during the 1991 season (in which Barry Sanders was the `av` player) the Lions attained their only playoff win in the Super Bowl era.
-
-Now lets run the model one more time with the one additional qualitative predictor factored in (`coaches`).
+Next let's see what happens when we remove the intercept from the model and the number of teams as that was one of the higher p-values once we added in `av`.
 
 ```{r}
-mlr_model3 <- lm(wins ~ . - year - loss - ties - pd - div..finish - playoffs - passer - rusher - receiver - srs - off.pts.rnk - yds.df.rnk, data = lions)
+mlr_model2 <- update(mlr_model2, ~ . - 1 - num.teams) 
+
+summary(mlr_model2)
+```
+
+Now the model is cruising with an adjusted $R^2$ of 0.9654 and all p-values less implying significance.
+
+It is difficult to predict who will be the team's highest raned `av` player each year though so now lets add in a variable we can factor in with more certainty: the coach.
+
+```{r}
+mlr_model3 <- update(mlr_model2, ~. + coaches  )
 
 summary(mlr_model3)
 ```
-It is worth noting that when `coaches` are put into the model, the Lions current Head Coach Matt Patricia has a large negative coefficient (-2.98) with a comparitvely low p-value, implicating relative significance. This stands to reason, as looking at the last three years under Patricia's tenure the Lions record has been 9 - 17 - 1.
 
-When coaches are input, the model continues to improve, however we are started to get some `NA` values for factor levels. The volume of factors from multiple dummy variables is starting to put too much pressure on the model. This is where multiple regression starts begins to fall short, making it a perfect time to move on to our next approach.
 
+When coaches are input, the model stays pretty similar, however we are started to get some `NA` values for factor levels. The volume of factors from multiple dummy variables is starting to put too much pressure on the model. This is where multiple regression starts begins to fall short, making it a perfect time to move on to our next approach.
+
+
+#### Logistic Regression
+
+To begin with logistic regression we will first take a look at how closely correlated each numeric variable is with one another. Values closer to 1 translate to a higher level of positive correlation, values closer to -1 translate to higher levels of negative correlation, and values close to zero signifiy less of any sort of a relationship between variables.
+
+```{r}
+attach(lions)
+cor(lions[,-c(5, 6, 10:14)])
+```
+
+With there being a large number of different variables it is slightly difficult to process, but this map does give a general idea of the relationship between variables.
+
+In order to carry out logistic regression (and the remainder of the methods in this post) we will need to frame our problem differently. The response variable now needs to be a binary factor variable. All of our categorical variables have more than two levels. 
+
+To get a binary categorial variable we will translate the number of wins in a season into our response variable. In today's NFL, a team needs to win 10 games or more to have a reasonable chance of making the playoffs. We will therefore make a new variable with two levels: ten wins or more, and less than ten wins.
+
+```{r}
+lions <- lions %>%
+  mutate(win.threshold = as.factor(ifelse(wins >= 10, "Playoffs", "No-playoffs")))
+```
+
+Now that we have our new respsponse variable `wins.threshold` we can apply the logistic regression model.
+
+```{r}
+log_reg_model <- glm(win.threshold ~ pf + pa + tak.giv.rnk + mov + sos , lions, family = binomial)
+
+summary(log_reg_model)
+```
+
+Now that we have a logistic model we can calculate a table to represent how accurate the model is.
+
+```{r}
+contrasts(lions$win.threshold)
+
+glm.prob <- predict(log_reg_model, type = "response")
+glm.pred <- rep("No-playoffs", nrow(lions))
+glm.pred[glm.prob > 0.5] = "Playoffs"
+
+table(glm.pred, lions$win.threshold)
+mean(glm.pred == lions$win.threshold)
+```
+
+Our model correctly predicted reality 95.6% of the time. It predicted 80 seasons correctly where the team did not make the playoffs, 6 seasons correctly where they did, and only 4 seasons incorrectly where they were predicted to make the playoffs, but in actuality did not.
 
 
 
