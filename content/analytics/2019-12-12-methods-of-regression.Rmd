@@ -1,0 +1,285 @@
+---
+title: Methods of Regression
+author: Jeff Cavanagh
+date: '2019-12-12'
+slug: methods-of-regression
+categories: []
+tags: []
+lastmod: '2020-08-18T15:57:46-04:00'
+layout: post
+type: post
+highlight: yes
+---
+
+**This post will cover some of the primary methods of regression analysis available in R. It will also serve as a warmup for the posts that explore Machine Learning and its applications.**
+
+```{r, include = F, warning = F, echo = F}
+library(tidyverse)
+```
+
+#### Setup
+
+For our regression data we will look at statistics concerning the history of my favorite sports team, The Detroit Lions. The data comes from [Pro Football Reference](https://www.pro-football-reference.com/teams/det/){target="_blank}.
+
+```{r, warning = F}
+lions <- read.csv("sportsref_download - sportsref_download.csv")
+
+str(lions)
+```
+
+Before we continue with this data we should clean it up. Luckily all columns are either numeric, integer, or factor in format. This will make them easier to run the regression analysis on. 
+
+Some categories are missing section headers that needed to be taken out to read the data easily. Without context, some columns have the same names. We will go in add to these names so they are easier to understand.
+
+Also, this analysis will only consider the Detroit Lions (even though the team was originally names the Portsmouth Spartans). Therefore we will remove the columns of the team's name and league.
+
+```{r}
+names(lions)[c(4, 5, 6, 17, 18, 19, 20, 21, 22, 23, 24)] <- c(
+  "wins", "loss", "ties", "off.pts.rnk", "off.yds.rnk", "def.pts.rnk", 
+  "def.yds.rnk", "tak.giv.rnk", "pts.df.rnk", "yds.df.rnk", "num.teams"
+)
+
+names(lions) <- names(lions) %>% str_to_lower()
+
+lions <- lions[, -c(2,3)]
+```
+
+Now we have a clean data frame consisting of 27 variables and 90 rows (representing 90 years of play). We are able to now carry out our analysis.
+
+#### Simple Linear Regression
+
+First this data will be put through a simple linear regression model (regression with one predictor variable).
+
+`lm` is a built-in function of R that fits linear models. Applying it to the `lions` data set let 'wins' the response variable (the one we are attempting to predict) and `mov` (Margin og Victory) as the predictor variable (the one we will base the prediction on).
+
+```{r}
+slr_model <- lm(wins ~ mov, data = lions)
+
+summary(slr_model)
+
+confint(slr_model)
+```
+
+The `summary` function gives an overview of the model (coefficients, residuals, levels of significance, etc.) and the `confint` function gives the confidence interval for each coefficent estimate (default is 95%).
+
+To measure how significant each predictor variable is we will rely primarily on each individual p-value. To measure the accuracy of the model we will consider the $R^2$ and adjusted $R^2$ values, which will take on a value between 0 and 1 (the closer, the better the model), and the p-value of the entire model.
+
+The output gives a simple linear regression model with the formula to predict the wins the Lions will have:
+
+$\text{wins } = 6.44107 + 0.32411 * \text{ mov }$
+
+```{r}
+plot(lions$mov, lions$wins)
+abline(slr_model)
+```
+
+Without going too in depth into the underlying statistical analysis, we can see from the p-values of each coefficient, the F-statistic, and the $R^2$ value that there is a significant relationship between `mov` and `wins`. This was expected as I showed that margin of victory is the most significant predictor for the number of wins a team will have in my [2017 NFL Regression Project](/projects/nfl-team-wins-regression-analysis/index.html){target="_blank"}.
+
+However, this is a very simple model and there are many other variables at our disposal to increase its predictive capability. To take other variables under consideration, we will add them in using a multiple linear regression model.
+
+#### Multiple Linear Regression
+
+To warm up for a including more variables, we will first only consider non-factor variables. We will also remove the year, loss, tie, and point differential (pd) variables.
+
+
+```{r}
+mlr_model <- lm(wins ~ . - year - loss - ties - pd - div..finish - playoffs - coaches - av - passer - rusher - receiver, data = lions)
+
+summary(mlr_model)
+```
+
+The $R^2$ value of the model went from 0.65 in the simple model to 0.79 in the multiple model, meaning noticeable improvement. 
+
+It is worth noting though that many p-values of the predictor variables are high, and therefore probably not significant. Next we will chip away at the model until it only considers predictor variables whose p-values are less than 0.05.
+
+```{r}
+mlr_model <- lm(wins ~ pf + pa + tak.giv.rnk + num.teams, data = lions)
+
+summary(mlr_model)
+```
+
+At the end of tinkering with which variables are significant predictors, we are left with `pf` (points for), `pa` (points against), `tak.giv.rank` (the ranking of a teams takeaway to giveaway ratio), and `num.teams (number of teams in the league that season). All of these variables have a p-value are well under 0.05, and while the $R^2$ value went down slightly, the adjusted $R^2$ value increased, telling us the model has improved.
+
+
+We are also able to put in interactive terms and apply various evolutions to the predictor variables (logarithms, polynomial form, etc.). However, we will move on with the latest model and now include some of the qualitative predictor variables.
+
+Some variables, (`div..finish` and `playoffs` mainly), are determined strongly by the amount of wins, and as such we will continue to exclude them from the model. 
+
+Instead we will focus on the components of the team: the coach, and leading player (`av`), `passer`, `rusher`, and `reciever`. These factors have many different levels (new players and coaches are constantly introduced over the 90 year history of the team). Therefore we wills start by adding a single variable `av`. 
+
+```{r}
+mlr_model2 <- update(mlr_model, ~ . + av)
+
+summary(mlr_model2)
+```
+Similar to the jump from simple to multiple regression, adding in the `av` (most valuable team player) categorical variable improved the model, even if not all predictors are significant.
+
+Next let's see what happens when we remove the intercept from the model and the number of teams as that was one of the higher p-values once we added in `av`.
+
+```{r}
+mlr_model2 <- update(mlr_model2, ~ . - 1 - num.teams) 
+
+summary(mlr_model2)
+```
+
+Now the model is cruising with an adjusted $R^2$ of 0.9654 and all p-values less implying significance.
+
+It is difficult to predict who will be the team's highest raned `av` player each year though so now lets add in a variable we can factor in with more certainty: the coach.
+
+```{r}
+mlr_model3 <- update(mlr_model2, ~. + coaches  )
+
+summary(mlr_model3)
+```
+
+
+When coaches are input, the model stays pretty similar, however we are started to get some `NA` values for factor levels. The volume of factors from multiple dummy variables is starting to put too much pressure on the model. This is where multiple regression starts begins to fall short, making it a perfect time to move on to our next approach.
+
+
+#### Logistic Regression
+
+Logistic regression seeks to model the probability that the response variable belongs to a certain category. To do this is calculate the $p(X) = P(Y = 1|X)$ (where $Y$ is the response and $X$ is the predictor(s)) as follows:
+
+$$p(X) = \frac{e^{\beta_0 +\beta_1X_1+...+\beta_pX_p}}{1+e^{\beta_0 +\beta_1X_1+...+\beta_pX_p}}$$
+
+To begin we first take a look at how closely correlated each numeric variable is with one another. Values closer to 1 translate to a higher level of positive correlation, values closer to -1 translate to higher levels of negative correlation, and values close to zero signifiy less of any sort of a relationship between variables.
+
+```{r}
+cor(lions[,-c(5, 6, 10:14,28)])
+```
+
+With there being a large number of different variables it is slightly difficult to process, but this map does give a general idea of the relationship between variables.
+
+In order to carry out logistic regression we will need to frame our problem differently. The response variable now needs to be a binary factor variable. However, all of our categorical variables have more than two levels. 
+
+To get a binary categorial variable we will translate the number of wins in a season into our response variable. In today's NFL, a team needs to win 10 games or more to have a reasonable chance of making the playoffs. We will therefore make a new variable with two levels: ten wins or more, and less than ten wins.
+
+```{r}
+lions <- lions %>%
+  mutate(win.threshold = as.factor(ifelse(wins >= 10, "Playoffs", "No-playoffs")))
+
+attach(lions)
+```
+
+Now that we have our new respsponse variable `wins.threshold` we can apply the logistic regression model.
+
+```{r}
+log_reg_model <- glm(win.threshold ~ pf + pa + tak.giv.rnk + mov + sos , lions, family = binomial)
+
+summary(log_reg_model)
+```
+
+Now that we have a logistic model we can calculate a table to represent how accurate the model is.
+
+```{r}
+contrasts(win.threshold)
+
+glm_prob <- predict(log_reg_model, type = "response")
+glm_pred <- rep("No-playoffs", nrow(lions))
+glm_pred[glm_prob > 0.5] = "Playoffs"
+
+table(glm_pred, win.threshold)
+mean(glm_pred == win.threshold)
+```
+
+Our model correctly predicted reality 95.6% of the time. It predicted 80 seasons correctly where the team did not win 10 games, 6 seasons correctly where they won 10 games or more, and only 4 seasons incorrectly where they were not predicted to make the threshold, but did.
+
+To better shape the model, we will define a training set to base our model on, and then test this new model on the testing set (the observations not included in the training set).
+
+```{r}
+train <- (year < length(year) * 0.8 + min(year))
+test <- !train
+
+log_reg_model2 <- glm(win.threshold ~ pf + pa + tak.giv.rnk + mov + sos , lions, family = binomial, subset = train)
+
+glm_prob2 <- predict(log_reg_model2, lions[test,], type = "response")
+glm_pred2 <- rep("No-playoffs", nrow(lions[test,]))
+glm_pred2[glm_prob2 > 0.5] = "Playoffs"
+
+table(glm_pred2, win.threshold[test])
+mean(glm_pred2 == win.threshold[test])
+mean(glm_pred2 != win.threshold[test])
+
+```
+
+The training data set is composed of the seasons between 1930 and 2002. The model than tests its efficacy on the seasons between 2003 and 2019. In the end the model held 94.4% accuracy (with a corresponding test error rate of 5.6%) in its predictions (with only a single missed prediction of a 9- win season).
+
+
+#### Linear Discriminant Analysis (LDA)
+
+The next method is LDA, which can offer more stability in the parameter estimates and model than logistic regression, and is more useful when there are more than two response classes.
+
+Logistic regression takes the prior distributions ($\pi_k$)  of the $k$ classes of $Y$ and the density functions $(f_k(x))$ of $X$ and then applies *Bayes' Theorem* to calculate:
+
+$$P(Y=k|X=x)=\frac{\pi_kf_k(x)}{\sum_{l=1}^K\pi_lf_l(x)}$$
+
+To start the new LDA model, we will proceed with the same training set used in logistic regression.
+
+```{r, warning=F}
+library(MASS)
+lda_model <- lda(win.threshold ~ pf + pa + tak.giv.rnk + mov + sos , data = lions, subset = train)
+
+lda_model
+
+```
+
+Now carrying forward in a similar manner as before to test the accuracy of our model.
+
+```{r}
+lda_pred <- predict(lda_model, lions[test,])
+lda_class <- lda_pred$class
+
+table(lda_class, win.threshold[test])
+mean(lda_class == win.threshold[test])
+```
+
+With the small data set and same form the model, the lda performs identically to the logistic regression model.
+
+#### Quadratic Discriminant Analysis (QDA)
+
+QDA works almost identically to LDA, major difference being that rather than a linear function of the predictors the QDA classifier involves  quadratic.
+
+```{r}
+qda_model <- qda(win.threshold ~ pf + pa + tak.giv.rnk + mov + sos , data = lions, subset = train)
+
+qda_model
+```
+
+```{r}
+qda_class <- predict(qda_model, lions[test,])$class
+table(qda_class, win.threshold[test])
+mean(qda_class == win.threshold[test])
+```
+Again, the model is basically unchanged. This is due to the small number of observations in the testing data set(18 seasons). The only interesting tidbit from the QDA model is that it correctly predicts both seasons with over 10 wins, while prediction an extra season over 10 wins that was actually under.
+
+#### K-Nearest Neighbors (KNN)
+
+The last model that will be is the KNN model, which groups predictor variable data together into $k$ classes. First we will try with $k = 1$.
+
+```{r, warning = F}
+library(class)
+train_x <- cbind(pf, pa, tak.giv.rnk, mov, sos)[train,]
+test_x <- cbind(pf, pa, tak.giv.rnk, mov, sos)[test,]
+train_win.threshold <- win.threshold[train]
+
+set.seed(1)
+knn1_pred <- knn(train_x, test_x, train_win.threshold, k = 1)
+table(knn1_pred, win.threshold[test])
+mean(knn1_pred == win.threshold[test])
+```
+With $k = 1 $ we can see that the model performs slightly worse, making two innacuracte predictions. Lets try with $k = 3$ and see if it improves the model.
+
+```{r}
+set.seed(1)
+knn3_pred <- knn(train_x, test_x, train_win.threshold, k = 3)
+table(knn3_pred, win.threshold[test])
+mean(knn3_pred == win.threshold[test])
+```
+
+It does not improve the modela nd the only difference becomes that the model predicts no seasons with 10+ wins. With the small amount of data to predict this is not totally unexpected.
+
+#### Conclusion
+
+
+I first learned the techniques showcased in this post from *An Introduction to Statistical Learning: with Applications in R*. 
+
