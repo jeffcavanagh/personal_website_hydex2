@@ -280,6 +280,11 @@ It does not improve the modela nd the only difference becomes that the model pre
 
 #### Conclusion
 
+The logistic regression, LDA, and QDA performed equally well when it came down to training a model and testing it on the same subset of the data. There is plenty more one is able to do with these methods, but that is outside the scope of this post.
+
+Understanding these base methods will help us better understand the introduction to machine learning methods up next.
+
+#### Reference
 
 I first learned the techniques showcased in this post from *An Introduction to Statistical Learning: with Applications in R*. 
 
