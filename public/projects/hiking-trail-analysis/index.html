@@ -284,7 +284,7 @@ testing=trails_reg[-train,]</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
 ##   method from   
 ##   +.gg   ggplot2</code></pre>
-<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="model-building" class="section level1">
 <h1>Model Building</h1>
@@ -301,9 +301,8 @@ mean(abs(lm.pred-testing$avg_rating_ideal))</code></pre>
 <pre><code>## Loading required package: nlme</code></pre>
 <pre><code>## Warning: package &#39;nlme&#39; was built under R version 3.6.2</code></pre>
 <pre><code>## This is mgcv 1.8-31. For overview type &#39;help(&quot;mgcv-package&quot;)&#39;.</code></pre>
-<pre class="r"><code>library(MASS)</code></pre>
-<pre><code>## Warning: package &#39;MASS&#39; was built under R version 3.6.2</code></pre>
-<pre class="r"><code>lda.fit=lda(avg_rating_ideal~.,data=training)
+<pre class="r"><code>library(MASS)
+lda.fit=lda(avg_rating_ideal~.,data=training)
 lda.pred=predict(lda.fit,testing)
 table(testing$avg_rating_ideal,lda.pred$class)</code></pre>
 <pre><code>##    
@@ -563,7 +562,7 @@ text(1:8, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, 
 plot(MAE, xlim=c(0,9),ylim=c(0,1) , col=&#39;blue&#39;, type=&#39;p&#39;, pch=19, main=&#39;Cross Validation for Trails Data&#39;, ylab=&#39;mean absolute error&#39;)
 
 text(1:8, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, &#39;knn3&#39;, &#39;knn4&#39;, &#39;knn5&#39;, &#39;knn6&#39;), pos=3,  cex=0.5, col=&quot;red&quot;)</code></pre>
-<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 # Bagging</p>
 <pre class="r"><code>library(randomForest)</code></pre>
 <pre><code>## randomForest 4.6-14</code></pre>
@@ -616,9 +615,9 @@ plot(ratingimp,top=5)</code></pre>
 ## graphical parameter</code></pre>
 <pre><code>## Warning in box(...): &quot;top&quot; is not a graphical parameter</code></pre>
 <pre><code>## Warning in title(...): &quot;top&quot; is not a graphical parameter</code></pre>
-<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <pre class="r"><code>varImpPlot(bagged_rating)</code></pre>
-<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
 <pre class="r"><code>library(caret)
 
 ctrl &lt;- trainControl(method = &quot;cv&quot;,  number = 10) 
@@ -659,7 +658,7 @@ ratingImp</code></pre>
 ## num_reviews         347.2
 ## difficulty_rating   208.1</code></pre>
 <pre class="r"><code>plot(ratingImp,top=5)</code></pre>
-<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <pre class="r"><code>bagged_rating &lt;- randomForest(as.factor(avg_rating_ideal)~.,data=training, mtry=5, importance =TRUE)
 
 
@@ -670,9 +669,9 @@ points(1:length(bagged_rating$err.rate[,2]), bagged_rating$err.rate[,2], type = 
        col = &quot;blue&quot;)
 points(1:length(bagged_rating$err.rate[,3]), bagged_rating$err.rate[,3], type = &quot;l&quot;, 
        col = &quot;red&quot;)</code></pre>
-<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <pre class="r"><code>plot(bagged_rating)</code></pre>
-<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
 <pre class="r"><code>pre_bag = predict(bagged_rating, newdata = testing)
 
 err_bagg=mean(pre_bag!=testing$avg_rating_ideal)
@@ -1030,9 +1029,9 @@ gbmFit2</code></pre>
 ## 186     300                 1       0.1              5</code></pre>
 <pre class="r"><code>library(GGally)
 plot(gbmFit1) </code></pre>
-<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <pre class="r"><code>plot(gbmFit2) </code></pre>
-<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-2.png" width="672" />
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-2.png" width="672" />
 ## Predict</p>
 <pre class="r"><code>set.seed(1)
 pred=predict(gbmFit1, testing)
@@ -1068,7 +1067,7 @@ text(1:11, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;,
 plot(MAE, xlim=c(0,12),ylim=c(0,1) , col=&#39;blue&#39;, type=&#39;p&#39;, pch=19, main=&#39;Error Comparison for Trails Data&#39;, ylab=&#39;mean absolute error&#39;)
 
 text(1:11, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, &#39;knn3&#39;, &#39;knn4&#39;, &#39;knn5&#39;, &#39;knn6&#39;, &#39;bagg&#39;,&#39;gbm1&#39;,&#39;gbm2&#39;), pos=3,  cex=0.5, col=&quot;red&quot;)</code></pre>
-<p><img src="/analytics/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 </div>
 
     

@@ -60,14 +60,14 @@ head(rating)</code></pre>
   html_text() %&gt;%
   as.numeric()
 head(IMDb_rating)</code></pre>
-<pre><code>## [1] 8.4 9.0 8.4 6.9 7.9 7.0</code></pre>
+<pre><code>## [1] 8.4 9.0 8.0 7.4 6.0 8.4</code></pre>
 <pre class="r"><code>runtime &lt;- movies %&gt;%
   html_nodes(&quot;.runtime&quot;) %&gt;%
   html_text() %&gt;% # translating from a character string to numeric vector
   str_sub(1,-5) %&gt;%
   as.integer()
 head(runtime)</code></pre>
-<pre><code>## [1] 181 152 149 144 130 143</code></pre>
+<pre><code>## [1] 181 152 121 141 123 164</code></pre>
 <pre class="r"><code>genre &lt;- movies %&gt;%
   html_nodes(&quot;.genre&quot;) %&gt;%
   html_text() %&gt;% # cleaning character string
@@ -75,8 +75,8 @@ head(runtime)</code></pre>
   str_squish()
 head(genre)</code></pre>
 <pre><code>## [1] &quot;Action, Adventure, Drama&quot;   &quot;Action, Crime, Drama&quot;      
-## [3] &quot;Action, Adventure, Sci-Fi&quot;  &quot;Action, Adventure, Sci-Fi&quot; 
-## [5] &quot;Action, Adventure, Comedy&quot;  &quot;Action, Adventure, Fantasy&quot;</code></pre>
+## [3] &quot;Action, Adventure, Comedy&quot;  &quot;Action, Adventure, Fantasy&quot;
+## [5] &quot;Action, Adventure, Fantasy&quot; &quot;Action, Adventure&quot;</code></pre>
 <pre class="r"><code>plot &lt;- movies %&gt;%
   html_nodes(&quot;.ratings-bar+ p&quot;) %&gt;%
   html_text() %&gt;% # cleaning up character strings
@@ -84,23 +84,23 @@ head(genre)</code></pre>
 head(plot)</code></pre>
 <pre><code>## [1] &quot;After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos&#39; actions and restore balance to the universe.&quot;
 ## [2] &quot;When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.&quot;                                       
-## [3] &quot;The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe.&quot;                                                    
-## [4] &quot;In the 1980s the X-Men must defeat an ancient all-powerful mutant, En Sabah Nur, who intends to thrive through bringing destruction to the world.&quot;                                                                                   
-## [5] &quot;Imprisoned on the planet Sakaar, Thor must race against time to return to Asgard and stop Ragnarök, the destruction of his world, at the hands of the powerful and ruthless villain Hela.&quot;                                           
-## [6] &quot;Arthur Curry, the human-born heir to the underwater kingdom of Atlantis, goes on a quest to prevent a war between the worlds of ocean and land.&quot;</code></pre>
+## [3] &quot;A group of intergalactic criminals must pull together to stop a fanatical warrior with plans to purge the universe.&quot;                                                                                                                 
+## [4] &quot;When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war, discovering her full powers and true destiny.&quot;                                                 
+## [5] &quot;A secret government agency recruits some of the most dangerous incarcerated super-villains to form a defensive task force. Their first mission: save the world from the apocalypse.&quot;                                                 
+## [6] &quot;Eight years after the Joker&#39;s reign of anarchy, Batman, with the help of the enigmatic Catwoman, is forced from his exile to save Gotham City from the brutal guerrilla terrorist Bane.&quot;</code></pre>
 <pre class="r"><code>gross_domestic &lt;- movies %&gt;%
   html_nodes(&quot;.ghost~ .text-muted+ span&quot;) %&gt;%
   html_text() %&gt;% # translating from a character string into a numeric vector
   str_remove_all(&quot;^\\$|M$&quot;) %&gt;% # all of our entries are in millions so easy to convert
   as.numeric() * 1e6
 head(gross_domestic)</code></pre>
-<pre><code>## [1] 858370000 534860000 678820000 155440000 315060000 335060000</code></pre>
+<pre><code>## [1] 858370000 534860000 333180000 412560000 325100000 448140000</code></pre>
 <pre class="r"><code>directors1 &lt;- movies %&gt;%
   html_nodes(&quot;.text-small a:nth-child(1)&quot;) %&gt;%
   html_text()
 head(directors1)</code></pre>
-<pre><code>## [1] &quot;Anthony Russo&quot;     &quot;Christopher Nolan&quot; &quot;Anthony Russo&quot;    
-## [4] &quot;Bryan Singer&quot;      &quot;Taika Waititi&quot;     &quot;James Wan&quot;</code></pre>
+<pre><code>## [1] &quot;Anthony Russo&quot;     &quot;Christopher Nolan&quot; &quot;James Gunn&quot;       
+## [4] &quot;Patty Jenkins&quot;     &quot;David Ayer&quot;        &quot;Christopher Nolan&quot;</code></pre>
 <pre class="r"><code>length(directors1)</code></pre>
 <pre><code>## [1] 50</code></pre>
 <pre class="r"><code>directors2 &lt;- movies %&gt;%
@@ -108,15 +108,15 @@ head(directors1)</code></pre>
   html_text()
 head(directors2)</code></pre>
 <pre><code>## [1] &quot;Anthony Russo&quot;     &quot;Joe Russo&quot;         &quot;Christopher Nolan&quot;
-## [4] &quot;Anthony Russo&quot;     &quot;Joe Russo&quot;         &quot;Bryan Singer&quot;</code></pre>
+## [4] &quot;James Gunn&quot;        &quot;Patty Jenkins&quot;     &quot;David Ayer&quot;</code></pre>
 <pre class="r"><code>length(directors2)</code></pre>
-<pre><code>## [1] 56</code></pre>
+<pre><code>## [1] 55</code></pre>
 <pre class="r"><code>actors1 &lt;- movies %&gt;%
   html_nodes(&quot;.text-small .ghost+ a&quot;) %&gt;%
   html_text()
 head(actors1)</code></pre>
-<pre><code>## [1] &quot;Robert Downey Jr.&quot; &quot;Christian Bale&quot;    &quot;Robert Downey Jr.&quot;
-## [4] &quot;James McAvoy&quot;      &quot;Chris Hemsworth&quot;   &quot;Jason Momoa&quot;</code></pre>
+<pre><code>## [1] &quot;Robert Downey Jr.&quot; &quot;Christian Bale&quot;    &quot;Chris Pratt&quot;      
+## [4] &quot;Gal Gadot&quot;         &quot;Will Smith&quot;        &quot;Christian Bale&quot;</code></pre>
 <pre class="r"><code>length(actors1)</code></pre>
 <pre><code>## [1] 50</code></pre>
 <pre class="r"><code>actors2 &lt;- movies %&gt;%
@@ -136,19 +136,19 @@ for (i in 1:(length(ind)-1)){
 }
 head(directors)</code></pre>
 <pre><code>## [1] &quot;Anthony Russo, Joe Russo&quot; &quot;Christopher Nolan&quot;       
-## [3] &quot;Anthony Russo, Joe Russo&quot; &quot;Bryan Singer&quot;            
-## [5] &quot;Taika Waititi&quot;            &quot;James Wan&quot;</code></pre>
+## [3] &quot;James Gunn&quot;               &quot;Patty Jenkins&quot;           
+## [5] &quot;David Ayer&quot;               &quot;Christopher Nolan&quot;</code></pre>
 <pre class="r"><code>actors &lt;- c()
 for(i in 1:length(actors1)){
   actors[i] &lt;- str_c(actors2[c(((i-1) * 4 + 1):(4 * i))], collapse = &quot;, &quot;)
 }
 head(actors)</code></pre>
-<pre><code>## [1] &quot;Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth&quot;      
-## [2] &quot;Christian Bale, Heath Ledger, Aaron Eckhart, Michael Caine&quot;         
-## [3] &quot;Robert Downey Jr., Chris Hemsworth, Mark Ruffalo, Chris Evans&quot;      
-## [4] &quot;James McAvoy, Michael Fassbender, Jennifer Lawrence, Nicholas Hoult&quot;
-## [5] &quot;Chris Hemsworth, Tom Hiddleston, Cate Blanchett, Mark Ruffalo&quot;      
-## [6] &quot;Jason Momoa, Amber Heard, Willem Dafoe, Patrick Wilson&quot;</code></pre>
+<pre><code>## [1] &quot;Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth&quot;
+## [2] &quot;Christian Bale, Heath Ledger, Aaron Eckhart, Michael Caine&quot;   
+## [3] &quot;Chris Pratt, Vin Diesel, Bradley Cooper, Zoe Saldana&quot;         
+## [4] &quot;Gal Gadot, Chris Pine, Robin Wright, Lucy Davis&quot;              
+## [5] &quot;Will Smith, Jared Leto, Margot Robbie, Viola Davis&quot;           
+## [6] &quot;Christian Bale, Tom Hardy, Anne Hathaway, Gary Oldman&quot;</code></pre>
 <p>We now have most of the primary data we were searching for. Now lets combine it into a functioning data frame.</p>
 <pre class="r"><code>superhero_movies &lt;- tibble(
   titles,
@@ -164,16 +164,16 @@ head(actors)</code></pre>
 )
 str(superhero_movies)</code></pre>
 <pre><code>## tibble [50 × 10] (S3: tbl_df/tbl/data.frame)
-##  $ titles         : chr [1:50] &quot;Avengers: Endgame&quot; &quot;The Dark Knight&quot; &quot;Avengers: Infinity War&quot; &quot;X-Men: Apocalypse&quot; ...
+##  $ titles         : chr [1:50] &quot;Avengers: Endgame&quot; &quot;The Dark Knight&quot; &quot;Guardians of the Galaxy&quot; &quot;Wonder Woman&quot; ...
 ##  $ popularity_rank: num [1:50] 1 2 3 4 5 6 7 8 9 10 ...
-##  $ IMDb_rating    : num [1:50] 8.4 9 8.4 6.9 7.9 7 7.6 8.4 8.4 8 ...
+##  $ IMDb_rating    : num [1:50] 8.4 9 8 7.4 6 8.4 7.6 7 6.3 8.4 ...
 ##  $ rating         : chr [1:50] &quot;PG-13&quot; &quot;PG-13&quot; &quot;PG-13&quot; &quot;PG-13&quot; ...
-##  $ runtime        : int [1:50] 181 152 149 144 130 143 162 164 117 121 ...
-##  $ genre          : chr [1:50] &quot;Action, Adventure, Drama&quot; &quot;Action, Crime, Drama&quot; &quot;Action, Adventure, Sci-Fi&quot; &quot;Action, Adventure, Sci-Fi&quot; ...
-##  $ gross_domestic : num [1:50] 8.58e+08 5.35e+08 6.79e+08 1.55e+08 3.15e+08 ...
-##  $ plot           : chr [1:50] &quot;After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remai&quot;| __truncated__ &quot;When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of th&quot;| __truncated__ &quot;The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos befo&quot;| __truncated__ &quot;In the 1980s the X-Men must defeat an ancient all-powerful mutant, En Sabah Nur, who intends to thrive through &quot;| __truncated__ ...
-##  $ directors      : chr [1:50] &quot;Anthony Russo, Joe Russo&quot; &quot;Christopher Nolan&quot; &quot;Anthony Russo, Joe Russo&quot; &quot;Bryan Singer&quot; ...
-##  $ actors         : chr [1:50] &quot;Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth&quot; &quot;Christian Bale, Heath Ledger, Aaron Eckhart, Michael Caine&quot; &quot;Robert Downey Jr., Chris Hemsworth, Mark Ruffalo, Chris Evans&quot; &quot;James McAvoy, Michael Fassbender, Jennifer Lawrence, Nicholas Hoult&quot; ...</code></pre>
+##  $ runtime        : int [1:50] 181 152 121 141 123 164 136 143 120 149 ...
+##  $ genre          : chr [1:50] &quot;Action, Adventure, Drama&quot; &quot;Action, Crime, Drama&quot; &quot;Action, Adventure, Comedy&quot; &quot;Action, Adventure, Fantasy&quot; ...
+##  $ gross_domestic : num [1:50] 8.58e+08 5.35e+08 3.33e+08 4.13e+08 3.25e+08 ...
+##  $ plot           : chr [1:50] &quot;After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remai&quot;| __truncated__ &quot;When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of th&quot;| __truncated__ &quot;A group of intergalactic criminals must pull together to stop a fanatical warrior with plans to purge the universe.&quot; &quot;When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leave&quot;| __truncated__ ...
+##  $ directors      : chr [1:50] &quot;Anthony Russo, Joe Russo&quot; &quot;Christopher Nolan&quot; &quot;James Gunn&quot; &quot;Patty Jenkins&quot; ...
+##  $ actors         : chr [1:50] &quot;Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth&quot; &quot;Christian Bale, Heath Ledger, Aaron Eckhart, Michael Caine&quot; &quot;Chris Pratt, Vin Diesel, Bradley Cooper, Zoe Saldana&quot; &quot;Gal Gadot, Chris Pine, Robin Wright, Lucy Davis&quot; ...</code></pre>
 <p>There is one more feauture of <code>rvest</code> I would like to illustrate before we close out this tutorial, and that is how to extract links.</p>
 <p>We will add one more column to our new data frame that gives the link to each movie’s page using <code>html_attr</code>. All we need to do is add one more input, “href”, which tells the function we want the link, not the text of the CSS tag element.</p>
 <pre class="r"><code>pages &lt;- movies %&gt;%
@@ -181,54 +181,54 @@ str(superhero_movies)</code></pre>
   html_attr(&quot;href&quot;)
 head(pages)</code></pre>
 <pre><code>## [1] &quot;/title/tt4154796/?ref_=kw_li_tt&quot; &quot;/title/tt0468569/?ref_=kw_li_tt&quot;
-## [3] &quot;/title/tt4154756/?ref_=kw_li_tt&quot; &quot;/title/tt3385516/?ref_=kw_li_tt&quot;
-## [5] &quot;/title/tt3501632/?ref_=kw_li_tt&quot; &quot;/title/tt1477834/?ref_=kw_li_tt&quot;</code></pre>
+## [3] &quot;/title/tt2015381/?ref_=kw_li_tt&quot; &quot;/title/tt0451279/?ref_=kw_li_tt&quot;
+## [5] &quot;/title/tt1386697/?ref_=kw_li_tt&quot; &quot;/title/tt1345836/?ref_=kw_li_tt&quot;</code></pre>
 <p>This now gives us the addres’s within the main website, to get the full urls all we have to do is add the main site address to the start of each string.</p>
 <pre class="r"><code>pages &lt;- str_c(&quot;https://www.imdb.com&quot;, pages)
 superhero_movies &lt;- cbind(superhero_movies, pages)
 superhero_movies %&gt;% head()</code></pre>
-<pre><code>##                   titles popularity_rank IMDb_rating rating runtime
-## 1      Avengers: Endgame               1         8.4  PG-13     181
-## 2        The Dark Knight               2         9.0  PG-13     152
-## 3 Avengers: Infinity War               3         8.4  PG-13     149
-## 4      X-Men: Apocalypse               4         6.9  PG-13     144
-## 5         Thor: Ragnarok               5         7.9  PG-13     130
-## 6                Aquaman               6         7.0  PG-13     143
+<pre><code>##                    titles popularity_rank IMDb_rating rating runtime
+## 1       Avengers: Endgame               1         8.4  PG-13     181
+## 2         The Dark Knight               2         9.0  PG-13     152
+## 3 Guardians of the Galaxy               3         8.0  PG-13     121
+## 4            Wonder Woman               4         7.4  PG-13     141
+## 5           Suicide Squad               5         6.0  PG-13     123
+## 6   The Dark Knight Rises               6         8.4  PG-13     164
 ##                        genre gross_domestic
 ## 1   Action, Adventure, Drama      858370000
 ## 2       Action, Crime, Drama      534860000
-## 3  Action, Adventure, Sci-Fi      678820000
-## 4  Action, Adventure, Sci-Fi      155440000
-## 5  Action, Adventure, Comedy      315060000
-## 6 Action, Adventure, Fantasy      335060000
+## 3  Action, Adventure, Comedy      333180000
+## 4 Action, Adventure, Fantasy      412560000
+## 5 Action, Adventure, Fantasy      325100000
+## 6          Action, Adventure      448140000
 ##                                                                                                                                                                                                                                   plot
 ## 1 After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos&#39; actions and restore balance to the universe.
 ## 2                                        When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.
-## 3                                                     The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe.
-## 4                                                                                    In the 1980s the X-Men must defeat an ancient all-powerful mutant, En Sabah Nur, who intends to thrive through bringing destruction to the world.
-## 5                                            Imprisoned on the planet Sakaar, Thor must race against time to return to Asgard and stop Ragnarök, the destruction of his world, at the hands of the powerful and ruthless villain Hela.
-## 6                                                                                      Arthur Curry, the human-born heir to the underwater kingdom of Atlantis, goes on a quest to prevent a war between the worlds of ocean and land.
+## 3                                                                                                                  A group of intergalactic criminals must pull together to stop a fanatical warrior with plans to purge the universe.
+## 4                                                  When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war, discovering her full powers and true destiny.
+## 5                                                  A secret government agency recruits some of the most dangerous incarcerated super-villains to form a defensive task force. Their first mission: save the world from the apocalypse.
+## 6                                              Eight years after the Joker&#39;s reign of anarchy, Batman, with the help of the enigmatic Catwoman, is forced from his exile to save Gotham City from the brutal guerrilla terrorist Bane.
 ##                  directors
 ## 1 Anthony Russo, Joe Russo
 ## 2        Christopher Nolan
-## 3 Anthony Russo, Joe Russo
-## 4             Bryan Singer
-## 5            Taika Waititi
-## 6                James Wan
-##                                                                actors
-## 1       Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth
-## 2          Christian Bale, Heath Ledger, Aaron Eckhart, Michael Caine
-## 3       Robert Downey Jr., Chris Hemsworth, Mark Ruffalo, Chris Evans
-## 4 James McAvoy, Michael Fassbender, Jennifer Lawrence, Nicholas Hoult
-## 5       Chris Hemsworth, Tom Hiddleston, Cate Blanchett, Mark Ruffalo
-## 6              Jason Momoa, Amber Heard, Willem Dafoe, Patrick Wilson
+## 3               James Gunn
+## 4            Patty Jenkins
+## 5               David Ayer
+## 6        Christopher Nolan
+##                                                          actors
+## 1 Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth
+## 2    Christian Bale, Heath Ledger, Aaron Eckhart, Michael Caine
+## 3          Chris Pratt, Vin Diesel, Bradley Cooper, Zoe Saldana
+## 4               Gal Gadot, Chris Pine, Robin Wright, Lucy Davis
+## 5            Will Smith, Jared Leto, Margot Robbie, Viola Davis
+## 6         Christian Bale, Tom Hardy, Anne Hathaway, Gary Oldman
 ##                                                 pages
 ## 1 https://www.imdb.com/title/tt4154796/?ref_=kw_li_tt
 ## 2 https://www.imdb.com/title/tt0468569/?ref_=kw_li_tt
-## 3 https://www.imdb.com/title/tt4154756/?ref_=kw_li_tt
-## 4 https://www.imdb.com/title/tt3385516/?ref_=kw_li_tt
-## 5 https://www.imdb.com/title/tt3501632/?ref_=kw_li_tt
-## 6 https://www.imdb.com/title/tt1477834/?ref_=kw_li_tt</code></pre>
+## 3 https://www.imdb.com/title/tt2015381/?ref_=kw_li_tt
+## 4 https://www.imdb.com/title/tt0451279/?ref_=kw_li_tt
+## 5 https://www.imdb.com/title/tt1386697/?ref_=kw_li_tt
+## 6 https://www.imdb.com/title/tt1345836/?ref_=kw_li_tt</code></pre>
 <p>And viola! We have taken the contents of a webpage and turned it into a useful dataframe tracking superhero movies and all of their attached statistics.</p>
 </div>
 <div id="rselenium" class="section level3">
