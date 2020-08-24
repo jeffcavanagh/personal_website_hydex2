@@ -1,5 +1,5 @@
 ---
-title: Methods of Regression
+title: Statistical Modeling Starter Kit
 author: Jeff Cavanagh
 date: '2019-12-12'
 slug: methods-of-regression
@@ -14,8 +14,8 @@ highlight: yes
 
 
 <p><strong>This post will cover some of the primary methods of regression analysis available in R. It will also serve as a warmup for the posts that explore Machine Learning and its applications.</strong></p>
-<div id="setup" class="section level4">
-<h4>Setup</h4>
+<div id="setup" class="section level3">
+<h3>Setup</h3>
 <p>For our regression data we will look at statistics concerning the history of my favorite sports team, The Detroit Lions. The data comes from <a href="https://www.pro-football-reference.com/teams/det/" target="&quot;_blank">Pro Football Reference</a>.</p>
 <pre class="r"><code>lions &lt;- read.csv(&quot;sportsref_download - sportsref_download.csv&quot;)
 
@@ -63,6 +63,9 @@ names(lions) &lt;- names(lions) %&gt;% str_to_lower()
 lions &lt;- lions[, -c(2,3)]</code></pre>
 <p>Now we have a clean data frame consisting of 27 variables and 90 rows (representing 90 years of play). We are able to now carry out our analysis.</p>
 </div>
+<div id="regression-models" class="section level3">
+<h3>Regression Models</h3>
+<p>Regression models divide datasets into predictor variables and response variables, and then use the predictor variables to create a model that forecasts the response variable.</p>
 <div id="simple-linear-regression" class="section level4">
 <h4>Simple Linear Regression</h4>
 <p>First this data will be put through a simple linear regression model (regression with one predictor variable).</p>
@@ -374,8 +377,12 @@ summary(mlr_model3)</code></pre>
 ## Residual standard error: 1.402 on 33 degrees of freedom
 ## Multiple R-squared:  0.9843, Adjusted R-squared:  0.9571 
 ## F-statistic: 36.25 on 57 and 33 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>When coaches are input, the model stays pretty similar, however we are started to get some <code>NA</code> values for factor levels. The volume of factors from multiple dummy variables is starting to put too much pressure on the model. This is where multiple regression starts begins to fall short, making it a perfect time to move on to our next approach.</p>
+<p>When coaches are input, the model stays pretty similar, however we are started to get some <code>NA</code> values for factor levels. The large number of factor levels from multiple dummy variables is starting to overburden the model, resulting in NA values. We will now move on to the next major subset of statistical modeling.</p>
 </div>
+</div>
+<div id="classification-models" class="section level3">
+<h3>Classification models</h3>
+<p>Classification models use data to predict if observations of data will fall will fall into a given class of a categorical variable.</p>
 <div id="logistic-regression" class="section level4">
 <h4>Logistic Regression</h4>
 <p>Logistic regression seeks to model the probability that the response variable belongs to a certain category. To do this is calculate the <span class="math inline">\(p(X) = P(Y = 1|X)\)</span> (where <span class="math inline">\(Y\)</span> is the response and <span class="math inline">\(X\)</span> is the predictor(s)) as follows:</p>
@@ -618,7 +625,103 @@ table(qda_class, win.threshold[test])</code></pre>
 <pre><code>## [1] 0.9444444</code></pre>
 <p>Again, the model is basically unchanged. This is due to the small number of observations in the testing data set(18 seasons). The only interesting tidbit from the QDA model is that it correctly predicts both seasons with over 10 wins, while prediction an extra season over 10 wins that was actually under.</p>
 </div>
-<div id="knn" class="section level4">
-<h4>KNN</h4>
+<div id="k-nearest-neighbors-knn" class="section level4">
+<h4>K-Nearest Neighbors (KNN)</h4>
+<p>The last model that will be is the KNN model, which groups predictor variable data together into <span class="math inline">\(k\)</span> classes. First we will try with <span class="math inline">\(k = 1\)</span>.</p>
+<pre class="r"><code>library(class)
+train_x &lt;- cbind(pf, pa, tak.giv.rnk, mov, sos)[train,]
+test_x &lt;- cbind(pf, pa, tak.giv.rnk, mov, sos)[test,]
+train_win.threshold &lt;- win.threshold[train]
+
+set.seed(1)
+knn1_pred &lt;- knn(train_x, test_x, train_win.threshold, k = 1)
+table(knn1_pred, win.threshold[test])</code></pre>
+<pre><code>##              
+## knn1_pred     No-playoffs Playoffs
+##   No-playoffs          15        1
+##   Playoffs              1        1</code></pre>
+<pre class="r"><code>mean(knn1_pred == win.threshold[test])</code></pre>
+<pre><code>## [1] 0.8888889</code></pre>
+<p>With $k = 1 $ we can see that the model performs slightly worse, making two innacuracte predictions. Lets try with <span class="math inline">\(k = 3\)</span> and see if it improves the model.</p>
+<pre class="r"><code>set.seed(1)
+knn3_pred &lt;- knn(train_x, test_x, train_win.threshold, k = 3)
+table(knn3_pred, win.threshold[test])</code></pre>
+<pre><code>##              
+## knn3_pred     No-playoffs Playoffs
+##   No-playoffs          16        2
+##   Playoffs              0        0</code></pre>
+<pre class="r"><code>mean(knn3_pred == win.threshold[test])</code></pre>
+<pre><code>## [1] 0.8888889</code></pre>
+<p>It does not improve the modela nd the only difference becomes that the model predicts no seasons with 10+ wins. With the small amount of data to predict this is not totally unexpected.</p>
+</div>
+</div>
+<div id="cross-validation" class="section level3">
+<h3>Cross-Validation</h3>
+<p>So far we have used only the most recent 20% of observations as the testing data. If we want to test the validity of our model though, it would be more effective to us random combinations of data, and the whole dataset as both testing and training sets in different iterations.</p>
+<p>This is where cross-validation comes in. First the data will be randomized using the <code>sample</code> function:</p>
+<pre class="r"><code>set.seed(1)
+train &lt;- sample(90,90)
+
+lions_cv &lt;- lions[train,]</code></pre>
+<p>Now the only thing to do is run all of the models again and test the errors using 10 crossfold-validation. Also this time instead we will be using the mean absolute error as the judge of the models.</p>
+<pre class="r"><code>MAE &lt;- c()
+
+# logistic regression
+mae &lt;- c()
+for (i in 1:10) {
+  train_data &lt;- lions_cv[-((i*9-8):(i*9)), ]
+  test_data &lt;- lions_cv[((i*9-8):(i*9)), ]
+  log &lt;- glm(win.threshold ~ pf + pa + tak.giv.rnk + mov + sos , data = train_data , family = binomial)
+  log_probs &lt;- predict(log, test_data, type = &quot;response&quot;)
+  log_pred &lt;- rep(&quot;No-playoffs&quot;, nrow(test_data))
+  log_pred[log_probs &gt; 0.5] &lt;- &quot;Playoffs&quot;
+  mae &lt;- c(mae, mean(abs(as.integer(log_pred == &quot;Playoffs&quot;) - as.integer(test_data$win.threshold == &quot;Playoffs&quot;))))
+}
+MAE &lt;- c(MAE, mean(mae))
+
+# lda
+mae &lt;- c()
+for(i in 1:10) {
+  train_data &lt;- lions_cv[-((i*9-8):(i*9)), ]
+  test_data &lt;- lions_cv[((i*9-8):(i*9)), ]
+  lda &lt;- lda(win.threshold ~ pf + pa + tak.giv.rnk + mov + sos , data = train_data)
+  lda_pred &lt;- predict(lda, test_data)
+  mae &lt;- c(mae, mean(abs(as.integer(lda_pred$class == &quot;Playoffs&quot;) - as.integer(test_data$win.threshold == &quot;Playoffs&quot;))))
+}
+MAE &lt;- c(MAE, mean(mae))
+
+# qda
+mae &lt;- c()
+for(i in 1:10) {
+  train_data &lt;- lions_cv[-((i*9-8):(i*9)), ]
+  test_data &lt;- lions_cv[((i*9-8):(i*9)), ]
+  qda &lt;- qda(win.threshold ~ pf + pa + tak.giv.rnk + mov + sos , data = train_data)
+  qda_pred &lt;- predict(qda, test_data)
+  mae &lt;- c(mae, mean(abs(as.integer(qda_pred$class == &quot;Playoffs&quot;) - as.integer(test_data$win.threshold == &quot;Playoffs&quot;))))
+}
+MAE &lt;- c(MAE,mean(mae))
+
+# knn k = 3
+train_x &lt;- cbind(pf, pa, tak.giv.rnk, mov, sos)[-((i*9-8):(i*9)), ]
+test_x &lt;- cbind(pf, pa, tak.giv.rnk, mov, sos)[((i*9-8):(i*9)), ]
+train_win.threshold &lt;- win.threshold[-((i*9-8):(i*9))]
+
+mae &lt;- c()
+for(i in 1:10) {
+  train_data &lt;- lions_cv[-((i*9-8):(i*9)), ]
+  test_data &lt;- lions_cv[((i*9-8):(i*9)), ]
+  knn3_pred &lt;- knn(train_x, test_x, train_win.threshold, k = 3)
+  mae &lt;- c(mae, mean(abs(as.integer(knn3_pred == &quot;Playoffs&quot;) - as.integer(test_data$win.threshold == &quot;Playoffs&quot;))))
+}
+MAE &lt;- c(MAE, mean(mae))
+
+MAE</code></pre>
+<pre><code>## [1] 0.08888889 0.12222222 0.07777778 0.11111111</code></pre>
+<p><img src="/analytics/2019-12-12-methods-of-regression_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>Cross validation is extremely useful in that it uses all portions of the data to both test and train, and then computes the average error based on each individual sampling. From the graph above we can see that the QDA model had the lowest error mean absolute error (making it the most accurate) while the LDA model had the highest (making it the least accurate).</p>
+<p>Understanding traditional statistical methods are important as they will help us better comprehend machine learning in R in the next post.</p>
+</div>
+<div id="reference" class="section level3">
+<h3>Reference</h3>
 <p>I first learned the techniques showcased in this post from <em>An Introduction to Statistical Learning: with Applications in R</em>.</p>
 </div>

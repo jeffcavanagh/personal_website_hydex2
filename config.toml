@@ -2,7 +2,7 @@
 baseurl = "/"
 languageCode = "en"
 
-title = "Math, Health, and Other Stuff"
+title = "Jeff Cavanagh: Analytical Solutions for Life"
 theme = "hyde-hyde"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
@@ -87,7 +87,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     weight = 500
     url = "/recipes/"
 [[menu.main]]
-    name = "Good Thoughts"
-    identifier = "good thoughts"
+    name = "Perspective"
+    identifier = "perspective"
     weight = 600
-    url = "/good_thoughts/"
+    url = "/perspective/"
