@@ -2,7 +2,7 @@
 baseurl = "/"
 languageCode = "en"
 
-title = "Jeff Cavanagh: Analytical Solutions for Life"
+title = "Jeff Cavanagh"
 theme = "hyde-hyde"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 

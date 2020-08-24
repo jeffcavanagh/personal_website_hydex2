@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Analytics on Math, Health, and Other Stuff</title>
+    <title>Analytics on Jeff Cavanagh</title>
     <link>/analytics/</link>
-    <description>Recent content in Analytics on Math, Health, and Other Stuff</description>
+    <description>Recent content in Analytics on Jeff Cavanagh</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 05 Aug 2020 00:00:00 +0000</lastBuildDate>
@@ -41,6 +41,17 @@ Quite a bit of potential data is unstructured and textual in nature, and does no
       <guid>/analytics/web-scrape/</guid>
       <description>Unfortunately, not all data is contained within neat dataframes. Much of the freely accessible data out there is posted on webpages. This post will serve as an introduction on how to extract that data using two packages: rvest and rselenium.
 Setup CSS Tool Webpages are not written in R code. They are written in HTML and CSS. A working knowledge of at least CSS is required to use the webscapring packages R provides.</description>
+    </item>
+    
+    <item>
+      <title>Statistical Modeling Starter Kit</title>
+      <link>/analytics/methods-of-regression/</link>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/analytics/methods-of-regression/</guid>
+      <description>This post will cover some of the primary methods of regression analysis available in R. It will also serve as a warmup for the posts that explore Machine Learning and its applications.
+Setup For our regression data we will look at statistics concerning the history of my favorite sports team, The Detroit Lions. The data comes from Pro Football Reference.
+lions &amp;lt;- read.csv(&amp;quot;sportsref_download - sportsref_download.csv&amp;quot;) str(lions) ## &amp;#39;data.frame&amp;#39;: 90 obs.</description>
     </item>
     
   </channel>

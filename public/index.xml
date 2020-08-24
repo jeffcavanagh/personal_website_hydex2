@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Content on Math, Health, and Other Stuff</title>
+    <title>Content on Jeff Cavanagh</title>
     <link>/</link>
-    <description>Recent content in Content on Math, Health, and Other Stuff</description>
+    <description>Recent content in Content on Jeff Cavanagh</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
@@ -24,10 +24,10 @@ The writeup of the project can be found here{target = “blank”}
     
     <item>
       <title>Personalities</title>
-      <link>/good_thoughts/personalities/</link>
+      <link>/perspective/personalities/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/good_thoughts/personalities/</guid>
+      <guid>/perspective/personalities/</guid>
       <description>Strength does not come from winning. Your struggles develop your strengths. When you go through hardships and decide not to surrender, that is strength.
 - Arnold Schwarzenegger
   For me life is about continuously being hungry. The meaning of life is not simply to exist, to survive, but to move ahead, to group, to achieve, to conquer.
@@ -71,10 +71,10 @@ Heading 2 Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum 
     
     <item>
       <title>Poetry</title>
-      <link>/good_thoughts/poetry/</link>
+      <link>/perspective/poetry/</link>
       <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/good_thoughts/poetry/</guid>
+      <guid>/perspective/poetry/</guid>
       <description>Nothing Gold Can Stay  Nature’s first green is gold,
 Her hardest hue to hold,
 Her early leaf’s a flower;
@@ -101,10 +101,10 @@ Quite a bit of potential data is unstructured and textual in nature, and does no
     
     <item>
       <title>Text Excerpts</title>
-      <link>/good_thoughts/text-excerpts/</link>
+      <link>/perspective/text-excerpts/</link>
       <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/good_thoughts/text-excerpts/</guid>
+      <guid>/perspective/text-excerpts/</guid>
       <description>Just Mercy  We are all broken by something. We have all hurt someone and have been hurt. We all share the condition of brokenness even if our brokenness is not equivalent…
 …Thomas Merton said: We are bodies of broken bones. I guess I’d always known but never fully considered that being broken is what makes us human. We all have our reasons. Sometimes we’re fractured by the choices we make; sometimes we’re shattered by things we would never have chosen.</description>
     </item>
@@ -130,10 +130,10 @@ Setup CSS Tool Webpages are not written in R code. They are written in HTML and 
     
     <item>
       <title>Movies</title>
-      <link>/good_thoughts/quotes/</link>
+      <link>/perspective/quotes/</link>
       <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/good_thoughts/quotes/</guid>
+      <guid>/perspective/quotes/</guid>
       <description>Movies
 Good Will Hunting  Real loss is only possible when you love something more than you love yourself.
 - Sean Maguire
@@ -143,10 +143,10 @@ Good Will Hunting  Real loss is only possible when you love something more than 
     
     <item>
       <title>Spiritual</title>
-      <link>/good_thoughts/spiritual/</link>
+      <link>/perspective/spiritual/</link>
       <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/good_thoughts/spiritual/</guid>
+      <guid>/perspective/spiritual/</guid>
       <description>Nothing is more practical than finding God,
 than falling in Love in a quite absolute, final way.
 What you are in love with,
@@ -180,6 +180,15 @@ and what amazes you with joy and gratitude.</description>
     </item>
     
     <item>
+      <title>Endgame</title>
+      <link>/fitness/endgame/</link>
+      <pubDate>Wed, 15 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/fitness/endgame/</guid>
+      <description> Week 1 Monday: Compound Lower Body  : Mobility work / Roll Legs / Stretch   Tuesday: Compound Upper Body  : stretch/hang   Wednesday: Sprint/Core  : stretch  Thursday: Uni-Lateral Lower Body  : Walking Warmup   : Mobility work / Roll Legs / Stretch   Friday: Uni-Lateral Upper Body  : stretch/hang    Saturday: Multifunctional  : stretch/hang   Week 2  Monday: Compound Lower Body  Warmup: TRX Squat 2 x 10 Explosive Movement: Power Clean 3 x 5  TB Deadlift 5 x 5 Front Squat 3 x 10 DB RDLs 3 x 12-15   Cooldown: Mobility work / Roll Legs / Stretch    </description>
+    </item>
+    
+    <item>
       <title>Hiking Trail Analysis</title>
       <link>/projects/hiking-trail-analysis/</link>
       <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
@@ -188,6 +197,17 @@ and what amazes you with joy and gratitude.</description>
       <description>Setup trails=read.csv(&amp;quot;AllTrailsdata_nationalpark.csv&amp;quot;,header=T) attach(trails) dim(trails) ## [1] 3313 18 This data set gives information on trails in the National Parks Service. The data is publically available on Kaggle.com.
 Each row is a different trail. The columns describing each trail are:
  trail_id name area_name city_name state_name country_name _geoloc (coordinates) popularity (scaled value) length (km) elevation_gain difficulty_rating (1:5) route_type (out and back, loop, point to point) visitor_usage (1:4) avg_rating (1:5) num_reviews features (dogs-no, forest, views, lake, wild-flowers, etc…) activities (birding, hiking, nature-trips, etc…) units (i,m)  Average rating was chosen as the dependent variable.</description>
+    </item>
+    
+    <item>
+      <title>Statistical Modeling Starter Kit</title>
+      <link>/analytics/methods-of-regression/</link>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/analytics/methods-of-regression/</guid>
+      <description>This post will cover some of the primary methods of regression analysis available in R. It will also serve as a warmup for the posts that explore Machine Learning and its applications.
+Setup For our regression data we will look at statistics concerning the history of my favorite sports team, The Detroit Lions. The data comes from Pro Football Reference.
+lions &amp;lt;- read.csv(&amp;quot;sportsref_download - sportsref_download.csv&amp;quot;) str(lions) ## &amp;#39;data.frame&amp;#39;: 90 obs.</description>
     </item>
     
     <item>
@@ -207,7 +227,7 @@ Here is the write up of the project</description>
       
       <guid>/projects/nfl-team-wins-regression-analysis/</guid>
       <description>This was a final project I completed for my Regression and Time Series Analysis Course. I took data from the 2017 NFL season and used it to see what metrics were significant in predicting the number of wins a team would achieve.
-Here is the write up of the project{target = “blank”}</description>
+Here is the write up of the project</description>
     </item>
     
     <item>

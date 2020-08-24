@@ -3,8 +3,10 @@ title: Statistical Modeling Starter Kit
 author: Jeff Cavanagh
 date: '2019-12-12'
 slug: methods-of-regression
-categories: []
-tags: []
+categories: 
+  - R
+tags:
+  - ML
 lastmod: '2020-08-18T15:57:46-04:00'
 layout: post
 type: post

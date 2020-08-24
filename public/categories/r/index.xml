@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>R on Math, Health, and Other Stuff</title>
+    <title>R on Jeff Cavanagh</title>
     <link>/categories/r/</link>
-    <description>Recent content in R on Math, Health, and Other Stuff</description>
+    <description>Recent content in R on Jeff Cavanagh</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 05 Aug 2020 00:00:00 +0000</lastBuildDate>
@@ -63,6 +63,17 @@ Setup CSS Tool Webpages are not written in R code. They are written in HTML and 
       <description>Setup trails=read.csv(&amp;quot;AllTrailsdata_nationalpark.csv&amp;quot;,header=T) attach(trails) dim(trails) ## [1] 3313 18 This data set gives information on trails in the National Parks Service. The data is publically available on Kaggle.com.
 Each row is a different trail. The columns describing each trail are:
  trail_id name area_name city_name state_name country_name _geoloc (coordinates) popularity (scaled value) length (km) elevation_gain difficulty_rating (1:5) route_type (out and back, loop, point to point) visitor_usage (1:4) avg_rating (1:5) num_reviews features (dogs-no, forest, views, lake, wild-flowers, etc…) activities (birding, hiking, nature-trips, etc…) units (i,m)  Average rating was chosen as the dependent variable.</description>
+    </item>
+    
+    <item>
+      <title>Statistical Modeling Starter Kit</title>
+      <link>/analytics/methods-of-regression/</link>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/analytics/methods-of-regression/</guid>
+      <description>This post will cover some of the primary methods of regression analysis available in R. It will also serve as a warmup for the posts that explore Machine Learning and its applications.
+Setup For our regression data we will look at statistics concerning the history of my favorite sports team, The Detroit Lions. The data comes from Pro Football Reference.
+lions &amp;lt;- read.csv(&amp;quot;sportsref_download - sportsref_download.csv&amp;quot;) str(lions) ## &amp;#39;data.frame&amp;#39;: 90 obs.</description>
     </item>
     
   </channel>

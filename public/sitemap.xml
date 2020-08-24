@@ -9,16 +9,16 @@
   
   <url>
     <loc>/</loc>
+    <lastmod>2020-08-18T15:57:46-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/perspective/personalities/</loc>
     <lastmod>2020-08-09T17:18:29-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/good_thoughts/</loc>
-    <lastmod>2020-08-09T17:18:29-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/good_thoughts/personalities/</loc>
+    <loc>/perspective/</loc>
     <lastmod>2020-08-09T17:18:29-04:00</lastmod>
   </url>
   
@@ -34,12 +34,12 @@
   
   <url>
     <loc>/analytics/</loc>
-    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+    <lastmod>2020-08-18T15:57:46-04:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+    <lastmod>2020-08-18T15:57:46-04:00</lastmod>
   </url>
   
   <url>
@@ -54,11 +54,11 @@
   
   <url>
     <loc>/tags/ml/</loc>
-    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+    <lastmod>2020-08-18T15:57:46-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/good_thoughts/poetry/</loc>
+    <loc>/perspective/poetry/</loc>
     <lastmod>2020-08-05T15:52:14-04:00</lastmod>
   </url>
   
@@ -74,7 +74,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+    <lastmod>2020-08-18T15:57:46-04:00</lastmod>
   </url>
   
   <url>
@@ -99,7 +99,7 @@
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2020-08-05T16:02:39-04:00</lastmod>
+    <lastmod>2020-08-18T15:57:46-04:00</lastmod>
   </url>
   
   <url>
@@ -108,7 +108,7 @@
   </url>
   
   <url>
-    <loc>/good_thoughts/text-excerpts/</loc>
+    <loc>/perspective/text-excerpts/</loc>
     <lastmod>2020-08-05T15:55:04-04:00</lastmod>
   </url>
   
@@ -128,12 +128,12 @@
   </url>
   
   <url>
-    <loc>/good_thoughts/quotes/</loc>
+    <loc>/perspective/quotes/</loc>
     <lastmod>2020-08-02T19:26:43-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/good_thoughts/spiritual/</loc>
+    <loc>/perspective/spiritual/</loc>
     <lastmod>2020-08-02T20:12:16-04:00</lastmod>
   </url>
   
@@ -148,8 +148,33 @@
   </url>
   
   <url>
+    <loc>/tags/complex/</loc>
+    <lastmod>2020-08-15T11:47:48-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/fitness/endgame/</loc>
+    <lastmod>2020-08-15T11:47:48-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/fitness/</loc>
+    <lastmod>2020-08-15T11:47:48-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/full-routine/</loc>
+    <lastmod>2020-08-15T11:47:48-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/projects/hiking-trail-analysis/</loc>
     <lastmod>2020-08-01T09:50:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/analytics/methods-of-regression/</loc>
+    <lastmod>2020-08-18T15:57:46-04:00</lastmod>
   </url>
   
   <url>
@@ -203,7 +228,7 @@
   </url>
   
   <url>
-    <loc>/fitness/</loc>
+    <loc>/tags/upper/lower-split/</loc>
   </url>
   
 </urlset>

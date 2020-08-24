@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Fitness on Jeff Cavanagh</title>
-    <link>/fitness/</link>
-    <description>Recent content in Fitness on Jeff Cavanagh</description>
+    <title>Upper/Lower Split on Jeff Cavanagh</title>
+    <link>/tags/upper/lower-split/</link>
+    <description>Recent content in Upper/Lower Split on Jeff Cavanagh</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/fitness/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/upper/lower-split/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
