@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Content on JEFF CAVANAGH</title>
+    <title>Content on Jeff Cavanagh</title>
     <link>/</link>
-    <description>Recent content in Content on JEFF CAVANAGH</description>
+    <description>Recent content in Content on Jeff Cavanagh</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Tue, 25 Aug 2020 00:00:00 +0000</lastBuildDate>
@@ -20,6 +20,18 @@
       <description>For my graduate project I created an optimization that analyses the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable option for the future.
 The writeup of the project can be found here{target = “blank”}
 # Health cost death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.</description>
+    </item>
+    
+    <item>
+      <title>Appetizers/Sides</title>
+      <link>/recipes/appetizers-sides/</link>
+      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/recipes/appetizers-sides/</guid>
+      <description>Bacon, Jalapeno, &amp;amp; Garlic Green Beans
+Guacamole
+Honey Vinegar Dressing
+Loaded Sweet Potato</description>
     </item>
     
     <item>
