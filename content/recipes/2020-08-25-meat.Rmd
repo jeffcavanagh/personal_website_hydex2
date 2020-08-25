@@ -1,0 +1,87 @@
+---
+title: Meat
+author: Jeff Cavanagh
+date: '2020-08-25'
+slug: meat
+categories: []
+tags: []
+lastmod: '2020-08-25T17:27:22-04:00'
+layout: post
+highlight: no
+---
+
+### Beef
+
+[GameDay Potato Nachos](/recipes/2020-08-25-meat_files/GameDay Potato Nachos.pdf){target="blank"}
+
+![](/recipes/2020-08-25-meat_files/AF1QipOGcurzMuadhIPTm7Ne-jbLWekYa_KXBEIn3vSZ=w1869-h2048.jpg){width=400px}
+
+***
+
+[Rump Roast](/recipes/2020-08-25-meat_files/Rump Roast.pdf){target="blank"}
+
+![](/recipes/2020-08-25-meat_files/AF1QipNb4OBaf45EQDmabTpP9-CK3L7c5-8P7Ks0xVmG=w1536-h2048.jpg){width=400px}
+
+***
+
+### Chicken
+
+[Chicken & Quinoa Tortilla Soup](/recipes/2020-08-25-meat_files/Chicken & Quinoa Tortilla Soup.pdf){target="blank"}
+
+![](/recipes/2020-08-25-meat_files/unnamed (3).jpg){width=400px}
+
+***
+
+[Grilled Chicken Caesar Salad](/recipes/2020-08-25-meat_files/Grilled Chicken Caesar Salad.pdf){target="blank"}
+
+***
+
+[Honey Hot Chicken](/recipes/2020-08-25-meat_files/Honey Hot Chicken.pdf){target="blank"}
+
+![](/recipes/2020-08-25-meat_files/unnamed (1).jpg){width=400px}
+
+***
+
+[Italian Balsamic Grilled Chicken](/recipes/2020-08-25-meat_files/Italian Balsamic Grilled Chicken.pdf){target="blank"}
+
+![](/recipes/2020-08-25-meat_files/unnamed.jpg){width=400px}
+
+***
+
+[Pineapple Pepper Chicken](/recipes/2020-08-25-meat_files/Pineapple Pepper Chicken.pdf){target="blank"}
+
+![](/recipes/2020-08-25-meat_files/unnamed (2).jpg){width=400px}
+
+***
+
+### Pork
+
+[Chile Pork Chops with Pineapple](/recipes/2020-08-25-meat_files/Chile Pork Chops with Pineapple.pdf){target="blank"}
+
+***
+
+[Pork Chop Saltimbocca](/recipes/2020-08-25-meat_files/Pork Chop Saltimbocca.pdf){target="blank"}
+
+![](/recipes/2020-08-25-meat_files/AF1QipOu2Xxpgn1vIZLz7ylLI2AmfN-wfAclwLtgl3Wa=w1536-h2048.jpg){width=400px}
+
+***
+
+### Turkey
+
+[Moroccan White Bean Chili](/recipes/2020-08-25-meat_files/Moroccan White Bean Chili.pdf){target="blank"}
+
+![](/recipes/2020-08-25-meat_files/AF1QipP0LRKtapiKsuC_prObN3fhw6zL_RUG8x1x-k_R=w2048-h1674.jpg){width=400px}
+
+***
+
+[Pirate Stew](/recipes/2020-08-25-meat_files/Pirate Stew.pdf){target="blank"}
+
+![](/recipes/2020-08-25-meat_files/unnamed (4).jpg){width=400px}
+
+***
+
+[Turkey Quinoa Taco Skillet](/recipes/2020-08-25-meat_files/Turkey Quinoa Taco Skillet.pdf){target="blank"}
+
+
+
+

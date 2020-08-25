@@ -5,4 +5,10 @@ title: About Jeff
 
 **Welcome to my Site! **
 
+My name is Jeff and I am a data scientist living in Boston, MA. I created this website as an outlet for my work, interests, and outlook on life. That outlook is heavily driven by the desire to optimize my life. It is what molded my background in math and analytics, it is what motivates my constant desire to improve (professionally, physically, mentally, socially, and emotionally), and it is ultimately what led me to become a data scientist.
 
+In the following pages you will find my personal projects, articles on how to apply various data science and analytic technqiues, fitness routines and eduction from my history as a personal trainer, my own personal recipe database, and quotes and exercepts from a range of sources that I have taken wisdom from.
+
+I believe that the human potential for growth and improvement is limitless and that there is no problem without a solution. I hope that in perusing this website you are able to learn something new, and therefore add to your own personal growth.
+
+P.S. For those who were wondering, the great looking pup in my picture is my dog Coffee, she's the best.

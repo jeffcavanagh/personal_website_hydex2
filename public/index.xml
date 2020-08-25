@@ -6,7 +6,7 @@
     <description>Recent content in Content on JEFF CAVANAGH</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 25 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -23,12 +23,45 @@ The writeup of the project can be found here{target = “blank”}
     </item>
     
     <item>
+      <title>Football Food</title>
+      <link>/recipes/football-food/</link>
+      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/recipes/football-food/</guid>
+      <description>GameDay Potato Nachos
+Guacamole
+Loaded Sweet Potato</description>
+    </item>
+    
+    <item>
+      <title>Meat</title>
+      <link>/recipes/meat/</link>
+      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/recipes/meat/</guid>
+      <description> Beef GameDay Potato Nachos
+Rump Roast
+ Chicken Chicken &amp;amp; Quinoa Tortilla Soup
+Grilled Chicken Caesar Salad
+Honey Hot Chicken
+Italian Balsamic Grilled Chicken
+Pineapple Pepper Chicken
+ Pork Chile Pork Chops with Pineapple
+Pork Chop Saltimbocca
+ Turkey Moroccan White Bean Chili
+Pirate Stew
+Turkey Quinoa Taco Skillet
+ </description>
+    </item>
+    
+    <item>
       <title>About Jeff</title>
       <link>/about/</link>
       <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>Welcome to my Site!</description>
+      <description>Welcome to my Site! 
+My name is Jeff and I am a data scientist living in Boston, MA. I created this website as an outlet for my work, interests, and outlook on life. That outlook is heavily driven by the desire to optimize my life. It is what molded my background in math and analytics, it is what motivates my constant desire to improve (professionally, physically, mentally, socially, and emotionally), and it is ultimately what led me to become a data scientist.</description>
     </item>
     
     <item>
@@ -172,7 +205,7 @@ and what amazes you with joy and gratitude.</description>
       <pubDate>Wed, 15 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/fitness/endgame/</guid>
-      <description> Week 1 Monday: Compound Lower Body  : Mobility work / Roll Legs / Stretch   Tuesday: Compound Upper Body  : stretch/hang   Wednesday: Sprint/Core  : stretch  Thursday: Uni-Lateral Lower Body  : Walking Warmup   : Mobility work / Roll Legs / Stretch   Friday: Uni-Lateral Upper Body  : stretch/hang    Saturday: Multifunctional  : stretch/hang   Week 2  Monday: Compound Lower Body  Warmup: TRX Squat 2 x 10 Explosive Movement: Power Clean 3 x 5  TB Deadlift 5 x 5 Front Squat 3 x 10 DB RDLs 3 x 12-15   Cooldown: Mobility work / Roll Legs / Stretch    </description>
+      <description> Week 1 Monday: Compound Lower Body  : Mobility work / Roll Legs / Stretch   Tuesday: Compound Upper Body  : stretch/hang   Wednesday: Sprint/Core  : stretch  Thursday: Uni-Lateral Lower Body  : Walking Warmup   : Mobility work / Roll Legs / Stretch   Friday: Uni-Lateral Upper Body  : stretch/hang    Saturday: Multifunctional  : stretch/hang    Week 2 Monday: Compound Lower Body  : Mobility work / Roll Legs / Stretch   Tuesday: Compound Upper Body  : stretch/hang   Wednesday: Sprint/Core  : stretch  Thursday: Uni-Lateral Lower Body  : Walking Warmup   : Mobility work / Roll Legs / Stretch   Friday: Uni-Lateral Upper Body  : stretch/hang    Saturday: Multifunctional  : stretch/hang   Complex Options   </description>
     </item>
     
     <item>

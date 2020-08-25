@@ -1,0 +1,27 @@
+---
+title: Football Food
+author: Jeff Cavanagh
+date: '2020-08-25'
+slug: football-food
+categories: []
+tags: []
+lastmod: '2020-08-25T19:35:12-04:00'
+layout: post
+highlight: no
+---
+
+[GameDay Potato Nachos](/recipes/2020-08-25-meat_files/GameDay Potato Nachos.pdf){target="blank"}
+
+![](/recipes/2020-08-25-meat_files/AF1QipOGcurzMuadhIPTm7Ne-jbLWekYa_KXBEIn3vSZ=w1869-h2048.jpg){width=400px}
+
+***
+
+[Guacamole](/recipes/2020-08-25-football-food_files/Guacamole.pdf){target="blank"}
+
+![](/recipes/2020-08-25-football-food_files/AF1QipNR4s-0StwYTNaJUiOz-xLGrmQ4BvrWjPSPgSoX=w1536-h2048.jpg){width=400px}
+
+***
+
+[Loaded Sweet Potato](/recipes/2020-08-25-football-food_files/Loaded Sweet Potato.pdf){target="blank"}
+
+![](/recipes/2020-08-25-football-food_files/AF1QipMIQMD23y3mmWQn3dnlNmwd4LNgT_Q_P8Hd_4fF=w1536-h2048.jpg){width=400px}

@@ -11,9 +11,6 @@ highlight: no
 ---
 
 
-
-
-
 [Berry Oatmeal Bake](/recipes/2020-08-07-breakfast_files/Berry Oatmeal Bake.pdf){target="blank"}
 
 ![](/recipes/2020-08-07-breakfast_files/berryoatmealbake.png){width=400px}
