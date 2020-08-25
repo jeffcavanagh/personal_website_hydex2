@@ -9,7 +9,6 @@ highlight: no
 slug: spiritual
 tags: []
 categories: []
-type: post
 ---
 
 > Nothing is more practical than finding God,  

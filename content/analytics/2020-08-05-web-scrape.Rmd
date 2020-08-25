@@ -1,5 +1,5 @@
 ---
-title: Web Scrape
+title: Web Scraping
 author: Jeff Cavanagh
 date: '2020-08-05'
 slug: web-scrape

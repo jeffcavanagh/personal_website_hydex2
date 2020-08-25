@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Analytics on Jeff Cavanagh</title>
+    <title>Analytics on Jeff Cavanagh Analyze, Model, Implement</title>
     <link>/analytics/</link>
-    <description>Recent content in Analytics on Jeff Cavanagh</description>
+    <description>Recent content in Analytics on Jeff Cavanagh Analyze, Model, Implement</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 05 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/analytics/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Machine Learning - Basic</title>
-      <link>/analytics/machine-learning-basic/</link>
-      <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/analytics/machine-learning-basic/</guid>
-      <description>Insert Lead paragraph here.
-A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis.
-Heading 2 Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum vestibulum porta mauris lorem, ullamcorper class fermentum sem hendrerit ante augue penatibus scelerisque felis leo proin,ad nascetur venenatis sodales dignissim viverra suspendisse turpis convallis condimentum sapien.</description>
-    </item>
     
     <item>
       <title>Processing Text Data</title>
@@ -34,7 +23,7 @@ Quite a bit of potential data is unstructured and textual in nature, and does no
     </item>
     
     <item>
-      <title>Web Scrape</title>
+      <title>Web Scraping</title>
       <link>/analytics/web-scrape/</link>
       <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
       

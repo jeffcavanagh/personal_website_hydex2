@@ -7,10 +7,9 @@ categories: []
 tags: []
 lastmod: '2020-08-09T17:18:29-04:00'
 layout: post
-type: post
 highlight: no
 ---
-
+ 
 > Strength does not come from winning. Your struggles develop your strengths. When you go through hardships and decide not to surrender, that is strength.  
 - *Arnold Schwarzenegger*
 
