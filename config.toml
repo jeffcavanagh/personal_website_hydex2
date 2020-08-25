@@ -2,7 +2,7 @@
 baseurl = "/"
 languageCode = "en"
 
-title = "Jeff Cavanagh Analyze, Model, Implement"
+title = "JEFF CAVANAGH"
 theme = "hyde-hyde"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
@@ -21,8 +21,8 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     
 [params]
     author = "Jeff Cavanagh"
-    title = "The Woods of Jeff"
-    # description = "..."
+    title = "Jeff Cavanagh"
+    description = "OPTIMIZATION BY RECURSIVE: ANALYSIS, MODELING, AND IMPLEMENTATION"
     authorimage = "/img/coffeeandme_camping.JPG"
     dateformat = "Jan 2, 2006"
     favicon = "favicon.ico"
