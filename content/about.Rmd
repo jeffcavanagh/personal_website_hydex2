@@ -3,12 +3,14 @@ date: "2020-08-24"
 title: About Jeff
 ---
 
-**Welcome to my Site! **
+** Welcome to my Site! **
 
-My name is Jeff and I am a data scientist living in Boston, MA. I created this website as an outlet for my work, interests, and outlook on life. That outlook is heavily driven by the desire to optimize my life. It is what molded my background in math and analytics, it is what motivates my constant desire to improve (professionally, physically, mentally, socially, and emotionally), and it is ultimately what led me to become a data scientist.
+My name is Jeff and I am a data scientist living in Boston, MA. I created this website as an outlet for my work, interests, and outlook on life. 
+
+A primary motivator in my life is the concept of limitless human potential. The idea that no matter how good a process is or how contempt I am with where I am at in life, there is always work that can be done to make it even better. This concept drives me to improve my professional, social, and personal lives. It also influenced my career path into data science, a profession I look at as an opportunity to optimize through the manipulation of data.
 
 In the following pages you will find my personal projects, articles on how to apply various data science and analytic technqiues, fitness routines and eduction from my history as a personal trainer, my own personal recipe database, and quotes and exercepts from a range of sources that I have taken wisdom from.
 
-I believe that the human potential for growth and improvement is limitless and that there is no problem without a solution. I hope that in perusing this website you are able to learn something new, and therefore add to your own personal growth.
+This website is a showcase my abilities, passions, and influences. I believe that the potential for growth and improvement (in virtually anything) is limitless and that there is no problem without a solution. The following pages contain prime examples of my journey working towards my potential: both as a data scientist and as an individual.
 
-P.S. For those who were wondering, the great looking pup in my picture is my dog Coffee, she's the best.
+

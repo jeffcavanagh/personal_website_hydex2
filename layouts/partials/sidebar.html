@@ -2,7 +2,7 @@
 <div class="sidebar">
   <div class="container {{ with .Site.Params.sidebarSticky }}sidebar-sticky{{ end }}">
     <div class="sidebar-about">
-      <span class="site__title" style="font-size:1.85em">
+      <span class="site__title" style="font-size:1.55em;font-family:palatino">
         <a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
       </span>
       {{ if and (isset .Site.Params "authorimage") (not (isset .Site.Params.social "gravatar")) }}
