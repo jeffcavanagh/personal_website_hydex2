@@ -3,8 +3,10 @@ title: Breakfast
 author: Jeff Cavanagh
 date: '2020-08-07'
 slug: breakfast
-categories: []
-tags: []
+categories: 
+  - Food
+tags: 
+  - Breakfast
 lastmod: '2020-08-07T16:10:54-04:00'
 layout: post
 highlight: no

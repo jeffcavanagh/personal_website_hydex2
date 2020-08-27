@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Food on Jeff Cavanagh</title>
+    <link>/categories/food/</link>
+    <description>Recent content in Food on Jeff Cavanagh</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 25 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/food/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Appetizers/Sides</title>
+      <link>/recipes/appetizers-sides/</link>
+      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/recipes/appetizers-sides/</guid>
+      <description>Bacon, Jalapeno, &amp;amp; Garlic Green Beans
+Guacamole
+Honey Vinegar Dressing
+Loaded Sweet Potato</description>
+    </item>
+    
+    <item>
+      <title>Football Food</title>
+      <link>/recipes/football-food/</link>
+      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/recipes/football-food/</guid>
+      <description>GameDay Potato Nachos
+Guacamole
+Loaded Sweet Potato</description>
+    </item>
+    
+    <item>
+      <title>Meat</title>
+      <link>/recipes/meat/</link>
+      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/recipes/meat/</guid>
+      <description> Beef GameDay Potato Nachos
+Rump Roast
+ Chicken Chicken &amp;amp; Quinoa Tortilla Soup
+Grilled Chicken Caesar Salad
+Honey Hot Chicken
+Italian Balsamic Grilled Chicken
+Pineapple Pepper Chicken
+ Pork Chile Pork Chops with Pineapple
+Pork Chop Saltimbocca
+ Turkey Moroccan White Bean Chili
+Pirate Stew
+Turkey Quinoa Taco Skillet
+ </description>
+    </item>
+    
+    <item>
+      <title>Breakfast</title>
+      <link>/recipes/breakfast/</link>
+      <pubDate>Fri, 07 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/recipes/breakfast/</guid>
+      <description>Berry Oatmeal Bake
+Fried Rice
+Lemon-Blueberry-Banana Pancakes
+Quinoa Breakfast Bowl</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Meat on Jeff Cavanagh</title>
+    <link>/tags/meat/</link>
+    <description>Recent content in Meat on Jeff Cavanagh</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 25 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/meat/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Meat</title>
+      <link>/recipes/meat/</link>
+      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/recipes/meat/</guid>
+      <description> Beef GameDay Potato Nachos
+Rump Roast
+ Chicken Chicken &amp;amp; Quinoa Tortilla Soup
+Grilled Chicken Caesar Salad
+Honey Hot Chicken
+Italian Balsamic Grilled Chicken
+Pineapple Pepper Chicken
+ Pork Chile Pork Chops with Pineapple
+Pork Chop Saltimbocca
+ Turkey Moroccan White Bean Chili
+Pirate Stew
+Turkey Quinoa Taco Skillet
+ </description>
+    </item>
+    
+  </channel>
+</rss>

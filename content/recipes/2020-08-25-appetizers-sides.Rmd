@@ -3,8 +3,10 @@ title: Appetizers/Sides
 author: Jeff Cavanagh
 date: '2020-08-25'
 slug: appetizers-sides
-categories: []
-tags: []
+categories: 
+  - Food
+tags: 
+  - Sides
 lastmod: '2020-08-25T19:41:14-04:00'
 layout: post
 highlight: no

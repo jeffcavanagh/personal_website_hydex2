@@ -2,258 +2,237 @@
 title: "Endgame"
 author: "Jeff Cavanagh"
 date: '2020-01-15'
-output: pdf_document
-lastmod: '2020-08-15T11:47:48-04:00'
 layout: post
 highlight: yes
 slug: endgame
-tags: 
-  - Complex
-  - Upper/Lower Split
-categories:
-  - Full Routine
-type: post
+tags:
+- Complex
+- Upper/Lower Split
+categories: 
+- Full Routine
 ---
 
-** **
+**I put this workout together in the summer of 2019. At its core it is an upper/lower split. The week is formatted as two iterations of a lower body day, an upper body day, and a dynamic, multifunctional day. The reps vary slightly on a bi-weekly basis depending on which movements are the primary emphasis.**
 
 ## **Week 1**
 ### Monday: Compound Lower Body
 
-\begin{itemize}
-  \item \emph{Warmup}: TRX Squat 2 x 10
-  \item \emph{Explosive Movement}: Box Jump 3 x 5 
-\end{itemize}
-\begin{enumerate}
-  \item Font Squat 5 x 5
-  \item TB Deadlift 3 x 10
-  \item Superset x 3
-  \begin{enumerate}
-    \item Goblet Squat x 12
-    \item DB RDLs x 12 - 15
-  \end{enumerate}
-\end{enumerate}
+* *Warmup*: TRX Squat 2 x 10
+* *Explosive Movement*: Box Jump 3 x 5 
 
-* \emph{Cooldown}: Mobility work / Roll Legs / Stretch
+1. Font Squat 5 x 5
+2. TB Deadlift 3 x 10
+3. Superset x 3
+    a. Goblet Squat x 12
+    b. DB RDLs x 12 - 15
+    
+* *Cooldown*: Mobility work / Roll Legs / Stretch
 
 ### Tuesday: Compound Upper Body
 
-\begin{itemize}
-  \item \emph{Warmup}: Superset x 3
-  \begin{enumerate}
-    \item Plyo-pushups x 5
-    \item Face Pulls x 10
-  \end{enumerate}
-  \item \emph{Explosive} Movement: Push Press 3 x 5
-\end{itemize}
-\begin{enumerate}
-  \item Pullups (weighted) 4 x 5
-  \item DB Bench 4 x 5
-  \item DB Row 3 x 10
-  \item Triset x 3
-  \begin{enumerate}
-    \item Standing Arnold Press x 8-10
-    \item DB Hammer Curls x 6 - 10
-    \item DB close-grip Pushups x 15 - 20
-  \end{enumerate}
-  \item Superset x 3
-  \begin{enumerate}
-    \item Inclince DB Bench x 12 - 15
-    \item Incline Lever Rows x 12 - 15
-  \end{enumerate}
-\end{enumerate}
+* *Warmup*: Superset x 3
+    a. Plyo-pushups x 5
+    b. Face Pulls x 10
 
-* \emph{Cooldown}: stretch/hang
+* *Explosive Movement*: Push Press 3 x 5
+
+1. Pullups (weighted) 4 x 5
+2. DB Bench 4 x 5
+3. DB Row 3 x 10
+4. Triset x 3
+    a. Standing Arnold Press x 8-10
+    b. DB Hammer Curls x 6 - 10
+    c. DB close-grip Pushups x 15 - 20
+5. Superset x 3
+    a. Inclince DB Bench x 12 - 15
+    b. Incline Lever Rows x 12 - 15
+
+* *Cooldown*: stretch/hang
 
 ### Wednesday: Sprint/Core
-\begin{enumerate}
-  \item SPRINT 8
-  \item Landmine 180s 4 x 10 - 12
-  \item Superset x 3
-  \begin{enumerate}
-    \item Standing Rollouts x 5 - 10
-    \item Decline (weighted) Situps x 10 - 12
-  \end{enumerate}
-  \item Superset x 3
-  \begin{enumerate}
-    \item Hanging Leg Raises x 8 - 10
-    \item Cable Crunch x 12 - 15
-  \end{enumerate}
-  \item \emph{Finisher}: Sled Push or Farmers Walks (Timed, Distance, EMOM, or Tabata)
-\end{enumerate}
 
-* \emph{Cooldown}: stretch
+1. SPRINT 8
+2. Landmine 180s 4 x 10 - 12
+3. Superset x 3
+    a. Standing Rollouts x 5 - 10
+    b. Decline (weighted) Situps x 10 - 12
+4. Superset x 3
+    a. Hanging Leg Raises x 8 - 10
+    b. Cable Crunch x 12 - 15
+5. *Finisher*: Sled Push or Farmers Walks (Timed, Distance, EMOM, or Tabata)
+
+* *Cooldown*: stretch
 
 #### Thursday: Uni-Lateral Lower Body
 
-* \emph{Warmup}: Walking Warmup
+* *Warmup*: Walking Warmup
 
-\begin{enumerate}
-  \item Front Squat Reverse Lunge 3 x 6
-  \item Single Leg Barbell RDL 3 x 8 - 10
-  \item Bulgarian Split Squat 3 x 10 - 15
-  \item Glute-Ham Raise 3 x 10
-\end{enumerate}
+1. Front Squat Reverse Lunge 3 x 6
+2. Single Leg Barbell RDL 3 x 8 - 10
+3. Bulgarian Split Squat 3 x 10 - 15
+4. Glute-Ham Raise 3 x 10
 
-* \emph{Cooldown}: Mobility work / Roll Legs / Stretch
+* *Cooldown*: Mobility work / Roll Legs / Stretch
 
 #### Friday: Uni-Lateral Upper Body
-\begin{itemize}
-  \item \emph{Warmup}: Superset x 3
-  \begin{enumerate}
-    \item Plyo-pushups x 5
-    \item Face Pulls x 10
-  \end{enumerate}
-\end{itemize}
-  
-\begin{enumerate}
-  \item One-Arm Pushups 3 x 5 - 10
-  \item Freestanding DB Row 3 x 6 - 8
-  \item Superset x 3
-  \begin{enumerate}
-    \item Kneeling Banded Pushdowns x 15 - 30
-    \item Dips x 10 - 12
-  \end{enumerate}
-  \item Superset x 3
-  \begin{enumerate}
-    \item Chinups x 4 - 10
-    \item Smash Curl x 10 - 15
-  \end{enumerate}
-  \item Single-Arm Overhead Press 3 x 8 - 12
-\end{enumerate}
 
-* \emph{Cooldown}: stretch/hang
+* *Warmup*: Superset x 3
+    a. Plyo-pushups x 5
+    b. Face Pulls x 10
+  
+1. One-Arm Pushups 3 x 5 - 10
+2. Freestanding DB Row 3 x 6 - 8
+3. Superset x 3
+    a. Kneeling Banded Pushdowns x 15 - 30
+    b. Dips x 10 - 12
+4. Superset x 3
+    a. Chinups x 4 - 10
+    b. Smash Curl x 10 - 15
+5. Single-Arm Overhead Press 3 x 8 - 12
+
+* *Cooldown*: stretch/hang
 
 ### Saturday: Multifunctional
-\begin{enumerate}
-  \item SPRINT 8
-  \item Complex (Pick one from list below)
-  \item Chinup + Pushup Desceding Superset Pyramid
-  \item Sprint Tabata
-  \item (opt) extra Tabata or full body conditioning (Sled Push, Farmers Walks, etc.)
-\end{enumerate}
 
-* \emph{Cooldown}: stretch/hang
+1. SPRINT 8
+2. Complex (Pick one from list below)
+3. Chinup + Pushup (10,20;8,16;6,12;4,8;2,4 for time)
+4. Sprint Tabata
+5. (opt) extra Tabata or full body conditioning (Sled Push, Farmers Walks, etc.)
+
+* *Cooldown*: stretch/hang
 
 ## **Week 2**
 ### Monday: Compound Lower Body
 
-\begin{itemize}
-  \item \emph{Warmup}: TRX Squat 2 x 10
-  \item \emph{Explosive Movement}: Box Jump 3 x 5 
-\end{itemize}
-\begin{enumerate}
-  \item TB Deadlift 5 x 5
-  \item Font Squat 3 x 10
-  \item Superset x 3
-  \begin{enumerate}
-    \item DB RDLs x 12
-    \item Goblet Squat x 12 - 15
-  \end{enumerate}
-\end{enumerate}
+* *Warmup*: Swiss Ball Leg Curl 2 x 10
+* *Explosive Movement*: Power Clean 3 x 5 
 
-* \emph{Cooldown}: Mobility work / Roll Legs / Stretch
+1. TB Deadlift 5 x 5
+2. Font Squat 3 x 10
+3. Superset x 3
+    a. DB RDLs x 12
+    b. Goblet Squat x 12 - 15
+    
+* *Cooldown*: Mobility work / Roll Legs / Stretch
 
 ### Tuesday: Compound Upper Body
 
-\begin{itemize}
-  \item \emph{Warmup}: Superset x 3
-  \begin{enumerate}
-    \item Plyo-pushups x 5
-    \item Face Pulls x 10
-  \end{enumerate}
-  \item \emph{Explosive} Movement: Push Press 3 x 5
-\end{itemize}
-\begin{enumerate}
-  \item DB Row 4 x 5
-  \item DB Bench 3 x 8 - 10
-  \item Pullups 3 x 10
-  \item Triset x 3
-  \begin{enumerate}
-    \item Standing Arnold Press x 8-10
-    \item DB Hammer Curls x 6 - 10
-    \item DB close-grip Pushups x 15 - 20
-  \end{enumerate}
-  \item Superset x 3
-  \begin{enumerate}
-    \item Inclince DB Bench x 12 - 15
-    \item Incline Lever Rows x 12 - 15
-  \end{enumerate}
-\end{enumerate}
+* *Warmup*: Superset x 3
+    a. Plyo-pushups x 5
+    b. Face Pulls x 10
 
-* \emph{Cooldown}: stretch/hang
+* *Explosive Movement*: Push Press 3 x 5
+
+1. DB Row (weighted) 4 x 5
+2. DB Bench 3 x 8 - 10
+3. Pullups 3 x 10
+4. Triset x 3
+    a. Standing Arnold Press x 8-10
+    b. DB Hammer Curls x 6 - 10
+    c. DB close-grip Pushups x 15 - 20
+5. Superset x 3
+    a. Incline Lever Rows x 12 - 15
+    b. Inclince DB Bench x 12 - 15
+
+* *Cooldown*: stretch/hang
 
 ### Wednesday: Sprint/Core
-\begin{enumerate}
-  \item SPRINT 8
-  \item Landmine 180s 4 x 10 - 12
-  \item Superset x 3
-  \begin{enumerate}
-    \item Standing Rollouts x 5 - 10
-    \item Decline (weighted) Situps x 10 - 12
-  \end{enumerate}
-  \item Superset x 3
-  \begin{enumerate}
-    \item Hanging Leg Raises x 8 - 10
-    \item Cable Crunch x 12 - 15
-  \end{enumerate}
-  \item \emph{Finisher}: Sled Push or Farmers Walks (Timed, Distance, EMOM, or Tabata)
-\end{enumerate}
 
-* \emph{Cooldown}: stretch
+1. SPRINT 8
+2. Landmine 180s 4 x 10 - 12
+3. Superset x 3
+    a. Standing Rollouts x 5 - 10
+    b. Decline (weighted) Situps x 10 - 12
+4. Superset x 3
+    a. Hanging Leg Raises x 8 - 10
+    b. Cable Crunch x 12 - 15
+5. *Finisher*: Sled Push or Farmers Walks (Timed, Distance, EMOM, or Tabata)
+
+* *Cooldown*: stretch
 
 #### Thursday: Uni-Lateral Lower Body
 
-* \emph{Warmup}: Walking Warmup
+* *Warmup*: Walking Warmup
 
-\begin{enumerate}
-  \item Single Leg Barbell RDL 3 x 6
-  \item Front Squat Reverse Lunge 3 x 8 - 10
-  \item Bulgarian Split Squat 3 x 10 - 15
-  \item Glute-Ham Raise 3 x 10
-\end{enumerate}
+1. Single Leg Barbell RDL 3 x 6
+2. Front Squat Reverse Lunge 3 x 8 - 10
+3. Glute-Ham Raise 3 x 10
+4. Bulgarian Split Squat 3 x 10 - 15
 
-* \emph{Cooldown}: Mobility work / Roll Legs / Stretch
+* *Cooldown*: Mobility work / Roll Legs / Stretch
 
 #### Friday: Uni-Lateral Upper Body
-\begin{itemize}
-  \item \emph{Warmup}: Superset x 3
-  \begin{enumerate}
-    \item Plyo-pushups x 5
-    \item Face Pulls x 10
-  \end{enumerate}
-\end{itemize}
-  
-\begin{enumerate}
-  \item One-Arm Pushups 3 x 5 - 10
-  \item Freestanding DB Row 3 x 6 - 8
-  \item Superset x 3
-  \begin{enumerate}
-    \item Kneeling Banded Pushdowns x 15 - 30
-    \item Dips x 10 - 12
-  \end{enumerate}
-  \item Superset x 3
-  \begin{enumerate}
-    \item Chinups x 4 - 10
-    \item Smash Curl x 10 - 15
-  \end{enumerate}
-  \item Single-Arm Overhead Press 3 x 8 - 12
-\end{enumerate}
 
-* \emph{Cooldown}: stretch/hang
+* *Warmup*: Superset x 3
+    a. Plyo-pushups x 5
+    b. Face Pulls x 10
+  
+1. One-Arm Pushups 3 x 5 - 10
+2. Freestanding DB Row 3 x 6 - 8
+3. Superset x 3
+    a. Chinups x 4 - 10
+    b. Smash Curl x 10 - 15
+4. Superset x 3
+    a. Kneeling Banded Pushdowns x 15 - 30
+    b. Dips x 10 - 12
+5. Single-Arm Overhead Press 3 x 8 - 12
+
+* *Cooldown*: stretch/hang
 
 ### Saturday: Multifunctional
-\begin{enumerate}
-  \item SPRINT 8
-  \item Complex (Pick one from list below)
-  \item Chinup + Pushup Desceding Superset Pyramid
-  \item Sprint Tabata
-  \item (opt) extra Tabata or full body conditioning (Sled Push, Farmers Walks, etc.)
-\end{enumerate}
 
-* \emph{Cooldown}: stretch/hang
+1. SPRINT 8
+2. Complex (Pick one from list below)
+3. Chinup + Pushup (10,20;8,16;6,12;4,8;2,4 for time)
+4. Sprint Tabata
+5. (opt) extra Tabata or full body conditioning (Sled Push, Farmers Walks, etc.)
 
+* *Cooldown*: stretch/hang
 
 ### Complex Options
 
+There are several format options to apply to each complex. The main idea is to pick a weight/piece of equipment and not put it down until the round is completed.
 
+**Spartan**
+
+1. Power Clean
+2. Front Squat
+3. Push Press
+4. Bentover Rows
+5. RDL  
+* Option: Ascending Pyramid (1:5), Descending Pyramid (5:1), Asc&Desc Pyramid (1:5:1)
+
+**Trap Bar Grind**
+
+1. Split Squat x 5
+2. RDL x 10
+3. Deadlift x 10 
+* Option: 3 - 4 rounds, 1 > min rest in between rounds
+
+**Plate Swing**
+
+1. Overhead Squat
+2. Plate Swings
+3. Bent Rows
+4. Reverse Lunge + Twist
+5. Plate Chop  
+* Option: 3 rounds with 8 - 10 reps per exercise, 1 > min rest in between rounds
+
+**Overtime Landmine**
+
+1. Squat Press
+2. Single-Arm Shoulder Press
+3. Single-Side RDL
+4. Reverse Lunges  
+* Option: 3 rounds with 10 reps per exercise, 1 > min rest in between rounds
+
+**Dynamic TRX**
+
+1. Jump Squat
+2. Muscle Up
+3. Pistol Squat
+4. Rows
+5. Sprinter Start Jumps
+6. Standing Rollouts  
+* Option: 3 - 4 rounds with 10 reps per exercise, 1 > min rest in between rounds

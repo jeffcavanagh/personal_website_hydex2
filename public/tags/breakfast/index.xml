@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Breakfast on Jeff Cavanagh</title>
+    <link>/tags/breakfast/</link>
+    <description>Recent content in Breakfast on Jeff Cavanagh</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 07 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/breakfast/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Breakfast</title>
+      <link>/recipes/breakfast/</link>
+      <pubDate>Fri, 07 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/recipes/breakfast/</guid>
+      <description>Berry Oatmeal Bake
+Fried Rice
+Lemon-Blueberry-Banana Pancakes
+Quinoa Breakfast Bowl</description>
+    </item>
+    
+  </channel>
+</rss>
