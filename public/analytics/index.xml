@@ -38,9 +38,9 @@ Setup CSS Tool Webpages are not written in R code. They are written in HTML and 
       <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/analytics/methods-of-regression/</guid>
-      <description>This post will cover some of the primary methods of regression analysis available in R. It will also serve as a warmup for the posts that explore Machine Learning and its applications.
-Setup For our regression data we will look at statistics concerning the history of my favorite sports team, The Detroit Lions. The data comes from Pro Football Reference.
-lions &amp;lt;- read.csv(&amp;quot;sportsref_download - sportsref_download.csv&amp;quot;) str(lions) ## &amp;#39;data.frame&amp;#39;: 90 obs.</description>
+      <description>This post will cover some primary methods of regression analysis and how to apply them in R. It will also serve as a warmup for the posts that explore more advanced machine learning and AI methods.
+Setup For a data set to analyze, we will look at statistics concerning the history of my favorite sports team, The Detroit Lions. This data comes from Pro Football Reference.
+lions &amp;lt;- read.csv(&amp;quot;sportsref_download - sportsref_download.</description>
     </item>
     
   </channel>
