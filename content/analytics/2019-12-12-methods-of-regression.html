@@ -12,6 +12,9 @@ layout: post
 type: post
 highlight: yes
 output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
   html_document:
     toc: yes
     toc_depth: 4
@@ -22,6 +25,22 @@ output:
 ---
 
 
+<div id="TOC">
+<ul>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#regression-models">Regression Models</a><ul>
+<li><a href="#simple-linear-regression">Simple Linear Regression</a></li>
+<li><a href="#multiple-linear-regression">Multiple Linear Regression</a></li>
+</ul></li>
+<li><a href="#classification-models">Classification models</a><ul>
+<li><a href="#logistic-regression">Logistic Regression</a></li>
+<li><a href="#linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</a></li>
+<li><a href="#quadratic-discriminant-analysis-qda">Quadratic Discriminant Analysis (QDA)</a></li>
+<li><a href="#k-nearest-neighbors-knn">K-Nearest Neighbors (KNN)</a></li>
+</ul></li>
+<li><a href="#cross-validation">Cross-Validation</a></li>
+</ul>
+</div>
 
 <p><strong>This post will cover some primary methods of regression analysis and how to apply them in R. It will also serve as a warmup for the posts that explore more advanced machine learning and AI methods.</strong></p>
 <div id="setup" class="section level3">

@@ -12,6 +12,9 @@ layout: post
 type: post
 highlight: yes
 output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
   html_document:
     toc: yes
     toc_depth: 4
