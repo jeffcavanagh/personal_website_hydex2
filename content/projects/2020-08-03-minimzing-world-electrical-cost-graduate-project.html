@@ -1,5 +1,5 @@
 ---
-title: Minimzing World Electrical Cost (Graduate Project)
+title: Minimzing World Electrical Cost
 linktitle: Minimization project
 author: Jeff Cavanagh
 date: '2020-05-11'
@@ -17,7 +17,9 @@ weight: 1
 
 
 <p><strong>For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative.</strong></p>
-<p>The writeup of the project can be found <a href="/projects/Minimizing%20World%20Electrical%20Cost.pdf" target="blank">here</a></p>
+<p>The write-up of the project can be found <a href="/projects/Minimizing%20World%20Electrical%20Cost.pdf" target="blank">here</a></p>
+<div id="indirect-costs-of-the-various-energy-sources" class="section level4">
+<h4>Indirect costs of the various energy sources</h4>
 <pre class="python"><code># Health cost
 death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.4e-11,3.5e-11,1.9e-11]
     #deaths/kwh
@@ -31,10 +33,13 @@ water_value = 2.94e-3 # $/l
 water_cost = [water_value*i for i in water_source]
 
 ghg_cost_coal = 0.1236
-    # minumum $/kwh for all fosil fuels to be
+    # minimum $/kwh for all fossil fuels to be
     # worse value than renewable installation
 greenhouse_gas_cost = [ghg_cost_coal, ghg_cost_coal*0.91, ghg_cost_coal*1.4,0,0,0,0]
     #approximate environmental cost of greenhouse gases</code></pre>
+</div>
+<div id="coast-coefficients-by-fuel-source-production-import-export-consumption" class="section level4">
+<h4>Coast coefficients by fuel source (production, import, export, consumption)</h4>
 <pre class="python"><code># Cost coefficient ($/kwh)
 #c1: coal
 c1p = .03586 + death_cost[0] + water_cost[0] + greenhouse_gas_cost[0]
@@ -80,10 +85,19 @@ c7c = 0
 cost = [c1p,c1i,c1e,c1c,c2p,c2i,c2e,c2c,c3p,c3i,c3e,c3c,
 c4p,c4i,c4e,c4c,c5p,c5i,c5e,c5c,c6p,c6i,c6e,c6c,c7p,c7i,c7e,c7c]
 n = len(cost)</code></pre>
+</div>
+<div id="packages-used-to-build-model" class="section level4">
+<h4>Packages used to build model</h4>
 <pre class="python"><code>import cvxpy as cp
 import numpy as np</code></pre>
+</div>
+<div id="upper-limit-on-fuel-sources" class="section level4">
+<h4>Upper limit on fuel sources</h4>
 <pre class="python"><code>supply_world_source = [4.4e4, 3.6e4, 5.2e4, 2.7e3, 4.2e3, 1.3e3, 585]
-     # total world  supplyof each fuel source in 2018</code></pre>
+     # total world  supply of each fuel source in 2018</code></pre>
+</div>
+<div id="defining-constraints" class="section level4">
+<h4>Defining constraints</h4>
 <pre class="python"><code># Defining each nation
 class Country:
     def __init__(self, name, demand, coal_ability, naturalgas_ability, oil_ability, reactor_count, renewable_ability, windsolar_ability):
@@ -178,6 +192,9 @@ class Country:
 
     def windsolar_installation_constraint(self):
         return ( self.import_install_variables()[5] == self.import_install_variables()[6])</code></pre>
+</div>
+<div id="energy-production-capacity-by-nation" class="section level4">
+<h4>Energy production capacity by nation</h4>
 <pre class="python"><code>us = Country(&quot;United States&quot;,
              4.0e3,  # demand
              0.089,   # coal ability
@@ -569,7 +586,13 @@ countries = [us, cn, ind, ru, jp, kp, de, ca, br, ir,
             za, th, eg, my, pl, se, ar, no, ua, ae,
             nl, be, kz, cl, co, dz, ve, cz, kw, uz,
             ro, pt, nz, ng]</code></pre>
+</div>
+<div id="defining-the-objective-function" class="section level4">
+<h4>Defining the objective function</h4>
 <pre class="python"><code>objective = cp.Minimize(sum(c.objective_function() for c in countries))</code></pre>
+</div>
+<div id="putting-the-constraints-together" class="section level4">
+<h4>Putting the constraints together</h4>
 <pre class="python"><code># Constraints
 
 # Nonnegativity
@@ -630,6 +653,9 @@ nonnegativity
 + ws_countries
 + ws_install
 )</code></pre>
+</div>
+<div id="solving-the-problem" class="section level4">
+<h4>Solving the problem</h4>
 <pre class="python"><code>prob = cp.Problem(objective, constraints)
 
 OptimalVal=np.format_float_scientific(prob.solve(),precision=4)</code></pre>
@@ -656,3 +682,4 @@ print(&quot;Fossil Fuel Exports&quot;, exports_world)</code></pre>
 consumption_world += [x.value for x in consumption_total]
 print(&quot;Electrical Energy Consumption by Source&quot;, consumption_world)</code></pre>
 <pre><code>## Electrical Energy Consumption by Source [0.0095550297195948, 0.020485777752135663, 0.00557588729948612, 2699.930141462614, 3520.0871817169623, 7606.033016823535, 7146.866035676711]</code></pre>
+</div>
