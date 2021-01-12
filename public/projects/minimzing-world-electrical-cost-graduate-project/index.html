@@ -22,14 +22,14 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Minimzing World Electrical Cost (Graduate Project)"/>
-<meta name="twitter:description" content="For my graduate project I created an optimization that analyses the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable option for the future.
-The writeup of the project can be found here{target = “blank”}
-# Health cost death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2."/>
+<meta name="twitter:description" content="For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative.
+The writeup of the project can be found here
+# Health cost death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.4e-11,3.5e-11,1.9e-11] #deaths/kwh life_cost = 3."/>
 
 <meta property="og:title" content="Minimzing World Electrical Cost (Graduate Project)" />
-<meta property="og:description" content="For my graduate project I created an optimization that analyses the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable option for the future.
-The writeup of the project can be found here{target = “blank”}
-# Health cost death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2." />
+<meta property="og:description" content="For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative.
+The writeup of the project can be found here
+# Health cost death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.4e-11,3.5e-11,1.9e-11] #deaths/kwh life_cost = 3." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/projects/minimzing-world-electrical-cost-graduate-project/" />
 <meta property="article:published_time" content="2020-05-11T00:00:00+00:00" />
@@ -181,7 +181,7 @@ The writeup of the project can be found here{target = “blank”}
     </div>
     
 <div class="copyright">
-  &copy; 2019 - 2020 htr3n
+  &copy; 2019 - 2021 htr3n
   
 </div>
 
@@ -217,10 +217,11 @@ The writeup of the project can be found here{target = “blank”}
   
   <div class="post">
     
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<p><strong>For my graduate project I created an optimization that analyses the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable option for the future.</strong></p>
-<p>The writeup of the project can be found <a href="/projects/Minimizing%20World%20Electrical%20Cost.pdf">here</a>{target = “blank”}</p>
+<p><strong>For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative.</strong></p>
+<p>The writeup of the project can be found <a href="/projects/Minimizing%20World%20Electrical%20Cost.pdf" target="blank">here</a></p>
 <pre class="python"><code># Health cost
 death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.4e-11,3.5e-11,1.9e-11]
     #deaths/kwh
@@ -836,7 +837,7 @@ nonnegativity
 <pre class="python"><code>prob = cp.Problem(objective, constraints)
 
 OptimalVal=np.format_float_scientific(prob.solve(),precision=4)</code></pre>
-<pre><code>## /Users/jmcavanagh/.virtualenvs/grad-proj/lib/python3.7/site-packages/cvxpy/problems/problem.py:1055: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+<pre><code>## /Users/jmcavanagh/.virtualenvs/grad-proj/lib/python3.7/site-packages/cvxpy/problems/problem.py:1061: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
 ##   &quot;Solution may be inaccurate. Try another solver, &quot;</code></pre>
 <pre class="python"><code>print(&quot;World Electrical Energy Cost&quot;, OptimalVal)</code></pre>
 <pre><code>## World Electrical Energy Cost 2.232e+12</code></pre>
