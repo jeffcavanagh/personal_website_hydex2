@@ -22,12 +22,10 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Statistical Modeling Starter Kit"/>
-<meta name="twitter:description" content="Setup Regression Models Simple Linear Regression Multiple Linear Regression  Classification models Logistic Regression Linear Discriminant Analysis (LDA) Quadratic Discriminant Analysis (QDA) K-Nearest Neighbors (KNN)  Cross-Validation   This post will cover some primary methods of regression analysis and how to apply them in R. It will also serve as a warmup for the posts that explore more advanced machine learning and AI methods.
-Setup For a data set to analyze, we will look at statistics concerning the history of my favorite sports team, The Detroit Lions."/>
+<meta name="twitter:description" content="Setup Regression Models  Simple Linear Regression Multiple Linear Regression  Classification models  Logistic Regression Linear Discriminant Analysis (LDA) Quadratic Discriminant Analysis (QDA) K-Nearest Neighbors (KNN)  Cross-Validation   This post will cover some basic methods of regression analysis and how to apply them in R. It will also serve as a warm-up for the posts that explore more advanced machine learning and AI methods."/>
 
 <meta property="og:title" content="Statistical Modeling Starter Kit" />
-<meta property="og:description" content="Setup Regression Models Simple Linear Regression Multiple Linear Regression  Classification models Logistic Regression Linear Discriminant Analysis (LDA) Quadratic Discriminant Analysis (QDA) K-Nearest Neighbors (KNN)  Cross-Validation   This post will cover some primary methods of regression analysis and how to apply them in R. It will also serve as a warmup for the posts that explore more advanced machine learning and AI methods.
-Setup For a data set to analyze, we will look at statistics concerning the history of my favorite sports team, The Detroit Lions." />
+<meta property="og:description" content="Setup Regression Models  Simple Linear Regression Multiple Linear Regression  Classification models  Logistic Regression Linear Discriminant Analysis (LDA) Quadratic Discriminant Analysis (QDA) K-Nearest Neighbors (KNN)  Cross-Validation   This post will cover some basic methods of regression analysis and how to apply them in R. It will also serve as a warm-up for the posts that explore more advanced machine learning and AI methods." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/analytics/methods-of-regression/" />
 <meta property="article:published_time" content="2019-12-12T00:00:00+00:00" />
@@ -235,15 +233,18 @@ Setup For a data set to analyze, we will look at statistics concerning the histo
   
   <div class="post">
     
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 <div id="TOC">
 <ul>
 <li><a href="#setup">Setup</a></li>
-<li><a href="#regression-models">Regression Models</a><ul>
+<li><a href="#regression-models">Regression Models</a>
+<ul>
 <li><a href="#simple-linear-regression">Simple Linear Regression</a></li>
 <li><a href="#multiple-linear-regression">Multiple Linear Regression</a></li>
 </ul></li>
-<li><a href="#classification-models">Classification models</a><ul>
+<li><a href="#classification-models">Classification models</a>
+<ul>
 <li><a href="#logistic-regression">Logistic Regression</a></li>
 <li><a href="#linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</a></li>
 <li><a href="#quadratic-discriminant-analysis-qda">Quadratic Discriminant Analysis (QDA)</a></li>
@@ -253,10 +254,10 @@ Setup For a data set to analyze, we will look at statistics concerning the histo
 </ul>
 </div>
 
-<p><strong>This post will cover some primary methods of regression analysis and how to apply them in R. It will also serve as a warmup for the posts that explore more advanced machine learning and AI methods.</strong></p>
+<p><strong>This post will cover some basic methods of regression analysis and how to apply them in R. It will also serve as a warm-up for the posts that explore more advanced machine learning and AI methods.</strong></p>
 <div id="setup" class="section level3">
 <h3>Setup</h3>
-<p>For a data set to analyze, we will look at statistics concerning the history of my favorite sports team, The Detroit Lions. This data comes from <a href="https://www.pro-football-reference.com/teams/det/" target="&quot;_blank">Pro Football Reference</a>.</p>
+<p>For our data, we will look at statistics concerning on the history of my favorite sports team, The Detroit Lions. This data comes from <a href="https://www.pro-football-reference.com/teams/det/" target="&quot;_blank">Pro Football Reference</a>.</p>
 <pre class="r"><code>lions &lt;- read.csv(&quot;sportsref_download - sportsref_download.csv&quot;)
 
 str(lions)</code></pre>
@@ -292,7 +293,7 @@ str(lions)</code></pre>
 ##  $ DSRS       : num  -4 0.3 -2.5 -0.1 -1.3 5.2 -0.5 -4.4 -0.8 -0.5 ...</code></pre>
 <p>Before we continue with this data we should clean it up. Luckily all columns are either numeric, integer, or factor in format. This will make them easier to run the regression analysis on.</p>
 <p>Some categories are missing section headers that needed to be taken out to read the data easily. Without context, some columns have the same names. We will go in add to these names so they are easier to understand.</p>
-<p>This analysis will only consider the Detroit Lions (even though the team was originally names the Portsmouth Spartans). Therefore we will remove the columns of the team’s name and league.</p>
+<p>This analysis will only consider the Detroit Lions (even though the team was originally names the Portsmouth Spartans). Therefore we will remove the columns of the team’s name and league (NFL).</p>
 <pre class="r"><code>names(lions)[c(4, 5, 6, 17, 18, 19, 20, 21, 22, 23, 24)] &lt;- c(
   &quot;wins&quot;, &quot;loss&quot;, &quot;ties&quot;, &quot;off.pts.rnk&quot;, &quot;off.yds.rnk&quot;, &quot;def.pts.rnk&quot;, 
   &quot;def.yds.rnk&quot;, &quot;tak.giv.rnk&quot;, &quot;pts.df.rnk&quot;, &quot;yds.df.rnk&quot;, &quot;num.teams&quot;
@@ -335,8 +336,8 @@ summary(slr_model)</code></pre>
 <pre><code>##                 2.5 %    97.5 %
 ## (Intercept) 6.1137357 6.7684091
 ## mov         0.2741033 0.3741208</code></pre>
-<p>The <code>summary</code> function gives an overview of the model (coefficients, residuals, levels of significance, etc.) and the <code>confint</code> function gives the confidence interval for each coefficent estimate (default is 95%).</p>
-<p>To measure how significant each predictor variable is we will rely primarily on each individual p-value. To measure the accuracy of the model we will consider the <span class="math inline">\(R^2\)</span> and adjusted <span class="math inline">\(R^2\)</span> values, which will take on a value between 0 and 1 (the closer, the better the model), and the p-value of the entire model.</p>
+<p>The <code>summary</code> function gives an overview of the model (coefficients, residuals, levels of significance, etc.) and the <code>confint</code> function gives the confidence interval for each coefficient estimate (default is 95%).</p>
+<p>To measure how significant each predictor variable is we will rely primarily on each individual p-value. To measure the accuracy of the model we will consider the <span class="math inline">\(R^2\)</span> and adjusted <span class="math inline">\(R^2\)</span> values, which will take on a value between 0 and 1 (the closer to 1, the better the model), and the p-value of the entire model.</p>
 <p>The output gives a simple linear regression model with the formula to predict the wins the Lions will have:</p>
 <p><span class="math inline">\(\text{wins } = 6.44107 + 0.32411 * \text{ mov }\)</span></p>
 <pre class="r"><code>plot(lions$mov, lions$wins)
@@ -411,7 +412,7 @@ summary(mlr_model)</code></pre>
 ## Multiple R-squared:  0.7824, Adjusted R-squared:  0.7721 
 ## F-statistic: 76.39 on 4 and 85 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>At the end of the day, we are left with <code>pf</code> (points for), <code>pa</code> (points against), <code>tak.giv.rank</code> (the ranking of a teams takeaway to giveaway ratio), and `num.teams (number of teams in the league that season). All of these variables have a p-value well under 0.05, and while the <span class="math inline">\(R^2\)</span> value went down slightly, the adjusted <span class="math inline">\(R^2\)</span> value increased, telling us the model has improved.</p>
-<p>We are also able to put in interactive terms and apply various evolutions to the predictor variables (logarithms, polynomial form, etc.). However, we will move on with the latest model and now include some of the qualitative predictor variables.</p>
+<p>We are also able to put in interactive terms and apply various transformations to the predictor variables (logarithms, polynomial form, etc.). However, we will move on with the latest model and now include some of the qualitative predictor variables.</p>
 <p>Some variables, (<code>div..finish</code> and <code>playoffs</code> mainly), are determined as a direct result of the number of wins, and as such we will continue to exclude them from the model.</p>
 <p>Instead we will focus on the components of the team: the coach, and leading player (<code>av</code>), <code>passer</code>, <code>rusher</code>, and <code>reciever</code>. These factors have many different levels (new players and coaches have constantly been introduced over the 90 year history of the team). Therefore we will start by adding a single variable <code>av</code>.</p>
 <pre class="r"><code>mlr_model2 &lt;- update(mlr_model, ~ . + av)
@@ -625,7 +626,7 @@ summary(mlr_model3)</code></pre>
 <p>Classification models use data to predict if observations of data will fall into a given class of a categorical variable.</p>
 <div id="logistic-regression" class="section level4">
 <h4>Logistic Regression</h4>
-<p>Logistic regression uses a log transform of the traditional regression model to predict the class of the response variable. To do this is calculate the <span class="math inline">\(p(X) = P(Y = 1|X)\)</span> (where <span class="math inline">\(Y\)</span> is the response and <span class="math inline">\(X\)</span> is the predictor(s)) as follows:</p>
+<p>Logistic regression uses a log transform of the traditional regression model to predict the class of the response variable. To do this, calculate the <span class="math inline">\(p(X) = P(Y = 1|X)\)</span> (where <span class="math inline">\(Y\)</span> is the response and <span class="math inline">\(X\)</span> is the predictor(s)) as follows:</p>
 <p><span class="math display">\[p(X) = \frac{e^{\beta_0 +\beta_1X_1+...+\beta_pX_p}}{1+e^{\beta_0 +\beta_1X_1+...+\beta_pX_p}}\]</span></p>
 <p>To begin we first take a look at how closely correlated each numeric variable is with one another. Values closer to 1 translate to a higher level of positive correlation, values closer to -1 translate to higher levels of negative correlation, and values close to zero imply less of any sort of a relationship between variables.</p>
 <pre class="r"><code>cor(lions[,-c(5, 6, 10:14,28)])</code></pre>
@@ -715,12 +716,12 @@ summary(mlr_model3)</code></pre>
 ## dsrs         0.7872117  0.039329775  0.833564153  0.33867158  1.00000000</code></pre>
 <p>With there being a large number of different variables it is slightly difficult to process, but this map does give a general idea of the relationship between variables.</p>
 <p>In order to carry out logistic regression we will need to frame our problem differently. The response variable now needs to be a binary factor variable. However, all of our categorical variables have more than two levels.</p>
-<p>To get a binary categorial variable we will translate the number of wins in a season into our response variable. In today’s NFL, a team needs to win 10 games or more to have a reasonable chance of making the playoffs. We will therefore make a new variable with two levels: ten wins or more, and less than ten wins.</p>
+<p>To get a binary categorical variable we will translate the number of wins in a season into our response variable. In today’s NFL, a team needs to win 10 games or more to have a reasonable chance of making the playoffs. We will therefore make a new variable with two levels: ten wins or more, and less than ten wins.</p>
 <pre class="r"><code>lions &lt;- lions %&gt;%
   mutate(win.threshold = as.factor(ifelse(wins &gt;= 10, &quot;Playoffs&quot;, &quot;No-playoffs&quot;)))
 
 attach(lions)</code></pre>
-<p>Now that we have our new respsponse variable <code>wins.threshold</code> we can apply the logistic regression model.</p>
+<p>Now that we have our new response variable <code>wins.threshold</code> we can apply the logistic regression model.</p>
 <pre class="r"><code>log_reg_model &lt;- glm(win.threshold ~ pf + pa + tak.giv.rnk + mov + sos , lions, family = binomial)
 
 summary(log_reg_model)</code></pre>
@@ -835,11 +836,11 @@ table(lda_class, win.threshold[test])</code></pre>
 ##   Playoffs              0        1</code></pre>
 <pre class="r"><code>mean(lda_class == win.threshold[test])</code></pre>
 <pre><code>## [1] 0.9444444</code></pre>
-<p>With the small data set, the lda performs identically to the logistic regression model.</p>
+<p>With the small data set, the LDA performs identically to the logistic regression model.</p>
 </div>
 <div id="quadratic-discriminant-analysis-qda" class="section level4">
 <h4>Quadratic Discriminant Analysis (QDA)</h4>
-<p>QDA works almost identically to LDA, major difference being that rather than a linear function of the predictors the QDA classifier involves quadratic.</p>
+<p>QDA works almost identically to LDA, major difference being that rather than a linear function of the predictors the QDA classifier involves a quadratic.</p>
 <pre class="r"><code>qda_model &lt;- qda(win.threshold ~ pf + pa + tak.giv.rnk + mov + sos , data = lions, subset = train)
 
 qda_model</code></pre>
@@ -863,7 +864,7 @@ table(qda_class, win.threshold[test])</code></pre>
 ##   Playoffs              1        2</code></pre>
 <pre class="r"><code>mean(qda_class == win.threshold[test])</code></pre>
 <pre><code>## [1] 0.9444444</code></pre>
-<p>Again, the model is basically unchanged. This is due to the small number of observations in the testing data set(18 seasons). The only interesting tidbit from the QDA model is that it correctly predicts both seasons with over 10 wins, while prediction an extra season over 10 wins that was actually under.</p>
+<p>Again, the model is basically unchanged. This is due to the small number of observations in the testing data set(18 seasons). The only interesting tidbit from the QDA model is that it correctly predicts both seasons with over 10 wins, while predicting an extra season over 10 wins that was actually under.</p>
 </div>
 <div id="k-nearest-neighbors-knn" class="section level4">
 <h4>K-Nearest Neighbors (KNN)</h4>
@@ -882,7 +883,7 @@ table(knn1_pred, win.threshold[test])</code></pre>
 ##   Playoffs              1        1</code></pre>
 <pre class="r"><code>mean(knn1_pred == win.threshold[test])</code></pre>
 <pre><code>## [1] 0.8888889</code></pre>
-<p>With $k = 1 $ we can see that the model performs slightly worse, making two innacuracte predictions. Lets try with <span class="math inline">\(k = 3\)</span> and see if it improves the model.</p>
+<p>With $k = 1 $ we can see that the model performs slightly worse, making two inaccurate predictions. Lets try with <span class="math inline">\(k = 3\)</span> and see if it improves the model.</p>
 <pre class="r"><code>set.seed(1)
 knn3_pred &lt;- knn(train_x, test_x, train_win.threshold, k = 3)
 table(knn3_pred, win.threshold[test])</code></pre>
@@ -959,7 +960,6 @@ MAE</code></pre>
 <pre><code>## [1] 0.08888889 0.12222222 0.07777778 0.11111111</code></pre>
 <p><img src="/analytics/2019-12-12-methods-of-regression_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>Cross validation is extremely useful in that it uses all portions of the data to both test and train, and then computes the average error based on each individual sampling. From the graph above we can see that the QDA model had the lowest error mean absolute error (making it the most accurate) while the LDA model had the highest (making it the least accurate).</p>
-<p>Understanding traditional statistical methods are important as they will help us better comprehend more advanced machine learning and applications in R in the following posts.</p>
 </div>
 
     

@@ -28,14 +28,16 @@ my_packages <- c("tidyverse", "broom", "coefplot", "cowplot",
 install.packages(my_packages, repos = "http://cran.rstudio.com")
 
 ```
-# Setup
+**The following was my final project for a Predictive Analytics course. It analyzed data on hiking trails throughout the US and created and compared models predicting whether or not a given trail will be rated above 4.5 stars out of 5.**
+
+### Setup
 ```{r}
 trails=read.csv("AllTrailsdata_nationalpark.csv",header=T)
 attach(trails)
 dim(trails)
 ```
 
-This data set gives information on trails in the National Parks Service. The data is publically available on Kaggle.com.
+This data set gives information on trails in the National Parks Service. The data is publicly available on Kaggle.com.
 
 Each row is a different trail. The columns describing each trail are:
 
@@ -67,9 +69,9 @@ avg_rating_ideal=as.factor(avg_rating_ideal)
 
 ```
 
-The mean value of average trail ratings was 4.17. To predict the highest tier of terms, the response variable average rating was turned into a classification variable with levels: avg_rating>4.5, and avg_rating$\leq$4.5.
+The mean value of average trail ratings was 4.17. To predict the highest tier of terms, the response variable average rating was turned into a classification variable with levels: avg_rating > 4.5, and avg_rating ≤ 4.5.
 
-# Partitioning the Data
+### Partitioning the Data
 ```{r}
 set.seed(1)
 train=sample(3313,0.7*3313)
@@ -80,21 +82,21 @@ testing=trails_reg[-train,]
 
 ```
 
-# Interaction of Predictor Variables
+### Interaction of Predictor Variables
 ```{r,echo=F,warning=F}
 library(GGally)
 ggpairs(trails_reg,upper=list(combo='box'), lower = list(continuous = wrap("smooth", method = "loess"), combo='facetdensity') )
 ```
 
-# Model Building
-## Linear Regression
+### Model Building
+#### Linear Regression
 ```{r}
 lm.fit=lm(avg_rating_ideal~.,data=training)
 lm.pred=predict(lm.fit,testing)
 mean(abs(lm.pred-testing$avg_rating_ideal))
 ```
 
-## LDA
+#### LDA
 ```{r}
 library(mgcv)
 library(MASS)
@@ -104,7 +106,7 @@ table(testing$avg_rating_ideal,lda.pred$class)
 mean(lda.pred$class!=testing$avg_rating_ideal)
 ```
 
-## QDA
+#### QDA
 ```{r}
 qda.fit=qda(avg_rating_ideal~.,data=training)
 qda.pred=predict(qda.fit,testing)
@@ -112,7 +114,7 @@ table(testing$avg_rating_ideal,qda.pred$class)
 mean(qda.pred$class!=testing$avg_rating_ideal)
 ```
 
-## Logistic Regression
+#### Logistic Regression
 ```{r}
 set.seed(1)
 glm.fit=glm(as.factor(avg_rating_ideal)~.,data=training,family=binomial)
@@ -123,8 +125,8 @@ set.seed(1)
 table(testing$avg_rating_ideal,glm.pred)
 1-(832+19)/994
 ```
-## KNN
-## k=3
+#### KNN
+k=3
 ```{r}
 set.seed(1)
 library(class)
@@ -135,7 +137,8 @@ knn3.pred=knn(train.X,test.X,train.avg_rating_ideal,k=3)
 table(knn3.pred,testing$avg_rating_ideal)
 1-(773+23)/994
 ```
-## k=4
+
+k=4
 ```{r}
 set.seed(1)
 knn4.pred=knn(train.X,test.X,train.avg_rating_ideal,k=4)
@@ -143,7 +146,7 @@ table(knn4.pred,testing$avg_rating_ideal)
 1-(770+27)/994
 ```
 
-## k=5
+k=5
 ```{r}
 set.seed(1)
 knn5.pred=knn(train.X,test.X,train.avg_rating_ideal,k=5)
@@ -151,7 +154,7 @@ table(knn5.pred,testing$avg_rating_ideal)
 1-(799+17)/994
 ```
 
-## k=6
+k=6
 ```{r}
 set.seed(1)
 knn6.pred=knn(train.X,test.X,train.avg_rating_ideal,k=6)
@@ -159,7 +162,7 @@ table(knn6.pred,testing$avg_rating_ideal)
 1-(799+21)/994
 ```
 
-## Cross Validation
+#### Cross Validation
 ```{r}
 trails_reg=data.frame(trails_reg)
 MAE=c()
@@ -312,7 +315,7 @@ MAE=c(MAE, mean(mae))
 MAE
 ```
 
-## Graphical Comparison of Classification Error
+#### Graphical Comparison of Classification Error
 ```{r}
 par(mfrow=c(1,2))
 
@@ -325,7 +328,7 @@ plot(MAE, xlim=c(0,9),ylim=c(0,1) , col='blue', type='p', pch=19, main='Cross Va
 
 text(1:8, MAE, c('lm','lda', 'qda', 'logistic', 'knn3', 'knn4', 'knn5', 'knn6'), pos=3,  cex=0.5, col="red")
 ```
-# Bagging
+### Bagging
 ```{r}
 library(randomForest)
 
@@ -407,7 +410,7 @@ err_bagg
 MAE=c(MAE,err_bagg)
 ```
 
-# GBM Classification
+### GBM Classification
 
 ```{r}
 library(caret)
@@ -455,7 +458,7 @@ plot(gbmFit1)
 plot(gbmFit2) 
 
 ```
-## Predict
+#### Predict
 ```{r}
 set.seed(1)
 pred=predict(gbmFit1, testing)

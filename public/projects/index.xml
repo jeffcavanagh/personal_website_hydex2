@@ -28,9 +28,8 @@ Indirect costs of the various energy sources # Health cost death_source = [2.</d
       <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/projects/hiking-trail-analysis/</guid>
-      <description>Setup trails=read.csv(&amp;quot;AllTrailsdata_nationalpark.csv&amp;quot;,header=T) attach(trails) dim(trails) ## [1] 3313 18 This data set gives information on trails in the National Parks Service. The data is publically available on Kaggle.com.
-Each row is a different trail. The columns describing each trail are:
- trail_id name area_name city_name state_name country_name _geoloc (coordinates) popularity (scaled value) length (km) elevation_gain difficulty_rating (1:5) route_type (out and back, loop, point to point) visitor_usage (1:4) avg_rating (1:5) num_reviews features (dogs-no, forest, views, lake, wild-flowers, etc…) activities (birding, hiking, nature-trips, etc…) units (i,m)  Average rating was chosen as the dependent variable.</description>
+      <description>The following was my final project for a Predictive Analytics course. It analyzed data on hiking trails throughout the US and created and compared models predicting whether or not a given trail will be rated above 4.5 stars out of 5.
+Setup trails=read.csv(&amp;quot;AllTrailsdata_nationalpark.csv&amp;quot;,header=T) attach(trails) dim(trails) ## [1] 3313 18 This data set gives information on trails in the National Parks Service. The data is publicly available on Kaggle.com.</description>
     </item>
     
     <item>
@@ -39,7 +38,7 @@ Each row is a different trail. The columns describing each trail are:
       <pubDate>Tue, 04 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/projects/nfl-team-wins-regression-analysis/</guid>
-      <description>This was a final project I completed for my Regression and Time Series Analysis Course. I took data from the 2017 NFL season and used it to see what metrics were significant in predicting the number of wins a team would achieve.
+      <description>This was a final project I completed for my Regression and Time Series Analysis Course. I took data from the 2017 NFL season and used SPSS to determine what metrics were significant in predicting the number of wins a team would achieve.
 Here is the write up of the project</description>
     </item>
     

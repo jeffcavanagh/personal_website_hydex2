@@ -13,15 +13,17 @@ type: post
 highlight: no
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<div id="setup" class="section level1">
-<h1>Setup</h1>
+<p><strong>The following was my final project for a Predictive Analytics course. It analyzed data on hiking trails throughout the US and created and compared models predicting whether or not a given trail will be rated above 4.5 stars out of 5.</strong></p>
+<div id="setup" class="section level3">
+<h3>Setup</h3>
 <pre class="r"><code>trails=read.csv(&quot;AllTrailsdata_nationalpark.csv&quot;,header=T)
 attach(trails)
 dim(trails)</code></pre>
 <pre><code>## [1] 3313   18</code></pre>
-<p>This data set gives information on trails in the National Parks Service. The data is publically available on Kaggle.com.</p>
+<p>This data set gives information on trails in the National Parks Service. The data is publicly available on Kaggle.com.</p>
 <p>Each row is a different trail. The columns describing each trail are:</p>
 <ul>
 <li>trail_id</li>
@@ -48,10 +50,10 @@ dim(trails)</code></pre>
 <pre><code>## [1] 4.173106</code></pre>
 <pre class="r"><code>avg_rating_ideal=(avg_rating&gt;4.5)*1
 avg_rating_ideal=as.factor(avg_rating_ideal)</code></pre>
-<p>The mean value of average trail ratings was 4.17. To predict the highest tier of terms, the response variable average rating was turned into a classification variable with levels: avg_rating&gt;4.5, and avg_rating$$4.5.</p>
+<p>The mean value of average trail ratings was 4.17. To predict the highest tier of terms, the response variable average rating was turned into a classification variable with levels: avg_rating &gt; 4.5, and avg_rating ≤ 4.5.</p>
 </div>
-<div id="partitioning-the-data" class="section level1">
-<h1>Partitioning the Data</h1>
+<div id="partitioning-the-data" class="section level3">
+<h3>Partitioning the Data</h3>
 <pre class="r"><code>set.seed(1)
 train=sample(3313,0.7*3313)
 trails_reg=cbind(popularity,length,elevation_gain,difficulty_rating,num_reviews,avg_rating_ideal)
@@ -59,25 +61,25 @@ trails_reg=data.frame(trails_reg)
 training=trails_reg[train,]
 testing=trails_reg[-train,]</code></pre>
 </div>
-<div id="interaction-of-predictor-variables" class="section level1">
-<h1>Interaction of Predictor Variables</h1>
+<div id="interaction-of-predictor-variables" class="section level3">
+<h3>Interaction of Predictor Variables</h3>
 <pre><code>## Loading required package: ggplot2</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
 ##   method from   
 ##   +.gg   ggplot2</code></pre>
 <p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
-<div id="model-building" class="section level1">
-<h1>Model Building</h1>
-<div id="linear-regression" class="section level2">
-<h2>Linear Regression</h2>
+<div id="model-building" class="section level3">
+<h3>Model Building</h3>
+<div id="linear-regression" class="section level4">
+<h4>Linear Regression</h4>
 <pre class="r"><code>lm.fit=lm(avg_rating_ideal~.,data=training)
 lm.pred=predict(lm.fit,testing)
 mean(abs(lm.pred-testing$avg_rating_ideal))</code></pre>
 <pre><code>## [1] 0.2379923</code></pre>
 </div>
-<div id="lda" class="section level2">
-<h2>LDA</h2>
+<div id="lda" class="section level4">
+<h4>LDA</h4>
 <pre class="r"><code>library(mgcv)</code></pre>
 <pre><code>## Loading required package: nlme</code></pre>
 <pre><code>## Warning: package &#39;nlme&#39; was built under R version 3.6.2</code></pre>
@@ -93,8 +95,8 @@ table(testing$avg_rating_ideal,lda.pred$class)</code></pre>
 <pre class="r"><code>mean(lda.pred$class!=testing$avg_rating_ideal)</code></pre>
 <pre><code>## [1] 0.1458753</code></pre>
 </div>
-<div id="qda" class="section level2">
-<h2>QDA</h2>
+<div id="qda" class="section level4">
+<h4>QDA</h4>
 <pre class="r"><code>qda.fit=qda(avg_rating_ideal~.,data=training)
 qda.pred=predict(qda.fit,testing)
 table(testing$avg_rating_ideal,qda.pred$class)</code></pre>
@@ -105,8 +107,8 @@ table(testing$avg_rating_ideal,qda.pred$class)</code></pre>
 <pre class="r"><code>mean(qda.pred$class!=testing$avg_rating_ideal)</code></pre>
 <pre><code>## [1] 0.1478873</code></pre>
 </div>
-<div id="logistic-regression" class="section level2">
-<h2>Logistic Regression</h2>
+<div id="logistic-regression" class="section level4">
+<h4>Logistic Regression</h4>
 <pre class="r"><code>set.seed(1)
 glm.fit=glm(as.factor(avg_rating_ideal)~.,data=training,family=binomial)
 glm.probs=predict(glm.fit,testing,type=&#39;response&#39;)
@@ -121,11 +123,9 @@ table(testing$avg_rating_ideal,glm.pred)</code></pre>
 <pre class="r"><code>1-(832+19)/994</code></pre>
 <pre><code>## [1] 0.1438632</code></pre>
 </div>
-<div id="knn" class="section level2">
-<h2>KNN</h2>
-</div>
-<div id="k3" class="section level2">
-<h2>k=3</h2>
+<div id="knn" class="section level4">
+<h4>KNN</h4>
+<p>k=3</p>
 <pre class="r"><code>set.seed(1)
 library(class)</code></pre>
 <pre><code>## Warning: package &#39;class&#39; was built under R version 3.6.2</code></pre>
@@ -140,9 +140,7 @@ table(knn3.pred,testing$avg_rating_ideal)</code></pre>
 ##         1  71  23</code></pre>
 <pre class="r"><code>1-(773+23)/994</code></pre>
 <pre><code>## [1] 0.1991952</code></pre>
-</div>
-<div id="k4" class="section level2">
-<h2>k=4</h2>
+<p>k=4</p>
 <pre class="r"><code>set.seed(1)
 knn4.pred=knn(train.X,test.X,train.avg_rating_ideal,k=4)
 table(knn4.pred,testing$avg_rating_ideal)</code></pre>
@@ -152,9 +150,7 @@ table(knn4.pred,testing$avg_rating_ideal)</code></pre>
 ##         1  74  27</code></pre>
 <pre class="r"><code>1-(770+27)/994</code></pre>
 <pre><code>## [1] 0.1981891</code></pre>
-</div>
-<div id="k5" class="section level2">
-<h2>k=5</h2>
+<p>k=5</p>
 <pre class="r"><code>set.seed(1)
 knn5.pred=knn(train.X,test.X,train.avg_rating_ideal,k=5)
 table(knn5.pred,testing$avg_rating_ideal)</code></pre>
@@ -164,9 +160,7 @@ table(knn5.pred,testing$avg_rating_ideal)</code></pre>
 ##         1  45  17</code></pre>
 <pre class="r"><code>1-(799+17)/994</code></pre>
 <pre><code>## [1] 0.1790744</code></pre>
-</div>
-<div id="k6" class="section level2">
-<h2>k=6</h2>
+<p>k=6</p>
 <pre class="r"><code>set.seed(1)
 knn6.pred=knn(train.X,test.X,train.avg_rating_ideal,k=6)
 table(knn6.pred,testing$avg_rating_ideal)</code></pre>
@@ -177,8 +171,8 @@ table(knn6.pred,testing$avg_rating_ideal)</code></pre>
 <pre class="r"><code>1-(799+21)/994</code></pre>
 <pre><code>## [1] 0.1750503</code></pre>
 </div>
-<div id="cross-validation" class="section level2">
-<h2>Cross Validation</h2>
+<div id="cross-validation" class="section level4">
+<h4>Cross Validation</h4>
 <pre class="r"><code>trails_reg=data.frame(trails_reg)
 MAE=c()
 
@@ -331,8 +325,8 @@ MAE</code></pre>
 <pre><code>## [1] 0.2382376 0.1614719 0.1670996 0.1125541 0.2000000 0.2038961 0.1870130
 ## [8] 0.1935065</code></pre>
 </div>
-<div id="graphical-comparison-of-classification-error" class="section level2">
-<h2>Graphical Comparison of Classification Error</h2>
+<div id="graphical-comparison-of-classification-error" class="section level4">
+<h4>Graphical Comparison of Classification Error</h4>
 <pre class="r"><code>par(mfrow=c(1,2))
 
 plot(MAE,xlim=c(0,9), col=&#39;blue&#39;, type=&#39;p&#39;, pch=19, main=&#39;Cross Validation for Trails Data&#39;, ylab=&#39;mean absolute error&#39;)
@@ -344,7 +338,7 @@ plot(MAE, xlim=c(0,9),ylim=c(0,1) , col=&#39;blue&#39;, type=&#39;p&#39;, pch=19
 
 text(1:8, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, &#39;knn3&#39;, &#39;knn4&#39;, &#39;knn5&#39;, &#39;knn6&#39;), pos=3,  cex=0.5, col=&quot;red&quot;)</code></pre>
 <p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" />
-# Bagging</p>
+### Bagging</p>
 <pre class="r"><code>library(randomForest)</code></pre>
 <pre><code>## randomForest 4.6-14</code></pre>
 <pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
@@ -461,8 +455,8 @@ err_bagg</code></pre>
 <pre class="r"><code>MAE=c(MAE,err_bagg)</code></pre>
 </div>
 </div>
-<div id="gbm-classification" class="section level1">
-<h1>GBM Classification</h1>
+<div id="gbm-classification" class="section level3">
+<h3>GBM Classification</h3>
 <pre class="r"><code>library(caret)
 
 fitControl &lt;- trainControl(
@@ -813,7 +807,7 @@ plot(gbmFit1) </code></pre>
 <p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <pre class="r"><code>plot(gbmFit2) </code></pre>
 <p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-2.png" width="672" />
-## Predict</p>
+#### Predict</p>
 <pre class="r"><code>set.seed(1)
 pred=predict(gbmFit1, testing)
 
