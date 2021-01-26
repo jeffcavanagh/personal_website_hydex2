@@ -22,14 +22,10 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Minimzing World Electrical Cost"/>
-<meta name="twitter:description" content="For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative.
-The write-up of the project can be found here
-Indirect costs of the various energy sources # Health cost death_source = [2."/>
+<meta name="twitter:description" content="Indirect Costs of the Various Energy Sources Coast Coefficients by Fuel Source (Production, Import, Export, Consumption) Packages Used to Build Model Upper Limit on Fuel Sources Defining Constraints Energy Production Capacity by Nation Defining the Objective Function Putting the Constraints Together Solving the Problem   For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative."/>
 
 <meta property="og:title" content="Minimzing World Electrical Cost" />
-<meta property="og:description" content="For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative.
-The write-up of the project can be found here
-Indirect costs of the various energy sources # Health cost death_source = [2." />
+<meta property="og:description" content="Indirect Costs of the Various Energy Sources Coast Coefficients by Fuel Source (Production, Import, Export, Consumption) Packages Used to Build Model Upper Limit on Fuel Sources Defining Constraints Energy Production Capacity by Nation Defining the Objective Function Putting the Constraints Together Solving the Problem   For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/projects/minimzing-world-electrical-cost-graduate-project/" />
 <meta property="article:published_time" content="2020-05-11T00:00:00+00:00" />
@@ -205,6 +201,29 @@ Indirect costs of the various energy sources # Health cost death_source = [2." /
     
     
     
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/python">PYTHON</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/numpy">numpy</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/cvxpy">cvxpy</a>
+          
+      
     
     
     <br/>
@@ -219,11 +238,24 @@ Indirect costs of the various energy sources # Health cost death_source = [2." /
     
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a href="#indirect-costs-of-the-various-energy-sources">Indirect Costs of the Various Energy Sources</a></li>
+<li><a href="#coast-coefficients-by-fuel-source-production-import-export-consumption">Coast Coefficients by Fuel Source (Production, Import, Export, Consumption)</a></li>
+<li><a href="#packages-used-to-build-model">Packages Used to Build Model</a></li>
+<li><a href="#upper-limit-on-fuel-sources">Upper Limit on Fuel Sources</a></li>
+<li><a href="#defining-constraints">Defining Constraints</a></li>
+<li><a href="#energy-production-capacity-by-nation">Energy Production Capacity by Nation</a></li>
+<li><a href="#defining-the-objective-function">Defining the Objective Function</a></li>
+<li><a href="#putting-the-constraints-together">Putting the Constraints Together</a></li>
+<li><a href="#solving-the-problem">Solving the Problem</a></li>
+</ul>
+</div>
 
 <p><strong>For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative.</strong></p>
 <p>The write-up of the project can be found <a href="/projects/Minimizing%20World%20Electrical%20Cost.pdf" target="blank">here</a></p>
 <div id="indirect-costs-of-the-various-energy-sources" class="section level4">
-<h4>Indirect costs of the various energy sources</h4>
+<h4>Indirect Costs of the Various Energy Sources</h4>
 <pre class="python"><code># Health cost
 death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.4e-11,3.5e-11,1.9e-11]
     #deaths/kwh
@@ -243,7 +275,7 @@ greenhouse_gas_cost = [ghg_cost_coal, ghg_cost_coal*0.91, ghg_cost_coal*1.4,0,0,
     #approximate environmental cost of greenhouse gases</code></pre>
 </div>
 <div id="coast-coefficients-by-fuel-source-production-import-export-consumption" class="section level4">
-<h4>Coast coefficients by fuel source (production, import, export, consumption)</h4>
+<h4>Coast Coefficients by Fuel Source (Production, Import, Export, Consumption)</h4>
 <pre class="python"><code># Cost coefficient ($/kwh)
 #c1: coal
 c1p = .03586 + death_cost[0] + water_cost[0] + greenhouse_gas_cost[0]
@@ -291,17 +323,17 @@ c4p,c4i,c4e,c4c,c5p,c5i,c5e,c5c,c6p,c6i,c6e,c6c,c7p,c7i,c7e,c7c]
 n = len(cost)</code></pre>
 </div>
 <div id="packages-used-to-build-model" class="section level4">
-<h4>Packages used to build model</h4>
+<h4>Packages Used to Build Model</h4>
 <pre class="python"><code>import cvxpy as cp
 import numpy as np</code></pre>
 </div>
 <div id="upper-limit-on-fuel-sources" class="section level4">
-<h4>Upper limit on fuel sources</h4>
+<h4>Upper Limit on Fuel Sources</h4>
 <pre class="python"><code>supply_world_source = [4.4e4, 3.6e4, 5.2e4, 2.7e3, 4.2e3, 1.3e3, 585]
      # total world  supply of each fuel source in 2018</code></pre>
 </div>
 <div id="defining-constraints" class="section level4">
-<h4>Defining constraints</h4>
+<h4>Defining Constraints</h4>
 <pre class="python"><code># Defining each nation
 class Country:
     def __init__(self, name, demand, coal_ability, naturalgas_ability, oil_ability, reactor_count, renewable_ability, windsolar_ability):
@@ -398,7 +430,7 @@ class Country:
         return ( self.import_install_variables()[5] == self.import_install_variables()[6])</code></pre>
 </div>
 <div id="energy-production-capacity-by-nation" class="section level4">
-<h4>Energy production capacity by nation</h4>
+<h4>Energy Production Capacity by Nation</h4>
 <pre class="python"><code>us = Country(&quot;United States&quot;,
              4.0e3,  # demand
              0.089,   # coal ability
@@ -792,11 +824,11 @@ countries = [us, cn, ind, ru, jp, kp, de, ca, br, ir,
             ro, pt, nz, ng]</code></pre>
 </div>
 <div id="defining-the-objective-function" class="section level4">
-<h4>Defining the objective function</h4>
+<h4>Defining the Objective Function</h4>
 <pre class="python"><code>objective = cp.Minimize(sum(c.objective_function() for c in countries))</code></pre>
 </div>
 <div id="putting-the-constraints-together" class="section level4">
-<h4>Putting the constraints together</h4>
+<h4>Putting the Constraints Together</h4>
 <pre class="python"><code># Constraints
 
 # Nonnegativity
@@ -859,11 +891,11 @@ nonnegativity
 )</code></pre>
 </div>
 <div id="solving-the-problem" class="section level4">
-<h4>Solving the problem</h4>
+<h4>Solving the Problem</h4>
 <pre class="python"><code>prob = cp.Problem(objective, constraints)
 
 OptimalVal=np.format_float_scientific(prob.solve(),precision=4)</code></pre>
-<pre><code>## /Users/jmcavanagh/.virtualenvs/grad-proj/lib/python3.7/site-packages/cvxpy/problems/problem.py:1061: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+<pre><code>## /Users/jmcavanagh/Library/r-miniconda/envs/r-reticulate/lib/python3.6/site-packages/cvxpy/problems/problem.py:1061: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
 ##   &quot;Solution may be inaccurate. Try another solver, &quot;</code></pre>
 <pre class="python"><code>print(&quot;World Electrical Energy Cost&quot;, OptimalVal)</code></pre>
 <pre><code>## World Electrical Energy Cost 2.232e+12</code></pre>

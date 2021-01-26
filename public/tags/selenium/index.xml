@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Selenium on Jeff Cavanagh</title>
+    <link>/tags/selenium/</link>
+    <description>Recent content in Selenium on Jeff Cavanagh</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 05 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/selenium/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Web Scraping</title>
+      <link>/analytics/web-scrape/</link>
+      <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/analytics/web-scrape/</guid>
+      <description>Setup  CSS Tool Data  rvest Selenium   Unfortunately, not all data is contained within neat data frames. There is a virtually unlimited amount of data contained within web pages, but extracting and manipulated that information into a usable and familiar format is a major obstacle. This post will serve as an introduction on how to extract data from web pages using R and Python with the packages rvest and Selenium.</description>
+    </item>
+    
+  </channel>
+</rss>

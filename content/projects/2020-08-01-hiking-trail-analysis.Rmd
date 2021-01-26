@@ -11,6 +11,17 @@ lastmod: '2020-08-01T09:50:05-04:00'
 layout: post
 type: post
 highlight: no
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
 ---
 
 ```{r install, eval = FALSE,echo=F}
@@ -162,7 +173,7 @@ table(knn6.pred,testing$avg_rating_ideal)
 1-(799+21)/994
 ```
 
-#### Cross Validation
+### Cross Validation
 ```{r}
 trails_reg=data.frame(trails_reg)
 MAE=c()
@@ -315,7 +326,7 @@ MAE=c(MAE, mean(mae))
 MAE
 ```
 
-#### Graphical Comparison of Classification Error
+
 ```{r}
 par(mfrow=c(1,2))
 
@@ -328,7 +339,9 @@ plot(MAE, xlim=c(0,9),ylim=c(0,1) , col='blue', type='p', pch=19, main='Cross Va
 
 text(1:8, MAE, c('lm','lda', 'qda', 'logistic', 'knn3', 'knn4', 'knn5', 'knn6'), pos=3,  cex=0.5, col="red")
 ```
-### Bagging
+
+### Tree-Based Methods
+#### Bagging
 ```{r}
 library(randomForest)
 
@@ -343,6 +356,7 @@ mean(pre_bag!=testing$avg_rating_ideal)
 
 ```
 
+#### Random Forest
 ```{r}
 bagged_rating <- randomForest(as.factor(avg_rating_ideal)~.,data=training, mtry=5, importance =TRUE, ntree=5000)
 pre_bag = predict(bagged_rating, newdata = testing)
@@ -410,8 +424,7 @@ err_bagg
 MAE=c(MAE,err_bagg)
 ```
 
-### GBM Classification
-
+#### GBM Classification
 ```{r}
 library(caret)
 
@@ -458,7 +471,8 @@ plot(gbmFit1)
 plot(gbmFit2) 
 
 ```
-#### Predict
+
+#### Predictions
 ```{r}
 set.seed(1)
 pred=predict(gbmFit1, testing)

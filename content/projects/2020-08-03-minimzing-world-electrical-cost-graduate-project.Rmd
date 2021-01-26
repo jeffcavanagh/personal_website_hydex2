@@ -4,13 +4,27 @@ linktitle: Minimization project
 author: Jeff Cavanagh
 date: '2020-05-11'
 slug: minimzing-world-electrical-cost-graduate-project
-categories: []
-tags: []
+categories: 
+  - Python
+tags:
+  - NumPy
+  - CvxPy
 lastmod: '2020-08-03T12:35:28-04:00'
 layout: post
 type: post
 highlight: yes
 weight: 1
+output:
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
 ---
 
 **For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative.**
@@ -24,7 +38,7 @@ py_install(c("cvxpy", "numpy"), envname = "grad-proj")
 use_virtualenv("grad-proj")
 ```
 
-#### Indirect costs of the various energy sources
+#### Indirect Costs of the Various Energy Sources
 ```{python}
 # Health cost
 death_source = [2.5e-8, 2.8e-9, 1.8e-8, 7.4e-11, 2.4e-11,3.5e-11,1.9e-11]
@@ -45,7 +59,7 @@ greenhouse_gas_cost = [ghg_cost_coal, ghg_cost_coal*0.91, ghg_cost_coal*1.4,0,0,
     #approximate environmental cost of greenhouse gases
 ```
 
-#### Coast coefficients by fuel source (production, import, export, consumption)
+#### Coast Coefficients by Fuel Source (Production, Import, Export, Consumption)
 ```{python}
 # Cost coefficient ($/kwh)
 #c1: coal
@@ -94,19 +108,19 @@ c4p,c4i,c4e,c4c,c5p,c5i,c5e,c5c,c6p,c6i,c6e,c6c,c7p,c7i,c7e,c7c]
 n = len(cost)
 ```
 
-#### Packages used to build model
+#### Packages Used to Build Model
 ```{python}
 import cvxpy as cp
 import numpy as np
 ```
 
-#### Upper limit on fuel sources
+#### Upper Limit on Fuel Sources
 ```{python}
 supply_world_source = [4.4e4, 3.6e4, 5.2e4, 2.7e3, 4.2e3, 1.3e3, 585]
      # total world  supply of each fuel source in 2018
 ```
 
-#### Defining constraints
+#### Defining Constraints
 ```{python}
 # Defining each nation
 class Country:
@@ -204,7 +218,7 @@ class Country:
         return ( self.import_install_variables()[5] == self.import_install_variables()[6])
 ```
 
-#### Energy production capacity by nation
+#### Energy Production Capacity by Nation
 ```{python}
 us = Country("United States",
              4.0e3,  # demand
@@ -600,12 +614,12 @@ countries = [us, cn, ind, ru, jp, kp, de, ca, br, ir,
 
 ```
 
-#### Defining the objective function
+#### Defining the Objective Function
 ```{python}
 objective = cp.Minimize(sum(c.objective_function() for c in countries))
 ```
 
-#### Putting the constraints together
+#### Putting the Constraints Together
 ```{python}
 # Constraints
 
@@ -669,7 +683,7 @@ nonnegativity
 )
 ```
 
-#### Solving the problem
+#### Solving the Problem
 ```{python}
 prob = cp.Problem(objective, constraints)
 

@@ -17,8 +17,7 @@
       <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/projects/hiking-trail-analysis/</guid>
-      <description>The following was my final project for a Predictive Analytics course. It analyzed data on hiking trails throughout the US and created and compared models predicting whether or not a given trail will be rated above 4.5 stars out of 5.
-Setup trails=read.csv(&amp;quot;AllTrailsdata_nationalpark.csv&amp;quot;,header=T) attach(trails) dim(trails) ## [1] 3313 18 This data set gives information on trails in the National Parks Service. The data is publicly available on Kaggle.com.</description>
+      <description>Setup Partitioning the Data Interaction of Predictor Variables Model Building  Linear Regression LDA QDA Logistic Regression KNN  Cross Validation Tree-Based Methods  Bagging Random Forest GBM Classification Predictions    The following was my final project for a Predictive Analytics course. It analyzed data on hiking trails throughout the US and created and compared models predicting whether or not a given trail will be rated above 4.</description>
     </item>
     
     <item>

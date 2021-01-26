@@ -103,6 +103,11 @@
   </url>
   
   <url>
+    <loc>/categories/python/</loc>
+    <lastmod>2020-08-05T15:58:56-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/categories/r/</loc>
     <lastmod>2020-08-18T15:57:46-04:00</lastmod>
   </url>
@@ -118,18 +123,23 @@
   </url>
   
   <url>
-    <loc>/tags/stringr/</loc>
-    <lastmod>2020-08-05T15:49:17-04:00</lastmod>
+    <loc>/tags/selenium/</loc>
+    <lastmod>2020-08-05T15:58:56-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/text/</loc>
+    <loc>/tags/stringr/</loc>
     <lastmod>2020-08-05T15:49:17-04:00</lastmod>
   </url>
   
   <url>
     <loc>/perspective/text-excerpts/</loc>
     <lastmod>2020-08-05T15:55:04-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/tidytext/</loc>
+    <lastmod>2020-08-05T15:49:17-04:00</lastmod>
   </url>
   
   <url>
@@ -160,6 +170,16 @@
   <url>
     <loc>/posts/spiritual/</loc>
     <lastmod>2020-08-02T20:12:16-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/cvxpy/</loc>
+    <lastmod>2020-08-03T12:35:28-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/numpy/</loc>
+    <lastmod>2020-08-03T12:35:28-04:00</lastmod>
   </url>
   
   <url>
@@ -209,6 +229,11 @@
   
   <url>
     <loc>/projects/nfl-team-wins-regression-analysis/</loc>
+    <lastmod>2020-08-01T12:40:19-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/spss/</loc>
     <lastmod>2020-08-01T12:40:19-04:00</lastmod>
   </url>
   

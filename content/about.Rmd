@@ -7,11 +7,11 @@ title: About Jeff
 
 My name is Jeff and I am a data scientist living in Boston, MA. I created this website as an outlet for my work, interests, and outlook on life. 
 
-I believe that the potential for growth and improvement (in virtually anything) is limitless and that there is no problem without a solution. This website is a manifestation of those beliefs that showcases my abilities, passions, and influences. The following pages contain prime examples of my journey working towards my own potential, in the realm of data science and in the realm of life.
+I believe that the potential for growth and improvement (in virtually anything) is limitless and that there is no problem without a solution. This website is a manifestation of those beliefs that showcases my abilities, passions, and influences. The following pages contain prime examples of my journey working towards my own potential, both in the realm of data science and in the realm of life.
 
-In the following pages you will find my personal projects, articles on how to apply various data science and analytic techniques, fitness routines, my own personal recipe database, and quotes and excerpts from a range of sources that I have taken inspiration from.
+In the following pages you will find some of my projects, articles on data science and analytic techniques, fitness routines, a recipe database, and quotes and excerpts I have taken inspiration from in one form or another.
 
-I hope you enjoy what you find and learn something new while walking the path.
+I hope you enjoy what you find and learn something new while walking the path!
 
 
 

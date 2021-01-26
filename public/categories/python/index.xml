@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Jeff Cavanagh</title>
+    <link>/categories/python/</link>
+    <description>Recent content in Python on Jeff Cavanagh</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 05 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Minimzing World Electrical Cost</title>
+      <link>/projects/minimzing-world-electrical-cost-graduate-project/</link>
+      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/minimzing-world-electrical-cost-graduate-project/</guid>
+      <description>Indirect Costs of the Various Energy Sources Coast Coefficients by Fuel Source (Production, Import, Export, Consumption) Packages Used to Build Model Upper Limit on Fuel Sources Defining Constraints Energy Production Capacity by Nation Defining the Objective Function Putting the Constraints Together Solving the Problem   For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative.</description>
+    </item>
+    
+    <item>
+      <title>Web Scraping</title>
+      <link>/analytics/web-scrape/</link>
+      <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/analytics/web-scrape/</guid>
+      <description>Setup  CSS Tool Data  rvest Selenium   Unfortunately, not all data is contained within neat data frames. There is a virtually unlimited amount of data contained within web pages, but extracting and manipulated that information into a usable and familiar format is a major obstacle. This post will serve as an introduction on how to extract data from web pages using R and Python with the packages rvest and Selenium.</description>
+    </item>
+    
+  </channel>
+</rss>

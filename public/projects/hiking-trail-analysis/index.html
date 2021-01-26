@@ -22,12 +22,10 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Hiking Trail Analysis"/>
-<meta name="twitter:description" content="The following was my final project for a Predictive Analytics course. It analyzed data on hiking trails throughout the US and created and compared models predicting whether or not a given trail will be rated above 4.5 stars out of 5.
-Setup trails=read.csv(&quot;AllTrailsdata_nationalpark.csv&quot;,header=T) attach(trails) dim(trails) ## [1] 3313 18 This data set gives information on trails in the National Parks Service. The data is publicly available on Kaggle.com."/>
+<meta name="twitter:description" content="Setup Partitioning the Data Interaction of Predictor Variables Model Building  Linear Regression LDA QDA Logistic Regression KNN  Cross Validation Tree-Based Methods  Bagging Random Forest GBM Classification Predictions    The following was my final project for a Predictive Analytics course. It analyzed data on hiking trails throughout the US and created and compared models predicting whether or not a given trail will be rated above 4."/>
 
 <meta property="og:title" content="Hiking Trail Analysis" />
-<meta property="og:description" content="The following was my final project for a Predictive Analytics course. It analyzed data on hiking trails throughout the US and created and compared models predicting whether or not a given trail will be rated above 4.5 stars out of 5.
-Setup trails=read.csv(&quot;AllTrailsdata_nationalpark.csv&quot;,header=T) attach(trails) dim(trails) ## [1] 3313 18 This data set gives information on trails in the National Parks Service. The data is publicly available on Kaggle.com." />
+<meta property="og:description" content="Setup Partitioning the Data Interaction of Predictor Variables Model Building  Linear Regression LDA QDA Logistic Regression KNN  Cross Validation Tree-Based Methods  Bagging Random Forest GBM Classification Predictions    The following was my final project for a Predictive Analytics course. It analyzed data on hiking trails throughout the US and created and compared models predicting whether or not a given trail will be rated above 4." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/projects/hiking-trail-analysis/" />
 <meta property="article:published_time" content="2019-12-12T00:00:00+00:00" />
@@ -234,6 +232,29 @@ Setup trails=read.csv(&quot;AllTrailsdata_nationalpark.csv&quot;,header=T) attac
     
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#partitioning-the-data">Partitioning the Data</a></li>
+<li><a href="#interaction-of-predictor-variables">Interaction of Predictor Variables</a></li>
+<li><a href="#model-building">Model Building</a>
+<ul>
+<li><a href="#linear-regression">Linear Regression</a></li>
+<li><a href="#lda">LDA</a></li>
+<li><a href="#qda">QDA</a></li>
+<li><a href="#logistic-regression">Logistic Regression</a></li>
+<li><a href="#knn">KNN</a></li>
+</ul></li>
+<li><a href="#cross-validation">Cross Validation</a></li>
+<li><a href="#tree-based-methods">Tree-Based Methods</a>
+<ul>
+<li><a href="#bagging">Bagging</a></li>
+<li><a href="#random-forest">Random Forest</a></li>
+<li><a href="#gbm-classification">GBM Classification</a></li>
+<li><a href="#predictions">Predictions</a></li>
+</ul></li>
+</ul>
+</div>
 
 <p><strong>The following was my final project for a Predictive Analytics course. It analyzed data on hiking trails throughout the US and created and compared models predicting whether or not a given trail will be rated above 4.5 stars out of 5.</strong></p>
 <div id="setup" class="section level3">
@@ -390,8 +411,9 @@ table(knn6.pred,testing$avg_rating_ideal)</code></pre>
 <pre class="r"><code>1-(799+21)/994</code></pre>
 <pre><code>## [1] 0.1750503</code></pre>
 </div>
-<div id="cross-validation" class="section level4">
-<h4>Cross Validation</h4>
+</div>
+<div id="cross-validation" class="section level3">
+<h3>Cross Validation</h3>
 <pre class="r"><code>trails_reg=data.frame(trails_reg)
 MAE=c()
 
@@ -543,9 +565,6 @@ MAE=c(MAE, mean(mae))
 MAE</code></pre>
 <pre><code>## [1] 0.2382376 0.1614719 0.1670996 0.1125541 0.2000000 0.2038961 0.1870130
 ## [8] 0.1935065</code></pre>
-</div>
-<div id="graphical-comparison-of-classification-error" class="section level4">
-<h4>Graphical Comparison of Classification Error</h4>
 <pre class="r"><code>par(mfrow=c(1,2))
 
 plot(MAE,xlim=c(0,9), col=&#39;blue&#39;, type=&#39;p&#39;, pch=19, main=&#39;Cross Validation for Trails Data&#39;, ylab=&#39;mean absolute error&#39;)
@@ -556,8 +575,12 @@ text(1:8, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, 
 plot(MAE, xlim=c(0,9),ylim=c(0,1) , col=&#39;blue&#39;, type=&#39;p&#39;, pch=19, main=&#39;Cross Validation for Trails Data&#39;, ylab=&#39;mean absolute error&#39;)
 
 text(1:8, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, &#39;knn3&#39;, &#39;knn4&#39;, &#39;knn5&#39;, &#39;knn6&#39;), pos=3,  cex=0.5, col=&quot;red&quot;)</code></pre>
-<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" />
-### Bagging</p>
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="tree-based-methods" class="section level3">
+<h3>Tree-Based Methods</h3>
+<div id="bagging" class="section level4">
+<h4>Bagging</h4>
 <pre class="r"><code>library(randomForest)</code></pre>
 <pre><code>## randomForest 4.6-14</code></pre>
 <pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
@@ -584,6 +607,9 @@ bagged_rating</code></pre>
 <pre class="r"><code>pre_bag = predict(bagged_rating, newdata = testing)
 mean(pre_bag!=testing$avg_rating_ideal)</code></pre>
 <pre><code>## [1] 0.1690141</code></pre>
+</div>
+<div id="random-forest" class="section level4">
+<h4>Random Forest</h4>
 <pre class="r"><code>bagged_rating &lt;- randomForest(as.factor(avg_rating_ideal)~.,data=training, mtry=5, importance =TRUE, ntree=5000)
 pre_bag = predict(bagged_rating, newdata = testing)
 mean(pre_bag!=testing$avg_rating_ideal)</code></pre>
@@ -673,9 +699,8 @@ err_bagg</code></pre>
 <pre><code>## [1] 0.1690141</code></pre>
 <pre class="r"><code>MAE=c(MAE,err_bagg)</code></pre>
 </div>
-</div>
-<div id="gbm-classification" class="section level3">
-<h3>GBM Classification</h3>
+<div id="gbm-classification" class="section level4">
+<h4>GBM Classification</h4>
 <pre class="r"><code>library(caret)
 
 fitControl &lt;- trainControl(
@@ -1025,8 +1050,10 @@ gbmFit2</code></pre>
 plot(gbmFit1) </code></pre>
 <p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <pre class="r"><code>plot(gbmFit2) </code></pre>
-<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-2.png" width="672" />
-#### Predict</p>
+<p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
+</div>
+<div id="predictions" class="section level4">
+<h4>Predictions</h4>
 <pre class="r"><code>set.seed(1)
 pred=predict(gbmFit1, testing)
 
@@ -1062,6 +1089,7 @@ plot(MAE, xlim=c(0,12),ylim=c(0,1) , col=&#39;blue&#39;, type=&#39;p&#39;, pch=1
 
 text(1:11, MAE, c(&#39;lm&#39;,&#39;lda&#39;, &#39;qda&#39;, &#39;logistic&#39;, &#39;knn3&#39;, &#39;knn4&#39;, &#39;knn5&#39;, &#39;knn6&#39;, &#39;bagg&#39;,&#39;gbm1&#39;,&#39;gbm2&#39;), pos=3,  cex=0.5, col=&quot;red&quot;)</code></pre>
 <p><img src="/projects/2020-08-01-hiking-trail-analysis_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
 </div>
 
     

@@ -5,38 +5,51 @@ date: '2020-08-05'
 slug: web-scrape
 categories:
   - R
+  - Python
 tags:
   - rvest
-  - Rselenium
+  - Selenium
+  - RSelenium
 lastmod: '2020-08-05T15:58:56-04:00'
 layout: post
 type: post
 highlight: yes
+output:
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
 ---
 
-**Unfortunately, not all data is contained within neat dataframes. Much of the freely accessible data out there is posted on webpages. This post will serve as an introduction on how to extract that data using two packages: `rvest` and `rselenium`.**
+**Unfortunately, not all data is contained within neat data frames. There is a virtually unlimited amount of data contained within web pages, but extracting and manipulated that information into a usable and familiar format is a major obstacle. This post will serve as an introduction on how to extract data from web pages using R and Python with the packages `rvest` and `Selenium`.**
 
 ### Setup 
 
 #### CSS Tool
 
-Webpages are not written in R code. They are written in HTML and CSS. A working knowledge of at least CSS is required to use the webscapring packages R provides.
+Web pages are not written in R code. They are written in HTML and CSS. A working knowledge of at least CSS is required to use the webscraping packages R provides.
 
-Luckily for us there are free CSS selector tools to pull the the CSS links we need. I will be using the [SelectorGadget](https://selectorgadget.com/){target="blank"}.
+Luckily for us there are free CSS selector tools to pull the the necessary CSS links. I will be using the [SelectorGadget](https://selectorgadget.com/){target="blank"} tool.
 
 #### Data
 
-The data will be practicing our techniques on is a page from IMDb that lists 50 comic book movies that were released between 2000 and 2019, ranked by popularity. Here was what the page data looks like:
+The data we will be practicing our techniques on is a page from IMDb that lists 50 comic book movies that were released between 2000 and 2019.
 
 ![](/analytics/2020-08-05-web-scrape_files/Screen Shot 2020-08-08 at 2.43.03 PM.png)
 
 The link can be found [here](https://www.imdb.com/search/keyword/?keywords=based-on-comic-book%2Csuperhero&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=a581b14c-5a82-4e29-9cf8-54f909ced9e1&pf_rd_r=HA259SA49EFNVTHNRH2V&pf_rd_s=center-5&pf_rd_t=15051&pf_rd_i=genre&ref_=kw_ref_yr&sort=moviemeter,asc&mode=detail&page=1&title_type=movie&release_date=2000%2C2019){target="blank"}.
 
-Our primary goal will be to extract the different elements of data displayed on this page and translate it into a dataframe that is easy to use and manipulate. We will first do so with `rvest`.
+Our primary goal will be to extract the different elements of data displayed on this page and translate it into a working data frame that is easy to use and manipulate. We will first do so with `rvest`.
 
 ### `rvest`
 
-This package provides a host of functions that are designed to extract html code. The first thing we need to do to use it is use `read_html` to the read the full page.
+This package provides a host of functions that are designed to extract HTML code. First we need to use `read_html` to the read the full page.
 
 ```{r, warning=F, message = F}
 library(tidyverse)
@@ -44,7 +57,7 @@ library(rvest)
 movies <- read_html("https://www.imdb.com/search/keyword/?keywords=based-on-comic-book%2Csuperhero&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=a581b14c-5a82-4e29-9cf8-54f909ced9e1&pf_rd_r=HA259SA49EFNVTHNRH2V&pf_rd_s=center-5&pf_rd_t=15051&pf_rd_i=genre&ref_=kw_ref_yr&sort=moviemeter,asc&mode=detail&page=1&title_type=movie&release_date=2000%2C2019")
 ```
 
-Now that is done, we will start to extract different text elements of the page using `html_nodes` to identify all matches to the input CSS tag and `html_text` to extract the text. First let's get all the movie titles.
+Now we will start to extract different text elements of the page using `html_nodes` to identify all matches to the input CSS tag and `html_text` to extract the text. First let's get all the movie titles.
 
 ![](/analytics/2020-08-05-web-scrape_files/Screen Shot 2020-08-08 at 12.37.06 PM.png)
 
@@ -52,9 +65,10 @@ Now that is done, we will start to extract different text elements of the page u
 titles <- movies %>%
   html_nodes(".lister-item-header a") %>%
   html_text()
+head(titles)
 ```
 
-Using the same approach we can collect the other statistics from each movie. Let's do that now for each movies popularity ranking, rating, IMDb rating, runtime, genre, plot, domestic gross, directors, and actors.
+Using the same approach we can collect the other statistics from each movie. Let's do that now for each movie's popularity ranking, rating, IMDb rating, run-time, genre, plot, domestic gross, directors, and actors.
 
 ```{r}
 ranking<- movies %>%
@@ -116,9 +130,9 @@ head(actors2)
 length(actors2)
 ```
 
-For the most part we cleaned each vector we compiled as we extracted the data. Take note of the actor and director variables though. `director1` and `actor1` each have a length of 50 (matching the rest of the data). `director2` and `actor2` have more entries though, because all the movies on the list have more than one actor, and some have multiple directors.
+For the most part these variables were cleanly extracted with one entry per movie. Take note of the actor and director variables though. `director1` and `actor1` each have a length of 50 (matching the rest of the data). `director2` and `actor2` on the other hand have more entries because all the movies on the list have more than one actor, and some have multiple directors.
 
-To rectify this we will combine concatentate these strings with `str_c` using `for` loops. To do this, we will index the directors by appearance in the `directors1` and by taking groupings of four actors (as four actors are listed for each movie).
+To rectify this we will concatenate these strings with `str_c` using `for` loops. To do this, we will index the directors by appearance in the `directors1` and by taking groupings of four actors (as four actors are listed for each movie).
 
 ```{r}
 ind <- which(directors2 %in% directors1) %>% append(length(directors2)+1)
@@ -134,7 +148,7 @@ for(i in 1:length(actors1)){
 head(actors)
 ```
 
-We now have most of the primary data we were searching for. Now lets combine it into a functioning data frame.
+Now to translate this data into a working data frame.
 
 ```{r}
 superhero_movies <- tibble(
@@ -152,9 +166,7 @@ superhero_movies <- tibble(
 str(superhero_movies)
 ```
 
-There is one more feauture of `rvest` I would like to illustrate before we close out this tutorial, and that is how to extract links.
-
-We will add one more column to our new data frame that gives the link to each movie's page using `html_attr`. All we need to do is add one more input, "href", which tells the function we want the link, not the text of the CSS tag element.
+One more important feature of `rvest` is how to extract links. We will add one more column to our new data frame that gives the link to each movie's page using `html_attr`. All we need to do is add one more input, "href", which tells the function we want the link, not the text of the CSS tag element.
 
 ```{r}
 pages <- movies %>%
@@ -163,14 +175,98 @@ pages <- movies %>%
 head(pages)
 ```
 
-This now gives us the addres's within the main website, to get the full urls all we have to do is add the main site address to the start of each string.
+This now gives us the addresses within the main website, to get the full urls all we have to do is add the main site address to the start of each string.
 
 ```{r}
 pages <- str_c("https://www.imdb.com", pages)
-superhero_movies <- cbind(superhero_movies, pages)
+superhero_movies <- superhero_movies %>%
+  mutate(links = pages)
 superhero_movies %>% head()
 ```
-And viola! We have taken the contents of a webpage and turned it into a useful dataframe tracking superhero movies and all of their attached statistics.
+And viola! We have taken the contents of a web page and turned it into a useful data frame tracking superhero movies and containing relevant metrics that are able to be further manipulated.
 
-### `rselenium`
+### `Selenium`
+`rvest` is a great package for extracting website data and in my experience works great roughly 90% of the time. That leaves 10% though and that is when the issues pop up. 
 
+Sometimes due to the format of a web page or the privacy settings, the functions in `rvest` may not be able to extract what we intend. This is where `Selenium` comes in. This is a package in Python that allows for more manual control of a virtual session using a webdriver. For variety we will use Python to demonstrate. Be aware that there is a corresponding adaptation `RSelenium` in R. 
+
+We will start by using the same link and extracting the names of all movies listed as we did using `rvest`.
+
+```{r, echo = F}
+library(reticulate)
+```
+
+```{python}
+import os
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
+
+wd = os.getcwd()
+loc = "/".join([wd, "chromedriver"])
+
+driver = webdriver.Chrome(executable_path = loc)
+
+link = "https://www.imdb.com/search/keyword/?keywords=based-on-comic-book%2Csuperhero&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=a581b14c-5a82-4e29-9cf8-54f909ced9e1&pf_rd_r=HA259SA49EFNVTHNRH2V&pf_rd_s=center-5&pf_rd_t=15051&pf_rd_i=genre&ref_=kw_ref_yr&sort=moviemeter,asc&mode=detail&page=1&title_type=movie&release_date=2000%2C2019"
+
+driver.get(link)# going to the page
+
+x = driver.find_elements_by_css_selector('.lister-item-header a') # selecting movie titles by their css tag
+
+for i in list(range(0, len(x))):
+  x[i] = x[i].text # translating the results into text
+  
+x
+driver.quit()
+```
+
+Just like that we have the names of the 50 movies just like we did before (albeit in a Python environment instead of R). In a similar manner we could go forward and collect the remaining data (as we did with `rvest`) and create a workable data frame.
+
+`Selenium` provides much in the terms of hands on functionality: simulating pressing keys on the keyboard, changing the browser window size, etc. One very useful tool is automating a script that saves a pdf copy of that page. We will demonstrate this technique now, also incorporating the scroll function to load the full page.
+
+```{python}
+import json
+import numpy
+from selenium.webdriver.common.action_chains import ActionChains
+
+# setting print/save as pdf settings
+appState = {
+    'recentDestinations': [
+        {
+            'id': 'Save as PDF',
+            'origin': 'local',
+            'account': ''
+            }
+    ],
+    'selectedDestinationId': 'Save as PDF',
+    'version': 2,
+    "isHeaderFooterEnabled": False
+}
+
+profile = {'printing.print_preview_sticky_settings.appState': json.dumps(appState),
+'savefile.default_directory': os.getcwd()}
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_experimental_option('prefs', profile)
+chrome_options.add_argument('--kiosk-printing')
+driver = webdriver.Chrome(executable_path = loc, chrome_options = chrome_options)
+
+# defining action apparatus
+action = ActionChains(driver)
+
+driver.get(link)
+
+# scrolling to each movie entry so all images get loaded
+bottom = driver.find_elements_by_css_selector('.lister-item-header a')
+for j in list(range(0, 25)):
+  action.move_to_element(bottom[2 * j]).perform()
+action.move_to_element(bottom[49]).perform()
+
+# saving the webpage
+driver.execute_script('window.print();')
+
+driver.quit()
+```
+
+[Here](/analytics/2020-08-05-web-scrape_files/superhero_rank.pdf){target="blank"} is the pdf copy of the webpage we just created.
+
+When it comes to Selenium, virtually anything you can do in an actual web browser you can simulate in a virtual session. When more control is required for your webscraping goals, this is the way to go.

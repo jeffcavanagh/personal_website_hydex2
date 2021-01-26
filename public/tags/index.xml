@@ -48,7 +48,7 @@
     </item>
     
     <item>
-      <title>Rselenium</title>
+      <title>RSelenium</title>
       <link>/tags/rselenium/</link>
       <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
       
@@ -66,6 +66,15 @@
     </item>
     
     <item>
+      <title>Selenium</title>
+      <link>/tags/selenium/</link>
+      <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/selenium/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>stringr</title>
       <link>/tags/stringr/</link>
       <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
@@ -75,11 +84,29 @@
     </item>
     
     <item>
-      <title>text</title>
-      <link>/tags/text/</link>
+      <title>tidytext</title>
+      <link>/tags/tidytext/</link>
       <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/text/</guid>
+      <guid>/tags/tidytext/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CvxPy</title>
+      <link>/tags/cvxpy/</link>
+      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/cvxpy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NumPy</title>
+      <link>/tags/numpy/</link>
+      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/numpy/</guid>
       <description></description>
     </item>
     

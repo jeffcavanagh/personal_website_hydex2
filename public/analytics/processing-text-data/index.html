@@ -22,14 +22,14 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Processing Text Data"/>
-<meta name="twitter:description" content="Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data insight from it??
+<meta name="twitter:description" content="stringr The Data Cleaning Text Data Breaking Down Text Data Word Analysis   Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data and obtain insight from it??
 Of course! All it takes is an adapted approach and a little more work upfront.
-Quite a bit of potential data is unstructured and textual in nature, and does not operate by the same rules as numerical or categorical data. That does not mean there is not value to this format of data though."/>
+Quite a bit of potential data is unstructured and textual in nature.To extract the underlying value of this category of data, different techniques are required."/>
 
 <meta property="og:title" content="Processing Text Data" />
-<meta property="og:description" content="Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data insight from it??
+<meta property="og:description" content="stringr The Data Cleaning Text Data Breaking Down Text Data Word Analysis   Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data and obtain insight from it??
 Of course! All it takes is an adapted approach and a little more work upfront.
-Quite a bit of potential data is unstructured and textual in nature, and does not operate by the same rules as numerical or categorical data. That does not mean there is not value to this format of data though." />
+Quite a bit of potential data is unstructured and textual in nature.To extract the underlying value of this category of data, different techniques are required." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/analytics/processing-text-data/" />
 <meta property="article:published_time" content="2020-08-05T00:00:00+00:00" />
@@ -222,10 +222,10 @@ Quite a bit of potential data is unstructured and textual in nature, and does no
           <br/>
            <i class="fas fa-tags"></i>
           
-          <a class="badge badge-tag" href="/tags/text">text</a>
+          <a class="badge badge-tag" href="/tags/stringr">stringr</a>
            
       
-          <a class="badge badge-tag" href="/tags/stringr">stringr</a>
+          <a class="badge badge-tag" href="/tags/tidytext">tidytext</a>
           
       
     
@@ -240,29 +240,37 @@ Quite a bit of potential data is unstructured and textual in nature, and does no
   
   <div class="post">
     
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a href="#stringr"><code>stringr</code></a></li>
+<li><a href="#the-data">The Data</a></li>
+<li><a href="#cleaning-text-data">Cleaning Text Data</a></li>
+<li><a href="#breaking-down-text-data">Breaking Down Text Data</a></li>
+<li><a href="#word-analysis">Word Analysis</a></li>
+</ul>
+</div>
 
-<p><strong>Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data insight from it??</strong></p>
+<p><strong>Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data and obtain insight from it??</strong></p>
 <p>Of course! All it takes is an adapted approach and a little more work upfront.</p>
-<p>Quite a bit of potential data is unstructured and textual in nature, and does not operate by the same rules as numerical or categorical data. That does not mean there is not value to this format of data though. To extract that value, different techniques are required.</p>
-<p>In this post we will focus on some routine methods for text mining and text analysis in R and how they can be utilized to process and draw value from text data.</p>
-<div id="setup" class="section level2">
-<h2>Setup</h2>
-<div id="stringr" class="section level3">
-<h3><code>stringr</code></h3>
-<p>In R, the best way I have found to carry out any sort of NLP is using the <code>stringr</code> package. This package can be loaded on its own, or as part of <code>tidyverse</code>.</p>
-<p>The functions contained with in all process character strings in various ways. Luckily for us, R has a <a href="/rcheatsheets/strings.pdf" target="blank">cheatsheet</a> for the <code>stringr</code> package for not only the functions, but also the formatting of search patterns.</p>
-<p>It should be noted that there is also the <code>stringi</code> package which contains more robust functions for handling strings. For simplicity, we will only be concentrating on <code>stringr</code> so let’s load that now.</p>
+<p>Quite a bit of potential data is unstructured and textual in nature.To extract the underlying value of this category of data, different techniques are required.</p>
+<p>In this post we will focus on some routine methods for text mining and text analysis in R and how they can be utilized to process and draw value from unstructured text data.</p>
+<div id="stringr" class="section level4">
+<h4><code>stringr</code></h4>
+<p>In R, the first stop is the <code>stringr</code> package. This package can be loaded on its own, or as part of <code>tidyverse</code>.</p>
+<p>The functions contained within process character strings in various ways. Luckily for us, R has a <a href="/rcheatsheets/strings.pdf" target="blank">cheatsheet</a> for the package.</p>
+<p>It should be noted that there is also the <code>stringi</code> package which contains more robust functions for handling strings. For simplicity, we will only be concentrating on <code>stringr</code> in this post.</p>
 <pre class="r"><code>library(stringr)
 library(tidyverse)</code></pre>
 </div>
-<div id="the-data" class="section level3">
-<h3>The Data</h3>
+<div id="the-data" class="section level4">
+<h4>The Data</h4>
 <p>To illustrate the use of NLP, we will be analyzing a pdf of Mary Shelley’s, <em>Frankenstein</em> (downloaded from <a href="https://www.planetebook.com/free-ebooks/frankenstein.pdf" target="blank">planetbook.com</a>). We will use the <code>pdftools</code> package to extract the text from the pdf file.</p>
 <pre class="r"><code>library(pdftools)
 book &lt;- pdf_text(&quot;frankenstein.pdf&quot;)</code></pre>
-<p><code>pdf_text</code> from the <code>pdf_tools</code> package converts the pdf file into a character string where each element is a page from the document.</p>
-<p>Now that we have the defined the book as a character string we will begin to mold it into a dataframe so it is easier to work with.</p>
+<p><code>pdf_text</code> converts the pdf file into a character string where each element is a page from the document.</p>
+<p>Now that we have defined the book as a character string we will begin to mold it into a data frame so it is easier to work with.</p>
 <pre class="r"><code>book_df &lt;- book  %&gt;% 
   as_tibble_col(&quot;content&quot;) %&gt;%
   rowid_to_column(&quot;page_number&quot;)
@@ -282,17 +290,16 @@ book_df</code></pre>
 ##  9           9 &quot;remarkable in the ship for his gentleness and the mildness of\n…
 ## 10          10 &quot;himself bound in honour to my friend, who, when he found\nthe f…
 ## # … with 267 more rows</code></pre>
-<p>We know have a data frame, where each row is an observation containing the page number and content held on that page. Now let’s look for patterns.</p>
+<p>This gives a data frame where each row is an observation containing the page number and content held on that page. Now we can begin in earnest with the text mining.</p>
 <ul>
-<li><code>str_detect</code> can be used to detect which observations match a pattern</li>
-<li><code>str_which</code> can be used to pick out the index’s of the entries of all matches</li>
-<li><code>str_extract</code> can be used to pull out the first pattern match within each element
+<li><code>str_detect</code> is used to detect which observations match a pattern</li>
+<li><code>str_which</code> is used to pick out the index’s of the entries of all matches</li>
+<li><code>str_extract</code> is used to pull out the first pattern match within each element
 <ul>
 <li>Some functions in <code>stringr</code> also have a <code>_all</code> functionality, such as <code>str_extract_all</code>, which returns all matches within an observation</li>
 </ul></li>
 </ul>
-<p>Here is a look at how these three function in practice. To illustrate the use of these functions, we will search for all pages that reference “Frankenstein”.</p>
-<p>(<code>^</code> is used to search for matches at the start of a string, <code>.</code> is used to match any character that is not a new line, <code>[:upper:]</code> is used to match upper case words, and <code>*</code> is used to pull 0 or more matches).</p>
+<p>Here is a look at these three function in practice. To illustrate the use of these functions, we will search for all pages that reference “Frankenstein”.</p>
 <pre class="r"><code>book_df$content %&gt;%
   str_detect(&quot;Frankenstein&quot;)</code></pre>
 <pre><code>##   [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
@@ -375,20 +382,19 @@ ind_capitals</code></pre>
 ## [136] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
 ## [141] &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot; &quot;Frankenstein&quot;
 ## [146] &quot;Frankenstein&quot; &quot;Frankenstein&quot;</code></pre>
+<p>Some other characters to take note of: <code>^</code> is used to search for matches at the start of a string, <code>$</code> is used to search for matches at the end of a string, <code>.</code> is used to match any character that is not a new line, <code>[:upper:]</code> is used to match upper case words, <code>*</code> is used to pull 0 or more matches, and <code>+</code> is used to pull 1 or more matches.</p>
 </div>
-<div id="cleaning-the-data" class="section level3">
-<h3>Cleaning the Data</h3>
-<p>The text data in now in a dataframe, but is still far from orderly. Perusing through a few pages reveals that the footer at the bottom of each page is either the page number (which we already have) and the title of the book (Frankenstein), or the page number and the website home of the pdf.</p>
+<div id="cleaning-text-data" class="section level4">
+<h4>Cleaning Text Data</h4>
+<p>The text data is now in a data frame, but is still far from orderly. Perusing through a few pages reveals that the footer at the bottom of each page is either the page number (which we already have) and the title of the book (Frankenstein), or the page number and the website home of the pdf.</p>
 <p>Neither of these are useful to us. Let’s use <code>str_remove</code> to remove these from the pages.</p>
 <pre class="r"><code>book_df$content &lt;- book_df$content %&gt;%
   str_remove(&quot;\\n(\\d+|\\030)\\s+Frankenstein\n$|\\nFree eBooks at Planet eBook.com\\s+(\\d+|\\\030)\\n$&quot;)</code></pre>
 <ul>
-<li><code>$</code> is used to search for the pattern at the end of each string</li>
 <li><code>\\n</code> is used to detect new lines</li>
 <li><code>\\d</code> is used to detect digits</li>
 <li><code>\\s</code> is used to detect and spaces</li>
 <li><code>\\\</code> is used to detect a back slash</li>
-<li><code>+</code> is used to detect 1 or more occurences of the character that comes immediately before</li>
 <li><code>|</code> is used as an or statement to detect multiple patterns</li>
 </ul>
 </div>
@@ -416,8 +422,8 @@ book_df</code></pre>
 ##  9           2 &quot;   You will rejoice to hear that no disaster has accompanied&quot;
 ## 10           2 &quot;the commencement of an enterprise which you have regard-&quot;    
 ## # … with 7,575 more rows</code></pre>
-<p>Now that we have the text broken up into lines it is much easier to process. Next lets add more identifying variables where each line can be indentified by linenumber and the chapter.</p>
-<p><em>Frankenstein</em> begins with several letters before it gets into the chapters. To identify which pages fall under letters or chapters, and what numbers within, we need to do a little preliminary work with the tools demonstrated so far.</p>
+<p>Now that we have the text broken up into lines it is much easier to process. Next let’s add more identifying variables where each line can be identified by line number and the chapter.</p>
+<p><em>Frankenstein</em> begins with several letters before it gets into the chapters. To identify which pages fall under letters or chapters we need to do a little preliminary work with the tools demonstrated so far.</p>
 <pre class="r"><code>ind_chapter &lt;- book_df$lines %&gt;%
   str_which(&quot;^Chapter&quot;) %&gt;%
   append(nrow(book_df))
@@ -433,11 +439,6 @@ ind_letter &lt;- book_df$lines %&gt;%
 letters &lt;- book_df$lines[ind_letter[-length(ind_letter)]] %&gt;%
   str_extract_all(&quot;^Letter.*&quot;) %&gt;%
   unlist()</code></pre>
-<ul>
-<li><code>^</code> searches the start of a string for a pattern</li>
-<li><code>.</code> matches any character that is not a new line</li>
-<li><code>*</code> matches zero or more of the character preceding it</li>
-</ul>
 <p>Now that we have our indexes and values we can create new columns to further classify each observation.</p>
 <pre class="r"><code>book_df &lt;- book_df %&gt;%
   mutate(
@@ -457,7 +458,7 @@ for (i in 1:(length(ind_chapter) - 1)){
 book_df &lt;- book_df %&gt;%
   select(chapter, page_number, line_number, lines)</code></pre>
 <p><code>mutate</code> was used to add the new columns to the data frame and then <code>for</code> loops were used to set the values of the <em>chapter</em> column using the indexes and values that were established.</p>
-<p>What was began as a pdf of unstructured text is now a structured data frame with clear variables and observations. Going forward this will be much easier to process and manipulate.</p>
+<p>What began as a pdf of unstructured text is now a structured data frame with clear variables and observations. Going forward this will be much easier to work with.</p>
 </div>
 <div id="word-analysis" class="section level3">
 <h3>Word Analysis</h3>
@@ -481,7 +482,7 @@ book_words %&gt;%
 ##  9 was    1021
 ## 10 that   1017
 ## # … with 7,893 more rows</code></pre>
-<p>The most common words are unsuprisingly the filler words used found in any text. To sort these words out we will use the <code>stop_words</code> dataframe, which is a list of these common words.</p>
+<p>The most common words are unsurprisingly the filler words found in any text. To sort these words out we will use the <code>stop_words</code> data frame, which is a list of these common words.</p>
 <pre class="r"><code>book_words &lt;- book_words %&gt;%
   anti_join(stop_words) </code></pre>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
@@ -509,7 +510,6 @@ book_words %&gt;%
   ggplot() +
   geom_col(aes(n, word))</code></pre>
 <p><img src="/analytics/2020-08-05-processing-text-data_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-</div>
 </div>
 
     

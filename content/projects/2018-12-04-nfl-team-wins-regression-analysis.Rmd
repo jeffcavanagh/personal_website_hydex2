@@ -4,7 +4,8 @@ author: Jeff Cavanagh
 date: '2018-12-04'
 slug: nfl-team-wins-regression-analysis
 linktitle: NFL Team Wins Regression Analysis
-categories: []
+categories: 
+  - SPSS
 tags: []
 lastmod: '2020-08-01T12:40:19-04:00'
 layout: post
