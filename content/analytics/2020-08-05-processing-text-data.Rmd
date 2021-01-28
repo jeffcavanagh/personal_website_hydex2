@@ -29,11 +29,11 @@ output:
 
 Of course! All it takes is an adapted approach and a little more work upfront.
 
-Quite a bit of potential data is unstructured and textual in nature.To extract the underlying value of this category of data, different techniques are required.
+Quite a bit of potential data is unstructured and textual in nature. To extract the underlying value of this category of data, different techniques are required.
 
 In this post we will focus on some routine methods for text mining and text analysis in R and how they can be utilized to process and draw value from unstructured text data. 
 
-#### `stringr` 
+### Setup 
 
 In R, the first stop is the `stringr` package. This package can be loaded on its own, or as part of `tidyverse`.
 
@@ -46,9 +46,7 @@ library(stringr)
 library(tidyverse)
 ```
 
-#### The Data
-
-To illustrate the use of NLP, we will be analyzing a pdf of Mary Shelley's, *Frankenstein* (downloaded from [planetbook.com](https://www.planetebook.com/free-ebooks/frankenstein.pdf){target="blank"}). We will use the `pdftools` package to extract the text from the pdf file. 
+To illustrate the use of text manipulation in R, we will be analyzing a pdf of Mary Shelley's [*Frankenstein*](/analytics/2020-08-05-processing-text-data_files/frankenstein.pdf){target="blank"} (downloaded from [planetbook.com](https://www.planetebook.com/free-ebooks/frankenstein.pdf){target="blank"}). We will use the `pdftools` package to extract the text from the pdf file. 
 
 ```{r, warning = F, message = F}
 library(pdftools)
@@ -66,6 +64,7 @@ book_df <- book  %>%
 
 book_df
 ```
+
 This gives a data frame where each row is an observation containing the page number and content held on that page. Now we can begin in earnest with the text mining. 
 
 * `str_detect` is used to detect which observations match a pattern
@@ -77,7 +76,8 @@ Here is a look at these three function in practice. To illustrate the use of the
 
 ```{r}
 book_df$content %>%
-  str_detect("Frankenstein")
+  str_detect("Frankenstein") %>%
+  head()
 
 book_df$content %>%
   str_detect("Frankenstein") %>%
@@ -108,7 +108,7 @@ book_df$content[ind_capitals] %>%
 
 Some other characters to take note of: `^` is used to search for matches at the start of a string, `$` is used to search for matches at the end of a string, `.` is used to match any character that is not a new line, `[:upper:]` is used to match upper case words, `*` is used to pull 0 or more matches, and `+` is used to pull 1 or more matches.
 
-#### Cleaning Text Data
+### Transforming Raw Text into Data Frame
 
 The text data is now in a data frame, but is still far from orderly. Perusing through a few pages reveals that the footer at the bottom of each page is either the page number (which we already have) and the title of the book (Frankenstein), or the page number and the website home of the pdf. 
 
@@ -116,16 +116,13 @@ Neither of these are useful to us. Let's use `str_remove` to remove these from t
 
 ```{r}
 book_df$content <- book_df$content %>%
-  str_remove("\\n(\\d+|\\030)\\s+Frankenstein\n$|\\nFree eBooks at Planet eBook.com\\s+(\\d+|\\\030)\\n$")
+  str_remove("\\n(\\d+|\\030)\\s+Frankenstein\n$|\\n\\s*Free eBooks at Planet eBook.com\\s+(\\d+|\\\030)\\n$")
 ```
 
 * `\\n` is used to detect new lines
 * `\\d` is used to detect digits
 * `\\s` is used to detect and spaces
-* `\\\` is used to detect a back slash
 * `|` is used as an or statement to detect multiple patterns
-
-### Breaking Down Text Data
 
 Now our strings contain only the most relevant information, but they are still dense and difficult to decipher insight from. 
 
@@ -165,7 +162,6 @@ letters <- book_df$lines[ind_letter[-length(ind_letter)]] %>%
 Now that we have our indexes and values we can create new columns to further classify each observation.
 
 ```{r}
-
 book_df <- book_df %>%
   mutate(
     line_number = row_number(),
@@ -184,11 +180,19 @@ for (i in 1:(length(ind_chapter) - 1)){
 book_df <- book_df %>%
   select(chapter, page_number, line_number, lines)
 ```
+
 `mutate` was used to add the new columns to the data frame and then `for` loops were used to set the values of the *chapter* column using the indexes and values that were established.
+
+```{r}
+book_df
+```
+
 
 What began as a pdf of unstructured text is now a structured data frame with clear variables and observations. Going forward this will be much easier to work with.
 
-### Word Analysis
+### Text Analysis
+
+#### Counts
 
 Now that we have a structured data frame, lets look for the most common words that appear within the text.
 
@@ -220,3 +224,80 @@ book_words %>%
   ggplot() +
   geom_col(aes(n, word))
 ```
+
+It is also useful to count combinations of words. `tidytext` gives this option using `ngrams`.
+
+```{r}
+book_df %>%
+  unnest_tokens(bigram, lines, token = "ngrams", n = 2) %>%
+  count(bigram, sort= T) # again the most common word pairings belong to the stop_words subset, we can still filter these out though
+
+bigrams <- book_df %>%
+  unnest_tokens(bigram, lines, token = "ngrams", n = 2)
+
+bigrams_sep <- bigrams %>%
+  separate(bigram, c("word1", "word2"), sep = " ")
+
+bigrams_filter <- bigrams_sep %>%
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word)
+
+bigrams_count <- bigrams_filter %>%
+  count(word1, word2, sort = T) %>% 
+  na.omit()
+
+bigrams_count
+```
+
+This same technique can be applied to any number of word groupings by setting the value of `n`.
+
+We are also able to produce a nice visualization of these groupings using a word network.
+
+```{r, warning = F}
+library(grid)
+library(igraph)
+library(ggraph)
+
+set.seed(1)
+bigrams_count %>% 
+  filter(n > 3) %>%
+  graph_from_data_frame() %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(show.legend = F,
+                 arrow = arrow(type = "closed", length = unit(0.1, "inches")),
+                 aes(edge_alpha = n)) +
+  geom_node_point(color = "green", size = 2) +
+  geom_node_text(aes(label = name), repel = T) +
+  theme_void()
+```
+
+In the above visualization arrows point from the first word to the second. The shading option (`edge_alpha`) included in the code makes an arrow darker the more times the word combination appears. We also added a filter that only allows word combinations which have more than 3 occurrences to appear in the network.
+
+#### Document Frequencies
+
+The last technique illustrated in this post concerns the frequency of text appearances within data. Word counts have there uses, but the number of appearances of a word or a grouping of words is not the best metric for how important those elements are to the overall data source.
+
+*tf* is term frequency and represents how often a chosen token (word, bigram, trigram, sentence, etc) appears in a document.
+
+*idf* is inverse document frequency and represents how unique a token is in a data set. It is calculated by the following formula:
+
+$idf(\text{token}) = ln(\frac{n_{\text{documents}}}{n_{\text{documents containing token}}})$
+
+Finally *tf-idf* is $tf * idf$. Below is an example of how to compute these values using the `bind_tf_idf` function.
+
+```{r}
+book_words %>%
+  count(chapter, word, sort = T) %>%
+  bind_tf_idf(word, chapter, n)
+```
+
+*tf-idf* is an important metric because it rates the importance of a token to a subsection of a dataset (in this case how significant each word is within a chapter), giving a higher value to a word the more used and more unique it is to its subsection. In our example we are only analyzing one book, but when working with a data source that contains multiple documents, the *tf-idf* statistic is extremely useful in identifying the most import words within each document that identify them most from the other documents.
+
+When developing a machine learning model for text data, *tf*, *idf*, and *tf-idf* are a natural place to start as they give numerical values to categorical data which have significant implications on that data.
+
+
+That concludes the post on text mining and processing in R. I first learned these methods from [Text Mining in R](https://www.tidytextmining.com/){target="blank"}, which is a phenomal resource for anyone learning how to work with text data.
+
+
+
+

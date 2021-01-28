@@ -1,246 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    
-    
-
-
-    <head>
-    <link rel="icon" type="image/png" href="/img/favicon.ico">
-    <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Cache-Control" content="public" />
-<!-- Enable responsiveness on mobile devices -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.74.3" />
-
-    
-    
-    
-
-<title>Processing Text Data • Jeff Cavanagh</title>
-
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Processing Text Data"/>
-<meta name="twitter:description" content="Setup Transforming Raw Text into Data Frame Text Analysis  Counts Document Frequencies    Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data and obtain insight from it??
-Of course! All it takes is an adapted approach and a little more work upfront.
-Quite a bit of potential data is unstructured and textual in nature."/>
-
-<meta property="og:title" content="Processing Text Data" />
-<meta property="og:description" content="Setup Transforming Raw Text into Data Frame Text Analysis  Counts Document Frequencies    Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data and obtain insight from it??
-Of course! All it takes is an adapted approach and a little more work upfront.
-Quite a bit of potential data is unstructured and textual in nature." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/analytics/processing-text-data/" />
-<meta property="article:published_time" content="2020-08-05T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-08-05T15:49:17-04:00" /><meta property="og:site_name" content="Jeff Cavanagh" />
-
-
-    
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/scss/hyde-hyde.16fcc2089a2ab10ac8df9820d5dee1901cd3c2ba5989e45dfaf9d546b7dc6536.css" integrity="sha256-FvzCCJoqsQrI35gg1d7hkBzTwrpZieRd&#43;vnVRrfcZTY=">
-
-
-<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
-
-
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <!-- Icons -->
-
-    
-    
-
-</head>
-
-
-    <body class=" ">
-    
-<div class="sidebar">
-  <div class="container ">
-    <div class="sidebar-about">
-      <span class="site__title" style="font-size:1.55em;font-family:palatino">
-        <a href="/">Jeff Cavanagh</a>
-      </span>
-      
-        
-        
-        
-        <div class="author-image">
-          <img src="/img/coffeeandme_camping.JPG" alt="Author Image" class="img--round element--center">
-        </div>
-        
-      
-      
-      <p class="site__description" style="font-style:italic;font-size:0.75em">
-         OPTIMIZATION BY RECURSIVE ANALYSIS, MODELING, AND IMPLEMENTATION 
-      </p>
-    </div>
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menuToggle">
-      <label for="menuToggle">Jeff Cavanagh</label>
-      <div class="menu-content">
-        <div>
-	<ul class="sidebar-nav">
-		 
-		 
-			 
-				<li>
-					<a href="/about/">
-						<span>About</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/projects/">
-						<span>Projects</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/analytics/">
-						<span>Analytics</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/fitness/">
-						<span>Fitness</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/recipes/">
-						<span>Recipes</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/perspective/">
-						<span>Perspective</span>
-					</a>
-				</li>
-			 
-		
-	</ul>
-</div>
-
-        <section class="social">
-	
-	
-	
-	<a href="https://github.com/jeffcavanagh" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
-	
-	
-	
-	
-	
-	
-	
-	<a href="https://linkedin.com/in/jeffcavanagh1/" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<a href="mailto:jmcavanagh15@gmail.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
-	
-</section>
-
-        <br>
-        <br>
-      </div>
-    </div>
-    
-<div class="copyright">
-  &copy; 2019 - 2021 htr3n
-  
-</div>
-
-
-
-  </div>
-</div>
-
-        <div class="content container">
-            
-    
-<article>
-  <header>
-    <h1>Processing Text Data</h1>
-    
-    
-<div class="post__meta">
-    
-    
-      <i class="fas fa-calendar-alt"></i> Aug 5, 2020
-    
-    
-    
-      
-      
-          in
-          
-          
-              <a class="badge badge-category" href="/categories/r">R</a>
-              
-          
-      
-    
-    
-    
-      
-      
-          <br/>
-           <i class="fas fa-tags"></i>
-          
-          <a class="badge badge-tag" href="/tags/stringr">stringr</a>
-           
-      
-          <a class="badge badge-tag" href="/tags/tidytext">tidytext</a>
-          
-      
-    
-    
-    <br/>
-    <i class="fas fa-clock"></i> 14 min read
-</div>
-
-
-  </header>
-  
-  
-  <div class="post">
-    
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<script src="2020-08-05-processing-text-data_files/header-attrs-2.6/header-attrs.js"></script>
 
 <div id="TOC">
 <ul>
@@ -256,7 +14,7 @@ Quite a bit of potential data is unstructured and textual in nature." />
 
 <p><strong>Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data and obtain insight from it??</strong></p>
 <p>Of course! All it takes is an adapted approach and a little more work upfront.</p>
-<p>Quite a bit of potential data is unstructured and textual in nature. To extract the underlying value of this category of data, different techniques are required.</p>
+<p>Quite a bit of potential data is unstructured and textual in nature.To extract the underlying value of this category of data, different techniques are required.</p>
 <p>In this post we will focus on some routine methods for text mining and text analysis in R and how they can be utilized to process and draw value from unstructured text data.</p>
 <div id="setup" class="section level3">
 <h3>Setup</h3>
@@ -300,9 +58,31 @@ book_df</code></pre>
 </ul>
 <p>Here is a look at these three function in practice. To illustrate the use of these functions, we will search for all pages that reference “Frankenstein”.</p>
 <pre class="r"><code>book_df$content %&gt;%
-  str_detect(&quot;Frankenstein&quot;) %&gt;%
-  head()</code></pre>
-<pre><code>## [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE</code></pre>
+  str_detect(&quot;Frankenstein&quot;)</code></pre>
+<pre><code>##   [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [13] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [25] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [37] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [49] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [61]  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [73]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE
+##  [85] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+##  [97] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [109] FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE
+## [121] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [133] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [145] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [157] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [169] FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [181] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [193] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [205] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [217] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [229] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [241] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [253] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [265]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
+## [277] FALSE</code></pre>
 <pre class="r"><code>book_df$content %&gt;%
   str_detect(&quot;Frankenstein&quot;) %&gt;%
   sum()</code></pre>
@@ -371,6 +151,7 @@ ind_capitals</code></pre>
 <li><code>\\n</code> is used to detect new lines</li>
 <li><code>\\d</code> is used to detect digits</li>
 <li><code>\\s</code> is used to detect and spaces</li>
+<li><code>\\\</code> is used to detect a back slash</li>
 <li><code>|</code> is used as an or statement to detect multiple patterns</li>
 </ul>
 <p>Now our strings contain only the most relevant information, but they are still dense and difficult to decipher insight from.</p>
@@ -431,21 +212,6 @@ for (i in 1:(length(ind_chapter) - 1)){
 book_df &lt;- book_df %&gt;%
   select(chapter, page_number, line_number, lines)</code></pre>
 <p><code>mutate</code> was used to add the new columns to the data frame and then <code>for</code> loops were used to set the values of the <em>chapter</em> column using the indexes and values that were established.</p>
-<pre class="r"><code>book_df</code></pre>
-<pre><code>## # A tibble: 7,578 x 4
-##    chapter  page_number line_number lines                                       
-##    &lt;chr&gt;          &lt;int&gt;       &lt;int&gt; &lt;chr&gt;                                       
-##  1 Preface            1           1 &quot;Frankenstein&quot;                              
-##  2 Preface            1           2 &quot;By Mary Wollstonecraft Shelley&quot;            
-##  3 Preface            1           3 &quot;Download free eBooks of classic literature…
-##  4 Preface            1           4 &quot;novels at Planet eBook. Subscribe to our f…
-##  5 Preface            1           5 &quot;and email newsletter.&quot;                     
-##  6 Letter 1           2           6 &quot;Letter 1&quot;                                  
-##  7 Letter 1           2           7 &quot;To Mrs. Saville, England&quot;                  
-##  8 Letter 1           2           8 &quot;   St. Petersburgh, Dec. 11th, 17—&quot;        
-##  9 Letter 1           2           9 &quot;   You will rejoice to hear that no disast…
-## 10 Letter 1           2          10 &quot;the commencement of an enterprise which yo…
-## # … with 7,568 more rows</code></pre>
 <p>What began as a pdf of unstructured text is now a structured data frame with clear variables and observations. Going forward this will be much easier to work with.</p>
 </div>
 <div id="text-analysis" class="section level3">
@@ -499,7 +265,7 @@ book_words %&gt;%
   mutate(word = reorder(word, n)) %&gt;%
   ggplot() +
   geom_col(aes(n, word))</code></pre>
-<p><img src="/analytics/2020-08-05-processing-text-data_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="2020-08-05-processing-text-data_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>It is also useful to count combinations of words. <code>tidytext</code> gives this option using <code>ngrams</code>.</p>
 <pre class="r"><code>book_df %&gt;%
   unnest_tokens(bigram, lines, token = &quot;ngrams&quot;, n = 2) %&gt;%
@@ -551,6 +317,7 @@ bigrams_count</code></pre>
 <p>We are also able to produce a nice visualization of these groupings using a word network.</p>
 <pre class="r"><code>library(grid)
 library(igraph)</code></pre>
+<pre><code>## Warning: package &#39;igraph&#39; was built under R version 3.6.2</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;igraph&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
@@ -571,9 +338,9 @@ library(igraph)</code></pre>
 <pre><code>## The following object is masked from &#39;package:base&#39;:
 ## 
 ##     union</code></pre>
-<pre class="r"><code>library(ggraph)
-
-set.seed(1)
+<pre class="r"><code>library(ggraph)</code></pre>
+<pre><code>## Warning: package &#39;ggraph&#39; was built under R version 3.6.2</code></pre>
+<pre class="r"><code>set.seed(1)
 bigrams_count %&gt;% 
   filter(n &gt; 3) %&gt;%
   graph_from_data_frame() %&gt;%
@@ -584,105 +351,14 @@ bigrams_count %&gt;%
   geom_node_point(color = &quot;green&quot;, size = 2) +
   geom_node_text(aes(label = name), repel = T) +
   theme_void()</code></pre>
-<p><img src="/analytics/2020-08-05-processing-text-data_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="2020-08-05-processing-text-data_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>In the above visualization arrows point from the first word to the second. The shading option (<code>edge_alpha</code>) included in the code makes an arrow darker the more times the word combination appears. We also added a filter that only allows word combinations which have more than 3 occurrences to appear in the network.</p>
 </div>
 <div id="document-frequencies" class="section level4">
 <h4>Document Frequencies</h4>
 <p>The last technique illustrated in this post concerns the frequency of text appearances within data. Word counts have there uses, but the number of appearances of a word or a grouping of words is not the best metric for how important those elements are to the overall data source.</p>
-<p><em>tf</em> is term frequency and represents how often a chosen token (word, bigram, trigram, sentence, etc) appears in a document.</p>
-<p><em>idf</em> is inverse document frequency and represents how unique a token is in a data set. It is calculated by the following formula:</p>
-<p><span class="math inline">\(idf(\text{token}) = ln(\frac{n_{\text{documents}}}{n_{\text{documents containing token}}})\)</span></p>
-<p>Finally <em>tf-idf</em> is <span class="math inline">\(tf * idf\)</span>. Below is an example of how to compute these values using the <code>bind_tf_idf</code> function.</p>
-<pre class="r"><code>book_words %&gt;%
-  count(chapter, word, sort = T) %&gt;%
-  bind_tf_idf(word, chapter, n)</code></pre>
-<pre><code>## # A tibble: 18,444 x 6
-##    chapter    word        n      tf   idf   tf_idf
-##    &lt;chr&gt;      &lt;chr&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
-##  1 Chapter 10 felix      47 0.00699 2.48  0.0174  
-##  2 Chapter 10 found      42 0.00625 0.345 0.00215 
-##  3 Chapter 10 cottage    40 0.00595 1.39  0.00825 
-##  4 Chapter 10 day        29 0.00431 0.405 0.00175 
-##  5 Chapter 10 eyes       28 0.00416 0.182 0.000759
-##  6 Chapter 10 night      26 0.00387 0.345 0.00133 
-##  7 Chapter 10 time       26 0.00387 0.134 0.000516
-##  8 Chapter 10 safie      24 0.00357 2.48  0.00887 
-##  9 Chapter 10 wood       24 0.00357 2.08  0.00742 
-## 10 Chapter 10 agatha     22 0.00327 3.18  0.0104  
-## # … with 18,434 more rows</code></pre>
-<p><em>tf-idf</em> is an important metric because it rates the importance of a token to a subsection of a dataset (in this case how significant each word is within a chapter), giving a higher value to a word the more used and more unique it is to its subsection. In our example we are only analyzing one book, but when working with a data source that contains multiple documents, the <em>tf-idf</em> statistic is extremely useful in identifying the most import words within each document that identify them most from the other documents.</p>
-<p>When developing a machine learning model for text data, <em>tf</em>, <em>idf</em>, and <em>tf-idf</em> are a natural place to start as they give numerical values to categorical data which have significant implications on that data.</p>
-<p>That concludes the post on text mining and processing in R. I first learned these methods from <a href="https://www.tidytextmining.com/" target="blank">Text Mining in R</a>, which is a phenomal resource for anyone learning how to work with text data.</p>
+<p><code>tf</code> stands for term frequency and represents how often are chosen element (word, bigram, trigram, sentence, etc) appears in a document.</p>
+<p><code>idf</code> stands for inverse document frequency and represents how unique an element is in a data set. It is calculated by the following formula:</p>
+<p><span class="math display">\[idf(\text{element}) = ln(\frac{n_{\text{documents}}}{n_{\text{documents containing term}}})\]</span></p>
 </div>
 </div>
-
-    
-
-    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-            processEscapes: true,
-            processEnvironments: true
-        },
-        // Center justify equations in code and markdown cells. Elsewhere
-        // we use CSS to left justify single line equations in code cells.
-        displayAlign: 'center',
-        "HTML-CSS": {
-            styles: {'.MathJax_Display': {"margin": 0}},
-            linebreaks: { automatic: true }
-        }
-    });
-    </script>
-    
-  </div>
-  
-
-<div class="navigation navigation-single">
-    
-    <a href="/analytics/web-scrape/" class="navigation-prev">
-      <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Web Scraping</span>
-    </a>
-    
-    
-</div>
-
-
-  
-
-  
-    
-
-
-</article>
-
-
-        </div>
-        
-    
-
-<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
-
-
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-        
-    <script type="text/javascript">
-        
-        hljs.initHighlightingOnLoad();
-    </script>
-    
-
-
-
-    
-
-
-
-    </body>
-</html>

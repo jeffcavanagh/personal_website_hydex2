@@ -29,29 +29,28 @@ output:
 
 <div id="TOC">
 <ul>
-<li><a href="#stringr"><code>stringr</code></a></li>
-<li><a href="#the-data">The Data</a></li>
-<li><a href="#cleaning-text-data">Cleaning Text Data</a></li>
-<li><a href="#breaking-down-text-data">Breaking Down Text Data</a></li>
-<li><a href="#word-analysis">Word Analysis</a></li>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#transforming-raw-text-into-data-frame">Transforming Raw Text into Data Frame</a></li>
+<li><a href="#text-analysis">Text Analysis</a>
+<ul>
+<li><a href="#counts">Counts</a></li>
+<li><a href="#document-frequencies">Document Frequencies</a></li>
+</ul></li>
 </ul>
 </div>
 
 <p><strong>Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data and obtain insight from it??</strong></p>
 <p>Of course! All it takes is an adapted approach and a little more work upfront.</p>
-<p>Quite a bit of potential data is unstructured and textual in nature.To extract the underlying value of this category of data, different techniques are required.</p>
+<p>Quite a bit of potential data is unstructured and textual in nature. To extract the underlying value of this category of data, different techniques are required.</p>
 <p>In this post we will focus on some routine methods for text mining and text analysis in R and how they can be utilized to process and draw value from unstructured text data.</p>
-<div id="stringr" class="section level4">
-<h4><code>stringr</code></h4>
+<div id="setup" class="section level3">
+<h3>Setup</h3>
 <p>In R, the first stop is the <code>stringr</code> package. This package can be loaded on its own, or as part of <code>tidyverse</code>.</p>
 <p>The functions contained within process character strings in various ways. Luckily for us, R has a <a href="/rcheatsheets/strings.pdf" target="blank">cheatsheet</a> for the package.</p>
 <p>It should be noted that there is also the <code>stringi</code> package which contains more robust functions for handling strings. For simplicity, we will only be concentrating on <code>stringr</code> in this post.</p>
 <pre class="r"><code>library(stringr)
 library(tidyverse)</code></pre>
-</div>
-<div id="the-data" class="section level4">
-<h4>The Data</h4>
-<p>To illustrate the use of NLP, we will be analyzing a pdf of Mary Shelley’s, <em>Frankenstein</em> (downloaded from <a href="https://www.planetebook.com/free-ebooks/frankenstein.pdf" target="blank">planetbook.com</a>). We will use the <code>pdftools</code> package to extract the text from the pdf file.</p>
+<p>To illustrate the use of text manipulation in R, we will be analyzing a pdf of Mary Shelley’s <a href="/analytics/2020-08-05-processing-text-data_files/frankenstein.pdf" target="blank"><em>Frankenstein</em></a> (downloaded from <a href="https://www.planetebook.com/free-ebooks/frankenstein.pdf" target="blank">planetbook.com</a>). We will use the <code>pdftools</code> package to extract the text from the pdf file.</p>
 <pre class="r"><code>library(pdftools)
 book &lt;- pdf_text(&quot;frankenstein.pdf&quot;)</code></pre>
 <p><code>pdf_text</code> converts the pdf file into a character string where each element is a page from the document.</p>
@@ -86,31 +85,9 @@ book_df</code></pre>
 </ul>
 <p>Here is a look at these three function in practice. To illustrate the use of these functions, we will search for all pages that reference “Frankenstein”.</p>
 <pre class="r"><code>book_df$content %&gt;%
-  str_detect(&quot;Frankenstein&quot;)</code></pre>
-<pre><code>##   [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-##  [13] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-##  [25] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-##  [37] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-##  [49] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-##  [61]  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-##  [73]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE
-##  [85] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-##  [97] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [109] FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE
-## [121] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [133] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [145] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [157] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [169] FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [181] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [193] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [205] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [217] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [229] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [241] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [253] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [265]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
-## [277] FALSE</code></pre>
+  str_detect(&quot;Frankenstein&quot;) %&gt;%
+  head()</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE</code></pre>
 <pre class="r"><code>book_df$content %&gt;%
   str_detect(&quot;Frankenstein&quot;) %&gt;%
   sum()</code></pre>
@@ -169,22 +146,18 @@ ind_capitals</code></pre>
 ## [146] &quot;Frankenstein&quot; &quot;Frankenstein&quot;</code></pre>
 <p>Some other characters to take note of: <code>^</code> is used to search for matches at the start of a string, <code>$</code> is used to search for matches at the end of a string, <code>.</code> is used to match any character that is not a new line, <code>[:upper:]</code> is used to match upper case words, <code>*</code> is used to pull 0 or more matches, and <code>+</code> is used to pull 1 or more matches.</p>
 </div>
-<div id="cleaning-text-data" class="section level4">
-<h4>Cleaning Text Data</h4>
+<div id="transforming-raw-text-into-data-frame" class="section level3">
+<h3>Transforming Raw Text into Data Frame</h3>
 <p>The text data is now in a data frame, but is still far from orderly. Perusing through a few pages reveals that the footer at the bottom of each page is either the page number (which we already have) and the title of the book (Frankenstein), or the page number and the website home of the pdf.</p>
 <p>Neither of these are useful to us. Let’s use <code>str_remove</code> to remove these from the pages.</p>
 <pre class="r"><code>book_df$content &lt;- book_df$content %&gt;%
-  str_remove(&quot;\\n(\\d+|\\030)\\s+Frankenstein\n$|\\nFree eBooks at Planet eBook.com\\s+(\\d+|\\\030)\\n$&quot;)</code></pre>
+  str_remove(&quot;\\n(\\d+|\\030)\\s+Frankenstein\n$|\\n\\s*Free eBooks at Planet eBook.com\\s+(\\d+|\\\030)\\n$&quot;)</code></pre>
 <ul>
 <li><code>\\n</code> is used to detect new lines</li>
 <li><code>\\d</code> is used to detect digits</li>
 <li><code>\\s</code> is used to detect and spaces</li>
-<li><code>\\\</code> is used to detect a back slash</li>
 <li><code>|</code> is used as an or statement to detect multiple patterns</li>
 </ul>
-</div>
-<div id="breaking-down-text-data" class="section level3">
-<h3>Breaking Down Text Data</h3>
 <p>Now our strings contain only the most relevant information, but they are still dense and difficult to decipher insight from.</p>
 <p>The next step is to use the <code>tidytext</code> package to further break up the data. Using the <code>unnest_token</code> function it is possible to breakdown character strings into lines, paragraphs, sentences, words, and n-grams. First we will update the data frame by breaking the strings down by line.</p>
 <pre class="r"><code>library(tidytext)
@@ -193,7 +166,7 @@ book_df &lt;- book_df %&gt;%
   unnest_tokens(&quot;lines&quot;, content, token = &quot;lines&quot;, to_lower = F)
 
 book_df</code></pre>
-<pre><code>## # A tibble: 7,585 x 2
+<pre><code>## # A tibble: 7,578 x 2
 ##    page_number lines                                                         
 ##          &lt;int&gt; &lt;chr&gt;                                                         
 ##  1           1 &quot;Frankenstein&quot;                                                
@@ -206,7 +179,7 @@ book_df</code></pre>
 ##  8           2 &quot;   St. Petersburgh, Dec. 11th, 17—&quot;                          
 ##  9           2 &quot;   You will rejoice to hear that no disaster has accompanied&quot;
 ## 10           2 &quot;the commencement of an enterprise which you have regard-&quot;    
-## # … with 7,575 more rows</code></pre>
+## # … with 7,568 more rows</code></pre>
 <p>Now that we have the text broken up into lines it is much easier to process. Next let’s add more identifying variables where each line can be identified by line number and the chapter.</p>
 <p><em>Frankenstein</em> begins with several letters before it gets into the chapters. To identify which pages fall under letters or chapters we need to do a little preliminary work with the tools demonstrated so far.</p>
 <pre class="r"><code>ind_chapter &lt;- book_df$lines %&gt;%
@@ -243,17 +216,34 @@ for (i in 1:(length(ind_chapter) - 1)){
 book_df &lt;- book_df %&gt;%
   select(chapter, page_number, line_number, lines)</code></pre>
 <p><code>mutate</code> was used to add the new columns to the data frame and then <code>for</code> loops were used to set the values of the <em>chapter</em> column using the indexes and values that were established.</p>
+<pre class="r"><code>book_df</code></pre>
+<pre><code>## # A tibble: 7,578 x 4
+##    chapter  page_number line_number lines                                       
+##    &lt;chr&gt;          &lt;int&gt;       &lt;int&gt; &lt;chr&gt;                                       
+##  1 Preface            1           1 &quot;Frankenstein&quot;                              
+##  2 Preface            1           2 &quot;By Mary Wollstonecraft Shelley&quot;            
+##  3 Preface            1           3 &quot;Download free eBooks of classic literature…
+##  4 Preface            1           4 &quot;novels at Planet eBook. Subscribe to our f…
+##  5 Preface            1           5 &quot;and email newsletter.&quot;                     
+##  6 Letter 1           2           6 &quot;Letter 1&quot;                                  
+##  7 Letter 1           2           7 &quot;To Mrs. Saville, England&quot;                  
+##  8 Letter 1           2           8 &quot;   St. Petersburgh, Dec. 11th, 17—&quot;        
+##  9 Letter 1           2           9 &quot;   You will rejoice to hear that no disast…
+## 10 Letter 1           2          10 &quot;the commencement of an enterprise which yo…
+## # … with 7,568 more rows</code></pre>
 <p>What began as a pdf of unstructured text is now a structured data frame with clear variables and observations. Going forward this will be much easier to work with.</p>
 </div>
-<div id="word-analysis" class="section level3">
-<h3>Word Analysis</h3>
+<div id="text-analysis" class="section level3">
+<h3>Text Analysis</h3>
+<div id="counts" class="section level4">
+<h4>Counts</h4>
 <p>Now that we have a structured data frame, lets look for the most common words that appear within the text.</p>
 <pre class="r"><code>book_words &lt;- book_df %&gt;%
   unnest_tokens(word, lines, token = &quot;words&quot;) 
 
 book_words %&gt;%
   count(word, sort = T)</code></pre>
-<pre><code>## # A tibble: 7,903 x 2
+<pre><code>## # A tibble: 7,895 x 2
 ##    word      n
 ##    &lt;chr&gt; &lt;int&gt;
 ##  1 the    4192
@@ -266,14 +256,14 @@ book_words %&gt;%
 ##  8 in     1155
 ##  9 was    1021
 ## 10 that   1017
-## # … with 7,893 more rows</code></pre>
+## # … with 7,885 more rows</code></pre>
 <p>The most common words are unsurprisingly the filler words found in any text. To sort these words out we will use the <code>stop_words</code> data frame, which is a list of these common words.</p>
 <pre class="r"><code>book_words &lt;- book_words %&gt;%
   anti_join(stop_words) </code></pre>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
 <pre class="r"><code>book_words %&gt;%
   count(word, sort = T)</code></pre>
-<pre><code>## # A tibble: 7,404 x 2
+<pre><code>## # A tibble: 7,396 x 2
 ##    word          n
 ##    &lt;chr&gt;     &lt;int&gt;
 ##  1 life        116
@@ -286,7 +276,7 @@ book_words %&gt;%
 ##  8 day          82
 ##  9 elizabeth    82
 ## 10 heart        81
-## # … with 7,394 more rows</code></pre>
+## # … with 7,386 more rows</code></pre>
 <p>Now that we have this count, it would be nice to have a visualization of the most common words. Let’s do that now using <code>ggplot</code>.</p>
 <pre class="r"><code>book_words %&gt;%
   count(word, sort = T) %&gt;%
@@ -294,5 +284,120 @@ book_words %&gt;%
   mutate(word = reorder(word, n)) %&gt;%
   ggplot() +
   geom_col(aes(n, word))</code></pre>
-<p><img src="/analytics/2020-08-05-processing-text-data_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="/analytics/2020-08-05-processing-text-data_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>It is also useful to count combinations of words. <code>tidytext</code> gives this option using <code>ngrams</code>.</p>
+<pre class="r"><code>book_df %&gt;%
+  unnest_tokens(bigram, lines, token = &quot;ngrams&quot;, n = 2) %&gt;%
+  count(bigram, sort= T) # again the most common word pairings belong to the stop_words subset, we can still filter these out though</code></pre>
+<pre><code>## # A tibble: 39,255 x 2
+##    bigram      n
+##    &lt;chr&gt;   &lt;int&gt;
+##  1 of the    491
+##  2 of my     254
+##  3 in the    250
+##  4 i was     219
+##  5 i had     210
+##  6 that i    194
+##  7 and i     190
+##  8 to the    180
+##  9 and the   179
+## 10 on the    144
+## # … with 39,245 more rows</code></pre>
+<pre class="r"><code>bigrams &lt;- book_df %&gt;%
+  unnest_tokens(bigram, lines, token = &quot;ngrams&quot;, n = 2)
+
+bigrams_sep &lt;- bigrams %&gt;%
+  separate(bigram, c(&quot;word1&quot;, &quot;word2&quot;), sep = &quot; &quot;)
+
+bigrams_filter &lt;- bigrams_sep %&gt;%
+  filter(!word1 %in% stop_words$word) %&gt;%
+  filter(!word2 %in% stop_words$word)
+
+bigrams_count &lt;- bigrams_filter %&gt;%
+  count(word1, word2, sort = T) %&gt;% 
+  na.omit()
+
+bigrams_count</code></pre>
+<pre><code>## # A tibble: 4,813 x 3
+##    word1   word2          n
+##    &lt;chr&gt;   &lt;chr&gt;      &lt;int&gt;
+##  1 native  country       12
+##  2 fellow  creatures     11
+##  3 natural philosophy    10
+##  4 dear    victor         9
+##  5 de      lacey          8
+##  6 mont    blanc          7
+##  7 poor    girl           7
+##  8 poor    william        6
+##  9 gentle  manners        5
+## 10 native  town           5
+## # … with 4,803 more rows</code></pre>
+<p>This same technique can be applied to any number of word groupings by setting the value of <code>n</code>.</p>
+<p>We are also able to produce a nice visualization of these groupings using a word network.</p>
+<pre class="r"><code>library(grid)
+library(igraph)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;igraph&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     as_data_frame, groups, union</code></pre>
+<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
+## 
+##     compose, simplify</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     crossing</code></pre>
+<pre><code>## The following object is masked from &#39;package:tibble&#39;:
+## 
+##     as_data_frame</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     union</code></pre>
+<pre class="r"><code>library(ggraph)
+
+set.seed(1)
+bigrams_count %&gt;% 
+  filter(n &gt; 3) %&gt;%
+  graph_from_data_frame() %&gt;%
+  ggraph(layout = &quot;fr&quot;) +
+  geom_edge_link(show.legend = F,
+                 arrow = arrow(type = &quot;closed&quot;, length = unit(0.1, &quot;inches&quot;)),
+                 aes(edge_alpha = n)) +
+  geom_node_point(color = &quot;green&quot;, size = 2) +
+  geom_node_text(aes(label = name), repel = T) +
+  theme_void()</code></pre>
+<p><img src="/analytics/2020-08-05-processing-text-data_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>In the above visualization arrows point from the first word to the second. The shading option (<code>edge_alpha</code>) included in the code makes an arrow darker the more times the word combination appears. We also added a filter that only allows word combinations which have more than 3 occurrences to appear in the network.</p>
+</div>
+<div id="document-frequencies" class="section level4">
+<h4>Document Frequencies</h4>
+<p>The last technique illustrated in this post concerns the frequency of text appearances within data. Word counts have there uses, but the number of appearances of a word or a grouping of words is not the best metric for how important those elements are to the overall data source.</p>
+<p><em>tf</em> is term frequency and represents how often a chosen token (word, bigram, trigram, sentence, etc) appears in a document.</p>
+<p><em>idf</em> is inverse document frequency and represents how unique a token is in a data set. It is calculated by the following formula:</p>
+<p><span class="math inline">\(idf(\text{token}) = ln(\frac{n_{\text{documents}}}{n_{\text{documents containing token}}})\)</span></p>
+<p>Finally <em>tf-idf</em> is <span class="math inline">\(tf * idf\)</span>. Below is an example of how to compute these values using the <code>bind_tf_idf</code> function.</p>
+<pre class="r"><code>book_words %&gt;%
+  count(chapter, word, sort = T) %&gt;%
+  bind_tf_idf(word, chapter, n)</code></pre>
+<pre><code>## # A tibble: 18,444 x 6
+##    chapter    word        n      tf   idf   tf_idf
+##    &lt;chr&gt;      &lt;chr&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+##  1 Chapter 10 felix      47 0.00699 2.48  0.0174  
+##  2 Chapter 10 found      42 0.00625 0.345 0.00215 
+##  3 Chapter 10 cottage    40 0.00595 1.39  0.00825 
+##  4 Chapter 10 day        29 0.00431 0.405 0.00175 
+##  5 Chapter 10 eyes       28 0.00416 0.182 0.000759
+##  6 Chapter 10 night      26 0.00387 0.345 0.00133 
+##  7 Chapter 10 time       26 0.00387 0.134 0.000516
+##  8 Chapter 10 safie      24 0.00357 2.48  0.00887 
+##  9 Chapter 10 wood       24 0.00357 2.08  0.00742 
+## 10 Chapter 10 agatha     22 0.00327 3.18  0.0104  
+## # … with 18,434 more rows</code></pre>
+<p><em>tf-idf</em> is an important metric because it rates the importance of a token to a subsection of a dataset (in this case how significant each word is within a chapter), giving a higher value to a word the more used and more unique it is to its subsection. In our example we are only analyzing one book, but when working with a data source that contains multiple documents, the <em>tf-idf</em> statistic is extremely useful in identifying the most import words within each document that identify them most from the other documents.</p>
+<p>When developing a machine learning model for text data, <em>tf</em>, <em>idf</em>, and <em>tf-idf</em> are a natural place to start as they give numerical values to categorical data which have significant implications on that data.</p>
+<p>That concludes the post on text mining and processing in R. I first learned these methods from <a href="https://www.tidytextmining.com/" target="blank">Text Mining in R</a>, which is a phenomal resource for anyone learning how to work with text data.</p>
+</div>
 </div>

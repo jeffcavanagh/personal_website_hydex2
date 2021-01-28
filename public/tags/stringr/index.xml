@@ -17,9 +17,9 @@
       <pubDate>Wed, 05 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/analytics/processing-text-data/</guid>
-      <description>stringr The Data Cleaning Text Data Breaking Down Text Data Word Analysis   Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data and obtain insight from it??
+      <description>Setup Transforming Raw Text into Data Frame Text Analysis  Counts Document Frequencies    Text data cannot be processed identically to numerical or categorical data. Is there a way then to analyze text data and obtain insight from it??
 Of course! All it takes is an adapted approach and a little more work upfront.
-Quite a bit of potential data is unstructured and textual in nature.To extract the underlying value of this category of data, different techniques are required.</description>
+Quite a bit of potential data is unstructured and textual in nature.</description>
     </item>
     
   </channel>
