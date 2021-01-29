@@ -12,29 +12,6 @@
     
     
     <item>
-      <title>Appetizers/Sides</title>
-      <link>/recipes/appetizers-sides/</link>
-      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/recipes/appetizers-sides/</guid>
-      <description>Bacon, Jalapeno, &amp;amp; Garlic Green Beans
-Guacamole
-Honey Vinegar Dressing
-Loaded Sweet Potato</description>
-    </item>
-    
-    <item>
-      <title>Football Food</title>
-      <link>/recipes/football-food/</link>
-      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/recipes/football-food/</guid>
-      <description>GameDay Potato Nachos
-Guacamole
-Loaded Sweet Potato</description>
-    </item>
-    
-    <item>
       <title>Meat</title>
       <link>/recipes/meat/</link>
       <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
@@ -53,18 +30,6 @@ Pork Chop Saltimbocca
 Pirate Stew
 Turkey Quinoa Taco Skillet
  </description>
-    </item>
-    
-    <item>
-      <title>Breakfast</title>
-      <link>/recipes/breakfast/</link>
-      <pubDate>Fri, 07 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/recipes/breakfast/</guid>
-      <description>Berry Oatmeal Bake
-Fried Rice
-Lemon-Blueberry-Banana Pancakes
-Quinoa Breakfast Bowl</description>
     </item>
     
   </channel>

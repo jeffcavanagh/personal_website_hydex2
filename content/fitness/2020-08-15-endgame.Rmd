@@ -10,9 +10,20 @@ tags:
 - Upper/Lower Split
 categories: 
 - Full Routine
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
 ---
 
-**I put this workout together in the summer of 2019. At its core it is an upper/lower split. The week is formatted as two iterations of a lower body day, an upper body day, and a dynamic, multifunctional day. The reps vary slightly on a bi-weekly basis depending on which movements are the primary emphasis.**
+**I put this workout together in the summer of 2019. At its core it is an upper/lower split. The week is formatted as two lower body days, two upper body days, and a dynamic, multifunctional day. The reps vary slightly on a bi-weekly basis depending on which movements are the primary emphasis.**
 
 ## **Week 1**
 ### Monday: Compound Lower Body
@@ -63,7 +74,7 @@ categories:
 
 * *Cooldown*: stretch
 
-#### Thursday: Uni-Lateral Lower Body
+### Thursday: Uni-Lateral Lower Body
 
 * *Warmup*: Walking Warmup
 
@@ -75,7 +86,7 @@ categories:
 
 * *Cooldown*: Mobility work / Roll Legs / Stretch
 
-#### Friday: Uni-Lateral Upper Body
+### Friday: Uni-Lateral Upper Body
 
 * *Warmup*: Superset x 2
     a. Plyo-pushups x 5
@@ -152,7 +163,7 @@ categories:
 
 * *Cooldown*: stretch
 
-#### Thursday: Uni-Lateral Lower Body
+### Thursday: Uni-Lateral Lower Body
 
 * *Warmup*: Walking Warmup
 
@@ -164,7 +175,7 @@ categories:
 
 * *Cooldown*: Mobility work / Roll Legs / Stretch
 
-#### Friday: Uni-Lateral Upper Body
+### Friday: Uni-Lateral Upper Body
 
 * *Warmup*: Superset x 3
     a. Plyo-pushups x 5
@@ -192,7 +203,7 @@ categories:
 
 * *Cooldown*: stretch/hang
 
-### Complex Options
+## Complex Options
 
 There are several format options to apply to each complex. The main idea is to pick a weight/piece of equipment and not put it down until the round is completed.
 
@@ -203,14 +214,14 @@ There are several format options to apply to each complex. The main idea is to p
 3. Push Press
 4. Bentover Rows
 5. RDL  
-* Option: Ascending Pyramid (1:5), Descending Pyramid (5:1), Asc&Desc Pyramid (1:5:1)
+* Formatting Options: Ascending Pyramid (1:5), Descending Pyramid (5:1), Asc&Desc Pyramid (1:5:1)
 
 **Trap Bar Grind**
 
 1. Split Squat x 5
 2. RDL x 10
 3. Deadlift x 10 
-* Option: 3 - 4 rounds, 1 > min rest in between rounds
+* Formatting Options: 3 - 4 rounds, 1 > min rest in between rounds
 
 **Plate Swing**
 
@@ -219,7 +230,7 @@ There are several format options to apply to each complex. The main idea is to p
 3. Bent Rows
 4. Reverse Lunge + Twist
 5. Plate Chop  
-* Option: 3 rounds with 8-10 reps per exercise, 1 > min rest in between rounds
+* Formatting Options: 3 rounds with 8-10 reps per exercise, 1 > min rest in between rounds
 
 **Overtime Landmine**
 
@@ -227,7 +238,7 @@ There are several format options to apply to each complex. The main idea is to p
 2. Single-Arm Shoulder Press
 3. Single-Side RDL
 4. Reverse Lunges  
-* Option: 3 rounds with 10 reps per exercise, 1 > min rest in between rounds
+* Formatting Options: 3 rounds with 10 reps per exercise, 1 > min rest in between rounds
 
 **Dynamic TRX**
 
@@ -237,4 +248,4 @@ There are several format options to apply to each complex. The main idea is to p
 4. Rows
 5. Sprinter Start Jumps
 6. Standing Rollouts  
-* Option: 3 - 4 rounds with 10 reps per exercise, 1 > min rest in between rounds
+* Formatting Options: 3 - 4 rounds with 10 reps per exercise, 1 > min rest in between rounds

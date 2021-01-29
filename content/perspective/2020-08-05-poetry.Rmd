@@ -8,9 +8,20 @@ tags: []
 lastmod: '2020-08-05T15:52:14-04:00'
 layout: post
 highlight: no
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
 ---
 
-#### Nothing Gold Can Stay
+# Nothing Gold Can Stay
 
 > Nature's first green is gold,  
 Her hardest hue to hold,  
@@ -24,7 +35,7 @@ Nothing gold can stay.
 
 *** 
 
-#### The Road Not Taken
+# The Road Not Taken
 
 > Two roads diverged in a yellow wood,  
 And sorry I could not travel both,  

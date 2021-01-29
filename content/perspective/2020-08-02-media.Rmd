@@ -2,18 +2,26 @@
 title: "Movies"
 author: "Jeff Cavanagh"
 date: '2020-08-02'
-output: pdf_document
 lastmod: '2020-08-02T19:26:43-04:00'
 layout: post
 highlight: no
 slug: quotes
 tags: []
 categories: []
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
 ---
 
-**Movies**
-
-### Good Will Hunting
+# Good Will Hunting
 
 ![](/good_thoughts/2020-08-02-media_files/51OV3-6n+pL._AC_.jpg){width=200px}
 
@@ -25,14 +33,14 @@ categories: []
 
 ***
 
-### Hitch
+# Hitch
 
 > Never lie, steal, cheat, or drink. But if you must lie, lie in the arms of the one you love. If you must steal, steal away from bad company. If you must cheat, cheat death. And if you must drink, drink in the moments that take your breath away.  
 - *Hitch*
 
 ***
 
-### Lion King
+# Lion King
 
 ![](/good_thoughts/2020-08-02-media_files/Profile_-_Rafiki.jpg){width=250px}
 
@@ -41,7 +49,7 @@ categories: []
 
 ***
 
-### The Replacements
+# The Replacements
 
 ![](/good_thoughts/2020-08-02-media_files/8bb289a88a072aa0649f09839c378543.jpg){width=200px}
 
@@ -54,7 +62,7 @@ Pain heals, chicks dig scars, **glory**...lasts forever.
 
 ***
 
-### Rocky Balboa
+# Rocky Balboa
 
 ![](/good_thoughts/2020-08-02-media_files/41TIqzhWNvL._AC_.jpg){width=200px}
 
