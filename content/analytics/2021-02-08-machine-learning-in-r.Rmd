@@ -1,0 +1,152 @@
+---
+title: Machine Learning in R
+author: Jeff Cavanagh
+date: '2021-02-08'
+slug: machine-learning-in-r
+categories:
+  - R
+tags:
+  - ML
+lastmod: '2021-02-08T18:49:18-05:00'
+layout: post
+type: post
+highlight: yes
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+---
+
+**Machine learning is a broad and ever evolving topic and any good data scientist needs to have a strong grasp of the major techniques to know when to use which method and how best to apply them. This post will explain and the pros and cons of several powerful machine learning models, as well as illustrate their use in R.**
+
+# Supervised vs. Unsupervised Learning
+
+In general their are two major categories of machine learning: supervised and unsupervised. In supervised learning, data is broken down into predictor variables and then in turn used to predict a response variable. In unsupervised learning on the other hand there is no response variable in mind. The goal is to explore the data to reveal some yet unknown connection or structure lying within.
+
+Think of an explorer with a map of a forest. In a supervised approach the explorer has an end destination (response variable) in mind and they use the map (data) to discern their route to get there. In an unsupervised approach the explorer still has the map, but they do not have an end destination in mind. Instead they use the map as point of reference and see what they can find wandering the woods.
+
+# Supervised Learning
+
+Supervised learning starts with an end goal in mind, and as such is the more common method with more developed techniques. We will begin there.
+
+## Tree Based Methods
+### Decision Trees
+Decision trees are one of the more basic machine learning algorithms and are fairly straightforward. The most basic case is placing a binary split on a data set, resulting in two nodes. 
+
+In a *regression* decision tree the mean value is taken of the data in each node, as opposed to a *classification* tree where the goal is to predict the category an observation will fall under. To further expand this model additional splits are made along each branch of the tree until a an observation threshold is reached at each node, which are then referred to as *terminal nodes*.
+
+We will use the mammal sleep dataset `msleep` from the `ggplot2` package to illustrate both regression and classification methods. For regression we aim to predict number of hours a mammal will sleep, and for classification we will predict whether or not a mammal sleeps over 15 hours.
+
+```{r, warning=FALSE}
+library(rpart)
+library(rpart.plot)
+library(ggplot2)
+library(tidyverse)
+
+# regression
+# setting minimum node size
+control <- rpart.control(minsplit = 20)
+tree_reg <-  rpart(sleep_total ~ sleep_rem + sleep_cycle + brainwt + bodywt, data = msleep, control = control)
+
+# summarizing the output
+summary(tree_reg)
+
+# displaying the tree
+rpart.plot(tree_reg)
+
+# classification
+# creating dummy variable of animals that sleep 15+ hours/day
+heavy_sleepers <-  ifelse(msleep$sleep_total >= 15, "Yes", "No")
+sleep_data <- msleep %>% 
+  cbind(heavy_sleepers)
+
+# running model
+tree_class <- rpart(heavy_sleepers ~ sleep_rem + sleep_cycle + brainwt + bodywt, data = sleep_data, control = control)
+rpart.plot(tree_class)
+```
+The `rpart` function operates by first splitting the data by the most significant predictor and its corresponding binary categories. In this case that is `sleep_rem` values which are less than 1.1, or greater than or equal to 1.1. Similar results can be seen in the classification model.
+
+The algorithm then continues to look for the most significant binary split of each new subset of data, until there are 5 observations or less at each terminal node. 
+
+The `summary` function gives detailed information on each node and a summary including the mean at each split, mean squared error (MSE), number of observations at each node, etc.
+
+The `rpart.plot` function provides an easy to interpret breakdown of the tree created. In the default settings, the regression tree displays the predicted value and percentage of observations at each node, while the classification tree displays the predicted category, percentage of observations, and the ratio of correct predictions.
+
+As always we should test the model to determine how well it performed.
+
+```{r}
+# creating training and testing subsets
+set.seed(1)
+train <- msleep[sample(1:nrow(msleep), floor(0.8 * nrow(msleep))),]
+test <- msleep %>% filter(!name %in% train$name)
+
+# predicting and measuring accuracy
+control <- rpart.control(minsplit = 2) # setting new minimum node size
+tree_train <- rpart(sleep_total ~ sleep_rem + sleep_cycle + brainwt + bodywt, data = train, control = control)
+tree_prediction <- predict(tree_train, test)
+mse <- mean((tree_prediction - test$sleep_total)^2)
+mse
+sqrt(mse)
+rpart.plot(tree_train)
+```
+We can see that our model holds an MSE of 10.48, the square root of that being 3.24 saying that our model leads to predictions that are within roughly 3.24 hours of a mammals actual sleep time.
+
+We are also able to prune a tree (remove some nodes) using the `prune` function to improve the performance of the model.
+
+```{r}
+# setting the cp paramter and pruning the model
+pruned_tree <- prune(tree_train, cp = 0.05)
+tree_prediction <- predict(pruned_tree, test)
+mse <- mean((tree_prediction - test$sleep_total)^2)
+mse
+sqrt(mse)
+rpart.plot(pruned_tree)
+```
+By pruning the tree, and *tuning* the `cp` parameter which will be discussed further into the post, we were able to improve performance of the model to predict mammal sleep times within  approximaltely 2.92 hours.
+
+The good news is that decision trees have been further fleshed out to be more accurate and useful in the form of *bagging*, *random forest*, and *boosting*.
+
+### Bagging/Random Forest
+Coming Soon...
+
+### Boosting
+Coming Soon...
+
+## Generalized Additive Models
+Coming Soon...
+
+## Support Vector Machines
+Coming Soon...
+
+## Natural Language Processing
+Coming Soon...
+
+# Unsupervised Learning
+Coming Soon...
+
+## Clustering
+Coming Soon...
+
+## Dimensionality Reduction
+Coming Soon...
+
+### Principal Component Analysis
+Coming Soon...
+
+# Summary
+
+## Pros and Cons of Decision Trees
+* Pros  
+  - Trees are easy to interpret 
+  - Trees are easy to display graphically  
+  - Trees can process qualitative variables without needing to create dummy variables  
+
+* Cons  
+  - Prediction accuracy is much lower compared to most traditional regression and classification techniques

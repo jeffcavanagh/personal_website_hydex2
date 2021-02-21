@@ -6,10 +6,19 @@
     <description>Recent content in Analytics on Jeff Cavanagh</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/analytics/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Machine Learning in R</title>
+      <link>/analytics/machine-learning-in-r/</link>
+      <pubDate>Mon, 08 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/analytics/machine-learning-in-r/</guid>
+      <description>Supervised vs. Unsupervised Learning Supervised Learning  Tree Based Methods  Decision Trees Bagging/Random Forest Boosting  Generalized Additive Models Support Vector Machines Natural Language Processing  Unsupervised Learning  Clustering Dimensionality Reduction  Principal Component Analysis   Summary  Pros and Cons of Decision Trees    Machine learning is a broad and ever evolving topic and any good data scientist needs to have a strong grasp of the major techniques to know when to use which method and how best to apply them.</description>
+    </item>
     
     <item>
       <title>Processing Text Data</title>

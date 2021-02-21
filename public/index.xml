@@ -6,7 +6,7 @@
     <description>Recent content in Content on Jeff Cavanagh</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 25 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -18,6 +18,28 @@
       
       <guid>/projects/minimzing-world-electrical-cost-graduate-project/</guid>
       <description>Indirect Costs of the Various Energy Sources Coast Coefficients by Fuel Source (Production, Import, Export, Consumption) Packages Used to Build Model Upper Limit on Fuel Sources Defining Constraints Energy Production Capacity by Nation Defining the Objective Function Putting the Constraints Together Solving the Problem   For my graduate project I created an optimization model that analyzes the cost of electricity world wide and determines how expensive the indirect costs of fossil fuel consumption need to be in order for the installation of renewable electricity sources to be a more financially viable alternative.</description>
+    </item>
+    
+    <item>
+      <title>Machine Learning in R</title>
+      <link>/analytics/machine-learning-in-r/</link>
+      <pubDate>Mon, 08 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/analytics/machine-learning-in-r/</guid>
+      <description>Supervised vs. Unsupervised Learning Supervised Learning  Tree Based Methods  Decision Trees Bagging/Random Forest Boosting  Generalized Additive Models Support Vector Machines Natural Language Processing  Unsupervised Learning  Clustering Dimensionality Reduction  Principal Component Analysis   Summary  Pros and Cons of Decision Trees    Machine learning is a broad and ever evolving topic and any good data scientist needs to have a strong grasp of the major techniques to know when to use which method and how best to apply them.</description>
+    </item>
+    
+    <item>
+      <title>Philosophy</title>
+      <link>/perspective/philosophy/</link>
+      <pubDate>Mon, 08 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/perspective/philosophy/</guid>
+      <description>To become empty is to become one with the divine; this is the Way.
+- Awa Kenzo
+  Work done for a reward is much lower than work done in the Yoga of wisdom. Set thy heart upon thy work, but never on its reward. Work not for reward, but never cease to do thy work.
+- The Bhagavad Gita
+  Very few go astray who comport themselves with restraint.</description>
     </item>
     
     <item>
@@ -44,7 +66,7 @@
       <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/recipes/meat/</guid>
-      <description>   Beef  GameDay Potato Nachos Rump Roast  Chicken  Chicken &amp;amp; Quinoa Tortilla Soup Grilled Chicken Caesar Salad Honey Hot Chicken Italian Balsamic Grilled Chicken Pineapple Pepper Chicken  Pork  Chile Pork Chops with Pineapple Pork Chop Saltimbocca  Turkey  Moroccan White Bean Chili Pirate Stew Turkey Quinoa Taco Skillet    Beef GameDay Potato Nachos  Rump Roast   Chicken Chicken &amp;amp; Quinoa Tortilla Soup  Grilled Chicken Caesar Salad  Honey Hot Chicken  Italian Balsamic Grilled Chicken  Pineapple Pepper Chicken   Pork Chile Pork Chops with Pineapple  Pork Chop Saltimbocca   Turkey Moroccan White Bean Chili  Pirate Stew  Turkey Quinoa Taco Skillet   </description>
+      <description>   Beef  GameDay Potato Nachos Ginger Beef and Broccoli Rump Roast  Chicken  Chicken &amp;amp; Quinoa Tortilla Soup Grilled Chicken Caesar Salad Honey Hot Chicken Italian Balsamic Grilled Chicken Pineapple Pepper Chicken  Pork  Chile Pork Chops with Pineapple Pork Chop Saltimbocca  Turkey  Moroccan White Bean Chili Pirate Stew Turkey Quinoa Taco Skillet    Beef GameDay Potato Nachos  Ginger Beef and Broccoli  Rump Roast   Chicken Chicken &amp;amp; Quinoa Tortilla Soup  Grilled Chicken Caesar Salad  Honey Hot Chicken  Italian Balsamic Grilled Chicken  Pineapple Pepper Chicken   Pork Chile Pork Chops with Pineapple  Pork Chop Saltimbocca   Turkey Moroccan White Bean Chili  Pirate Stew  Turkey Quinoa Taco Skillet   </description>
     </item>
     
     <item>
@@ -77,7 +99,7 @@ I believe that the potential for growth and improvement (in virtually anything) 
       <pubDate>Fri, 07 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/recipes/breakfast/</guid>
-      <description>   Berry Oatmeal Bake Fried Rice Lemon-Blueberry-Banana Pancakes Quinoa Breakfast Bowl   Berry Oatmeal Bake  Fried Rice  Lemon-Blueberry-Banana Pancakes  Quinoa Breakfast Bowl  </description>
+      <description>   Berry Oatmeal Bake Fried Rice Lembas Bread (Power Bar) Lemon-Blueberry-Banana Pancakes Quinoa Breakfast Bowl   Berry Oatmeal Bake  Fried Rice  Lembas Bread (Power Bar)  Lemon-Blueberry-Banana Pancakes  Quinoa Breakfast Bowl  </description>
     </item>
     
     <item>
@@ -143,10 +165,10 @@ Quite a bit of potential data is unstructured and textual in nature.</descriptio
       <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/perspective/quotes/</guid>
-      <description>Good Will Hunting Hitch Lion King The Replacements Rocky Balboa   Good Will Hunting  Real loss is only possible when you love something more than you love yourself.
+      <description>Good Will Hunting Hitch Lion King The Replacements Rocky Balboa Creed   Good Will Hunting  Real loss is only possible when you love something more than you love yourself.
 - Sean Maguire
   You’ll have bad times, but it’ll always wake you up to the good stuff you weren’t paying attention to. - Sean Maguire
-  Hitch  Never lie, steal, cheat, or drink. But if you must lie, lie in the arms of the one you love.</description>
+  Hitch  Never lie, steal, cheat, or drink.</description>
     </item>
     
     <item>

@@ -1,0 +1,60 @@
+---
+title: Philosophy
+author: Jeff Cavanagh
+date: '2021-02-08'
+slug: philosophy
+categories: []
+tags: []
+lastmod: '2021-02-08T19:21:12-05:00'
+layout: post
+type: post
+highlight: no
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+---
+
+> To become empty is to become one with the divine; this is the Way.  
+- *Awa Kenzo*
+
+***
+
+> Work done for a reward is much lower than work done in the Yoga of wisdom. Set thy heart upon thy work, but never on its reward. Work not for reward, but never cease to do thy work.  
+- **The Bhagavad Gita**
+
+***
+
+> Very few go astray who comport themselves with restraint.  
+- *Confucius*
+
+***
+
+> We are all sculptors and painters, and our material is our own flesh and blood and bones.  
+- *Henry David Thoreau*
+
+***
+
+> The essence of greatness is the perception that virtue is enough.  
+- *Ralph Waldo Emerson*
+
+***
+
+> In the face of the Sublime, we feel a shiver...something too large for our minds to encompass. And for a moment, it shakes us out of our smuggness and releases us from the deathlike grip of habit and banality.  
+- *Robert Greene*
+
+***
+
+> All that you behold, that which comprises both god and man, is one; we are the parts of one great body.  
+- *Seneca*
+
+> There is no enjoying the possession of anything valuable unless one has someone to share it with.  
+- *Seneca*
+

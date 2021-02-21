@@ -1,0 +1,278 @@
+---
+title: Machine Learning in R
+author: Jeff Cavanagh
+date: '2021-02-08'
+slug: machine-learning-in-r
+categories:
+  - R
+tags:
+  - ML
+lastmod: '2021-02-08T18:49:18-05:00'
+layout: post
+type: post
+highlight: yes
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#supervised-vs.-unsupervised-learning">Supervised vs. Unsupervised Learning</a></li>
+<li><a href="#supervised-learning">Supervised Learning</a>
+<ul>
+<li><a href="#tree-based-methods">Tree Based Methods</a>
+<ul>
+<li><a href="#decision-trees">Decision Trees</a></li>
+<li><a href="#baggingrandom-forest">Bagging/Random Forest</a></li>
+<li><a href="#boosting">Boosting</a></li>
+</ul></li>
+<li><a href="#generalized-additive-models">Generalized Additive Models</a></li>
+<li><a href="#support-vector-machines">Support Vector Machines</a></li>
+<li><a href="#natural-language-processing">Natural Language Processing</a></li>
+</ul></li>
+<li><a href="#unsupervised-learning">Unsupervised Learning</a>
+<ul>
+<li><a href="#clustering">Clustering</a></li>
+<li><a href="#dimensionality-reduction">Dimensionality Reduction</a>
+<ul>
+<li><a href="#principal-component-analysis">Principal Component Analysis</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#summary">Summary</a>
+<ul>
+<li><a href="#pros-and-cons-of-decision-trees">Pros and Cons of Decision Trees</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p><strong>Machine learning is a broad and ever evolving topic and any good data scientist needs to have a strong grasp of the major techniques to know when to use which method and how best to apply them. This post will explain and the pros and cons of several powerful machine learning models, as well as illustrate their use in R.</strong></p>
+<div id="supervised-vs.-unsupervised-learning" class="section level1">
+<h1>Supervised vs. Unsupervised Learning</h1>
+<p>In general their are two major categories of machine learning: supervised and unsupervised. In supervised learning, data is broken down into predictor variables and then in turn used to predict a response variable. In unsupervised learning on the other hand there is no response variable in mind. The goal is to explore the data to reveal some yet unknown connection or structure lying within.</p>
+<p>Think of an explorer with a map of a forest. In a supervised approach the explorer has an end destination (response variable) in mind and they use the map (data) to discern their route to get there. In an unsupervised approach the explorer still has the map, but they do not have an end destination in mind. Instead they use the map as point of reference and see what they can find wandering the woods.</p>
+</div>
+<div id="supervised-learning" class="section level1">
+<h1>Supervised Learning</h1>
+<p>Supervised learning starts with an end goal in mind, and as such is the more common method with more developed techniques. We will begin there.</p>
+<div id="tree-based-methods" class="section level2">
+<h2>Tree Based Methods</h2>
+<div id="decision-trees" class="section level3">
+<h3>Decision Trees</h3>
+<p>Decision trees are one of the more basic machine learning algorithms and are fairly straightforward. The most basic case is placing a binary split on a data set, resulting in two nodes.</p>
+<p>In a <em>regression</em> decision tree the mean value is taken of the data in each node, as opposed to a <em>classification</em> tree where the goal is to predict the category an observation will fall under. To further expand this model additional splits are made along each branch of the tree until a an observation threshold is reached at each node, which are then referred to as <em>terminal nodes</em>.</p>
+<p>We will use the mammal sleep dataset <code>msleep</code> from the <code>ggplot2</code> package to illustrate both regression and classification methods. For regression we aim to predict number of hours a mammal will sleep, and for classification we will predict whether or not a mammal sleeps over 15 hours.</p>
+<pre class="r"><code>library(rpart)
+library(rpart.plot)
+library(ggplot2)
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
+## ✓ tidyr   1.1.1     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0
+## ✓ purrr   0.3.4</code></pre>
+<pre><code>## ── Conflicts ────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code># regression
+# setting minimum node size
+control &lt;- rpart.control(minsplit = 20)
+tree_reg &lt;-  rpart(sleep_total ~ sleep_rem + sleep_cycle + brainwt + bodywt, data = msleep, control = control)
+
+# summarizing the output
+summary(tree_reg)</code></pre>
+<pre><code>## Call:
+## rpart(formula = sleep_total ~ sleep_rem + sleep_cycle + brainwt + 
+##     bodywt, data = msleep, control = control)
+##   n= 83 
+## 
+##           CP nsplit rel error    xerror       xstd
+## 1 0.32785736      0 1.0000000 1.0204901 0.13017583
+## 2 0.11108732      1 0.6721426 0.8453349 0.11368401
+## 3 0.07840203      2 0.5610553 0.7310262 0.10898577
+## 4 0.07659736      3 0.4826533 0.6904909 0.10469018
+## 5 0.02387703      4 0.4060559 0.6006940 0.08175339
+## 6 0.01000000      5 0.3821789 0.6074042 0.08182858
+## 
+## Variable importance
+## sleep_rem    bodywt 
+##        63        37 
+## 
+## Node number 1: 83 observations,    complexity param=0.3278574
+##   mean=10.43373, MSE=19.56705 
+##   left son=2 (24 obs) right son=3 (59 obs)
+##   Primary splits:
+##       sleep_rem   &lt; 1.05      to the left,  improve=0.34235450, (22 missing)
+##       bodywt      &lt; 167.947   to the right, improve=0.29978550, (0 missing)
+##       brainwt     &lt; 0.0896    to the right, improve=0.22254410, (27 missing)
+##       sleep_cycle &lt; 0.4       to the right, improve=0.08036684, (51 missing)
+##   Surrogate splits:
+##       bodywt &lt; 85.5      to the right, agree=0.803, adj=0.333, (22 split)
+## 
+## Node number 2: 24 observations,    complexity param=0.07840203
+##   mean=6.4625, MSE=12.65318 
+##   left son=4 (9 obs) right son=5 (15 obs)
+##   Primary splits:
+##       bodywt    &lt; 167.947   to the right, improve=0.4192953, (0 missing)
+##       sleep_rem &lt; 0.65      to the left,  improve=0.2146862, (6 missing)
+##       brainwt   &lt; 0.163     to the right, improve=0.1008599, (9 missing)
+## 
+## Node number 3: 59 observations,    complexity param=0.1110873
+##   mean=12.04915, MSE=13.3547 
+##   left son=6 (49 obs) right son=7 (10 obs)
+##   Primary splits:
+##       sleep_rem   &lt; 2.95      to the left,  improve=0.21173020, (16 missing)
+##       bodywt      &lt; 4.04      to the right, improve=0.17790200, (0 missing)
+##       brainwt     &lt; 0.0896    to the right, improve=0.14424210, (18 missing)
+##       sleep_cycle &lt; 0.225     to the right, improve=0.04455706, (33 missing)
+## 
+## Node number 4: 9 observations
+##   mean=3.488889, MSE=0.874321 
+## 
+## Node number 5: 15 observations
+##   mean=8.246667, MSE=11.23182 
+## 
+## Node number 6: 49 observations,    complexity param=0.07659736
+##   mean=11.25918, MSE=10.55425 
+##   left son=12 (13 obs) right son=13 (36 obs)
+##   Primary splits:
+##       bodywt      &lt; 4.04      to the right, improve=0.24054360, (0 missing)
+##       brainwt     &lt; 0.0165    to the right, improve=0.19345500, (16 missing)
+##       sleep_rem   &lt; 1.65      to the left,  improve=0.08443722, (16 missing)
+##       sleep_cycle &lt; 0.2166667 to the right, improve=0.07445496, (30 missing)
+## 
+## Node number 7: 10 observations
+##   mean=15.92, MSE=9.0356 
+## 
+## Node number 12: 13 observations
+##   mean=8.607692, MSE=5.494556 
+## 
+## Node number 13: 36 observations,    complexity param=0.02387703
+##   mean=12.21667, MSE=8.925833 
+##   left son=26 (8 obs) right son=27 (28 obs)
+##   Primary splits:
+##       sleep_rem &lt; 1.65      to the left,  improve=0.11600810, (12 missing)
+##       bodywt    &lt; 0.0395    to the right, improve=0.05174936, (0 missing)
+##       brainwt   &lt; 0.00119   to the right, improve=0.03253269, (13 missing)
+## 
+## Node number 26: 8 observations
+##   mean=10.275, MSE=3.686875 
+## 
+## Node number 27: 28 observations
+##   mean=12.77143, MSE=9.037755</code></pre>
+<pre class="r"><code># displaying the tree
+rpart.plot(tree_reg)</code></pre>
+<p><img src="/analytics/2021-02-08-machine-learning-in-r_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code># classification
+# creating dummy variable of animals that sleep 15+ hours/day
+heavy_sleepers &lt;-  ifelse(msleep$sleep_total &gt;= 15, &quot;Yes&quot;, &quot;No&quot;)
+sleep_data &lt;- msleep %&gt;% 
+  cbind(heavy_sleepers)
+
+# running model
+tree_class &lt;- rpart(heavy_sleepers ~ sleep_rem + sleep_cycle + brainwt + bodywt, data = sleep_data, control = control)
+rpart.plot(tree_class)</code></pre>
+<p><img src="/analytics/2021-02-08-machine-learning-in-r_files/figure-html/unnamed-chunk-1-2.png" width="672" />
+The <code>rpart</code> function operates by first splitting the data by the most significant predictor and its corresponding binary categories. In this case that is <code>sleep_rem</code> values which are less than 1.1, or greater than or equal to 1.1. Similar results can be seen in the classification model.</p>
+<p>The algorithm then continues to look for the most significant binary split of each new subset of data, until there are 5 observations or less at each terminal node.</p>
+<p>The <code>summary</code> function gives detailed information on each node and a summary including the mean at each split, mean squared error (MSE), number of observations at each node, etc.</p>
+<p>The <code>rpart.plot</code> function provides an easy to interpret breakdown of the tree created. In the default settings, the regression tree displays the predicted value and percentage of observations at each node, while the classification tree displays the predicted category, percentage of observations, and the ratio of correct predictions.</p>
+<p>As always we should test the model to determine how well it performed.</p>
+<pre class="r"><code># creating training and testing subsets
+set.seed(1)
+train &lt;- msleep[sample(1:nrow(msleep), floor(0.8 * nrow(msleep))),]
+test &lt;- msleep %&gt;% filter(!name %in% train$name)
+
+# predicting and measuring accuracy
+control &lt;- rpart.control(minsplit = 2) # setting new minimum node size
+tree_train &lt;- rpart(sleep_total ~ sleep_rem + sleep_cycle + brainwt + bodywt, data = train, control = control)
+tree_prediction &lt;- predict(tree_train, test)
+mse &lt;- mean((tree_prediction - test$sleep_total)^2)
+mse</code></pre>
+<pre><code>## [1] 10.48191</code></pre>
+<pre class="r"><code>sqrt(mse)</code></pre>
+<pre><code>## [1] 3.237578</code></pre>
+<pre class="r"><code>rpart.plot(tree_train)</code></pre>
+<p><img src="/analytics/2021-02-08-machine-learning-in-r_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+We can see that our model holds an MSE of 10.48, the square root of that being 3.24 saying that our model leads to predictions that are within roughly 3.24 hours of a mammals actual sleep time.</p>
+<p>We are also able to prune a tree (remove some nodes) using the <code>prune</code> function to improve the performance of the model.</p>
+<pre class="r"><code># setting the cp paramter and pruning the model
+pruned_tree &lt;- prune(tree_train, cp = 0.05)
+tree_prediction &lt;- predict(pruned_tree, test)
+mse &lt;- mean((tree_prediction - test$sleep_total)^2)
+mse</code></pre>
+<pre><code>## [1] 8.54812</code></pre>
+<pre class="r"><code>sqrt(mse)</code></pre>
+<pre><code>## [1] 2.923717</code></pre>
+<pre class="r"><code>rpart.plot(pruned_tree)</code></pre>
+<p><img src="/analytics/2021-02-08-machine-learning-in-r_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+By pruning the tree, and <em>tuning</em> the <code>cp</code> parameter which will be discussed further into the post, we were able to improve performance of the model to predict mammal sleep times within approximaltely 2.92 hours.</p>
+<p>The good news is that decision trees have been further fleshed out to be more accurate and useful in the form of <em>bagging</em>, <em>random forest</em>, and <em>boosting</em>.</p>
+</div>
+<div id="baggingrandom-forest" class="section level3">
+<h3>Bagging/Random Forest</h3>
+<p>Coming Soon…</p>
+</div>
+<div id="boosting" class="section level3">
+<h3>Boosting</h3>
+<p>Coming Soon…</p>
+</div>
+</div>
+<div id="generalized-additive-models" class="section level2">
+<h2>Generalized Additive Models</h2>
+<p>Coming Soon…</p>
+</div>
+<div id="support-vector-machines" class="section level2">
+<h2>Support Vector Machines</h2>
+<p>Coming Soon…</p>
+</div>
+<div id="natural-language-processing" class="section level2">
+<h2>Natural Language Processing</h2>
+<p>Coming Soon…</p>
+</div>
+</div>
+<div id="unsupervised-learning" class="section level1">
+<h1>Unsupervised Learning</h1>
+<p>Coming Soon…</p>
+<div id="clustering" class="section level2">
+<h2>Clustering</h2>
+<p>Coming Soon…</p>
+</div>
+<div id="dimensionality-reduction" class="section level2">
+<h2>Dimensionality Reduction</h2>
+<p>Coming Soon…</p>
+<div id="principal-component-analysis" class="section level3">
+<h3>Principal Component Analysis</h3>
+<p>Coming Soon…</p>
+</div>
+</div>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<div id="pros-and-cons-of-decision-trees" class="section level2">
+<h2>Pros and Cons of Decision Trees</h2>
+<ul>
+<li>Pros
+<ul>
+<li>Trees are easy to interpret</li>
+<li>Trees are easy to display graphically<br />
+</li>
+<li>Trees can process qualitative variables without needing to create dummy variables</li>
+</ul></li>
+<li>Cons
+<ul>
+<li>Prediction accuracy is much lower compared to most traditional regression and classification techniques</li>
+</ul></li>
+</ul>
+</div>
+</div>
