@@ -1,0 +1,147 @@
+---
+title: SPRINT 8
+author: Jeff Cavanagh
+date: '2021-02-21'
+slug: sprint-8
+categories: []
+tags: []
+lastmod: '2021-02-21T12:09:24-05:00'
+layout: post
+type: post
+highlight: no
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+---
+
+**SPRINT 8 is a sprint style, interval-based cardio workout created by Coach Phil Campbell. It is designed as 30 second bouts of maximal activity, followed by 90 seconds of very low intensity active recovery to be fully prepared for the following sprint. In my experience it is the hardest and most effective cardio routine one can take on.**
+
+# What is SPRINT 8??
+
+Time efficient, ultra intense, 20 minute sprint workout. The aim of the workout is to produce the maximum results in minimum time.
+
+# Issues with Traditional Cardio and Dieting
+
+## Long Duration, Slow, Steady State Cardio  
+* Body aims to be as efficient as possible  
+* Needs near starvation levels to lose weight  
+* Calorie burn ends as soon as activity is stopped  
+* Results are short term
+
+## Dieting for Weight Loss (Heavy Caloric Restriction)  
+* Weight comes back with a vengeance once diet ends  
+* Lowers energy levels, worsens mood, messes with metabolism
+
+# Critical Components of any Training Program
+Major Idea: **Human body adapts to what you do with it!**
+
+For weight loss goals:  
+* Muscle = Metabolism  
+* More muscle trained = more muscle gained
+
+For improving cardiovascular endurance:  
+* Aerobic exercise + Anaerobic exercise
+
+## How SPRINT 8 Uses this Information 
+* Works all 3 muscle fiber types: Type I, Type IIa, Type IIx  
+* Works both aerobic and anaerobic processes  
+* Want to look like a sprinter? Train like a sprinter
+
+# Sprint Intensity vs. Steady State Cardio
+*Cardio Hierachy*
+![](/fitness/2021-02-21-sprint-8_files/cardio.png){width=600px}
+
+...or, in other words:
+![](/fitness/2021-02-21-sprint-8_files/cardio2.png){width=700px}
+
+Sprint Intensity  
+* Works all 3 muscle fiber types  
+* Works both aerobic and anaerobic processes  
+* Maximum results in minimal time  
+* Effective with all exercise populations
+
+Traditional Steady State Cardio  
+* Only works slow twitch muscle fibers  
+* Only works aerobic process  
+* Requires hours on hours at moderate or vigorous intensity for comparable results
+
+# SPRINT 8 Benchmarks
+1. Oxygen Debt
+2. Increased Body Temperature
+3. Muscle Burn
+4. Adrenal Response
+
+# Benefits
+## Short Term
+* Growth Hormone, Growth Hormone, Growth Hormone!  
+  * SPRINT 8 induces maximal release of natural growth hormone  
+  * Regulates body composition, muscle and bone growth, and sugar and fat metabolism  
+  * Regulates whole body metabolism
+* 2 hour synergy window for muscle building and metabolism boost, heightened for up to 2 days after  
+* Suppresses hunger hormone Ghrelin  
+* Improves Brain Functioning
+
+## Long Term
+* More energy  
+* Growth hormone fights the effects of aging  
+  * Fights metabolic syndrome  
+  * Lengthens Telomeres  
+  * Thickens skin  
+* Fights Cancer Cells  
+* Increases good HDL cholesterol, decreases LDL cholesterol
+
+# How to do It!
+
+## Format
+![](/fitness/2021-02-21-sprint-8_files/format.png){width=600px}
+
+**Pacing = the enemy of intensity**
+
+* 30 second sprint should be AS HARD AS POSSIBLE!!! 
+  * If you could have gone for longer than 30 seconds the intensity was not high enough
+* Take full 90 second recovery at casual walking intensity  
+* Balance velocity of movement and resistance (weighted more heavily towards velocity)
+* Goal is to complete each sprint with maximum intensity, not to finish all 8 reps
+
+## Exercise Selection
+* Recumbent bike  
+  * Focuses on running muscles  
+  * Gives skeleton a break
+* Elliptical  
+  * Allows for upper and lower body movement  
+* Upright bike  
+  * More efficient than recumbent bike = less intense  
+  * To make less efficient sit straight up during sprint  
+* Treadmill  
+  * Takes time to find appropriate level  
+  * Can use incline to add intensity
+* Sprinting
+  * Hardest way to do a SPRINT 8 workout  
+  * Requires a thorough warmup and a baseline degree of strength and flexibility in the hamstrings  
+  * Not for beginners  
+
+## Nutrition
+* Pre-workout: clean carbs for energy, water  
+* Mid-workout: small amount of water  
+* Post-workout: 20-25g protein, water  
+  * DO NOT consume high-glycemic, fast burning carbs during Synergy window (ex: candy bars)
+
+## Other Considerations
+* Outside factors that negatively impact SPRINT 8 benefits  
+  * Painkillers  
+  * Mental stress  
+* Outside factors that positively impact SPRINT 8 benefits  
+  * Giving at least one day off in between SPRINT 8 workouts  
+  * Quality sleep
+
+
+
+
